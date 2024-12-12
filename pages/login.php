@@ -1,5 +1,8 @@
 <?php
 
+include_once '../includes/bootstrap.php';
+include_once '../includes/functions.php';
+
 if (isset($_POST["username"]) && isset($_POST["password"])) {
     $login_result = $db->checkLogin($_POST["username"], $_POST["password"]);
     if (count($login_result) == 0) {
@@ -11,18 +14,10 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
 }
 
 if (isUserLoggedIn()) {
-    $templateParams["titolo"] = "Blog TW - Admin";
-    $templateParams["nome"] = "login-home.php";
-    $templateParams["articoli"] = $dbh->getPostByAuthorId($_SESSION["idautore"]);
-    if (isset($_GET["formmsg"])) {
-        $templateParams["formmsg"] = $_GET["formmsg"];
-    }
+    echo "Benvenuto " . $_SESSION["nome"];
 } else {
-    $templateParams["titolo"] = "Blog TW - Login";
-    $templateParams["nome"] = "login-form.php";
+    echo "vaffanculo";
 }
-$templateParams["categorie"] = $dbh->getCategories();
-$templateParams["articolicasuali"] = $dbh->getRandomPosts(2);
 
 ?>
 <form action="#" method="POST">
