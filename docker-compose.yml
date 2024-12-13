@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   app:
     build:
@@ -13,7 +11,7 @@ services:
       - db
     environment:
       DB_HOST: db
-      DB_NAME: ecommerce_db
+      DB_NAME: SUDOKUWORLD
       DB_USER: root
       DB_PASS: example
 
@@ -22,12 +20,13 @@ services:
     container_name: mysql
     ports:
       - "3306:3306"
+    command: --init-file /init/schema.sql
     environment:
       MYSQL_ROOT_PASSWORD: example
-      MYSQL_DATABASE: ecommerce_db
+      MYSQL_DATABASE: SUDOKUWORLD
     volumes:
       - db_data:/var/lib/mysql
-      - ./docker-init:/docker-entrypoint-initdb.d  # Mount SQL scripts
+      - ./docker-init:/init  # Mount SQL scripts
 
 volumes:
   db_data:

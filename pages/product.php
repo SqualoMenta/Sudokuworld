@@ -1,5 +1,4 @@
 <?php
-require_once '../includes/config.php';
 if (isset($_GET['id'])) {
     $productId = $_GET['id'];
     // Fetch product details logic here
