@@ -37,7 +37,7 @@ class Database
         $this->query2($query, 'sissi',$name, $price, $description, $img, $sellerId);
     }
 
-    private function getUser($username)
+    public function getUser($username)
     {
         return $this->query("SELECT Name, Email, Password FROM USER WHERE Email = ?", 's', $username);
     }
@@ -52,5 +52,9 @@ class Database
             return [$user];
         }
         return [];
+    }
+    public function registerUser(){
+        $query = "INSERT INTO USER (Name, Email, Password) VALUES (?, ?, ?)";
+        $this->query2($query, 'sss', $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT));
     }
 }
