@@ -3,7 +3,7 @@
 -- *--------------------------------------------
 -- * DB-MAIN version: 11.0.2              
 -- * Generator date: Sep 20 2021              
--- * Generation date: Sat Dec 28 15:08:06 2024 
+-- * Generation date: Sat Dec 28 15:12:08 2024 
 -- * LUN file: /home/davide/Desktop/unibo/web/Sudokuworld/Sudokuworld.lun 
 -- * Schema: SUDOKUWORLD/1-1 
 -- ********************************************* 
@@ -64,14 +64,14 @@ create table IS_COLOR (
      ID int not null,
      constraint ID_IS_COLOR_ID primary key (Color, ID));
 
-create table ITEM (
+create table PRODUCT (
      ID int not null,
      Name varchar(128) not null,
      Description varchar(1024) not null,
      Price int not null,
      Image varchar(128) not null,
      SEL_ID char(1) not null,
-     constraint ID_ITEM_ID primary key (ID));
+     constraint ID_PRODUCT_ID primary key (ID));
 
 create table LIVES (
      CAP char(1) not null,
@@ -89,19 +89,19 @@ create table NOTIFY (
      Email varchar(64) not null,
      constraint ID_NOTIFY_ID primary key (ID));
 
-create table ORDERS (
+create table ORDER (
      ID int not null,
      Day char(1) not null,
      CAP char(1) not null,
      Street char(1) not null,
      Civic char(1) not null,
      Email varchar(64) not null,
-     constraint ID_ORDERS_ID primary key (ID));
+     constraint ID_ORDER_ID primary key (ID));
 
-create table ORDERS_ITEM (
-     O_I_ID int not null,
+create table ORDER_PRODUCT (
+     O_O_ID int not null,
      ID int not null,
-     constraint ID_ORDERS_ITEM_ID primary key (ID, O_I_ID));
+     constraint ID_ORDER_PRODUCT_ID primary key (O_O_ID, ID));
 
 create table PLACE (
      CAP char(1) not null,
@@ -164,40 +164,40 @@ alter table DIMESION add constraint FKDIM_SIZ_FK
      foreign key (Tag)
      references SIZE (Tag);
 
-alter table DIMESION add constraint FKDIM_ITE
+alter table DIMESION add constraint FKDIM_PRO
      foreign key (ID)
-     references ITEM (ID);
+     references PRODUCT (ID);
 
-alter table DISCOUNTS add constraint FKDIS_ITE
+alter table DISCOUNTS add constraint FKDIS_PRO
      foreign key (ID)
-     references ITEM (ID);
+     references PRODUCT (ID);
 
 alter table DISCOUNTS add constraint FKDIS_DIS_FK
      foreign key (D_D_ID)
      references DISCOUNT (ID);
 
-alter table IS_CATEGORY add constraint FKIS__ITE_1_FK
+alter table IS_CATEGORY add constraint FKIS__PRO_1_FK
      foreign key (ID)
-     references ITEM (ID);
+     references PRODUCT (ID);
 
 alter table IS_CATEGORY add constraint FKIS__CAT
      foreign key (Tag)
      references CATEGORY (Tag);
 
-alter table IS_COLOR add constraint FKIS__ITE_FK
+alter table IS_COLOR add constraint FKIS__PRO_FK
      foreign key (ID)
-     references ITEM (ID);
+     references PRODUCT (ID);
 
 alter table IS_COLOR add constraint FKIS__COL
      foreign key (Color)
      references COLOR (Color);
 
 -- Not implemented
--- alter table ITEM add constraint ID_ITEM_CHK
+-- alter table PRODUCT add constraint ID_PRODUCT_CHK
 --     check(exists(select * from IS_CATEGORY
 --                  where IS_CATEGORY.ID = ID)); 
 
-alter table ITEM add constraint FKSELLS_FK
+alter table PRODUCT add constraint FKSELLS_FK
      foreign key (SEL_ID)
      references SELLER (ID);
 
@@ -214,25 +214,25 @@ alter table NOTIFY add constraint FKHAS_FK
      references USER (Email);
 
 -- Not implemented
--- alter table ORDERS add constraint ID_ORDERS_CHK
---     check(exists(select * from ORDERS_ITEM
---                  where ORDERS_ITEM.ID = ID)); 
+-- alter table ORDER add constraint ID_ORDER_CHK
+--     check(exists(select * from ORDER_PRODUCT
+--                  where ORDER_PRODUCT.O_O_ID = ID)); 
 
-alter table ORDERS add constraint FKSHIPPED_FK
+alter table ORDER add constraint FKSHIPPED_FK
      foreign key (CAP, Street, Civic)
      references PLACE (CAP, Street, Civic);
 
-alter table ORDERS add constraint FKORDERS_FK
+alter table ORDER add constraint FKORDERS_FK
      foreign key (Email)
      references USER (Email);
 
-alter table ORDERS_ITEM add constraint FKORD_ORD
+alter table ORDER_PRODUCT add constraint FKORD_PRO_FK
      foreign key (ID)
-     references ORDERS (ID);
+     references PRODUCT (ID);
 
-alter table ORDERS_ITEM add constraint FKORD_ITE_FK
-     foreign key (O_I_ID)
-     references ITEM (ID);
+alter table ORDER_PRODUCT add constraint FKORD_ORD
+     foreign key (O_O_ID)
+     references ORDER (ID);
 
 alter table SUDOKU add constraint FKLINKED_FK
      foreign key (Day)
@@ -240,7 +240,7 @@ alter table SUDOKU add constraint FKLINKED_FK
 
 alter table USER add constraint FKCART_FK
      foreign key (ID)
-     references ITEM (ID);
+     references PRODUCT (ID);
 
 alter table WINS add constraint FKWIN_USE_FK
      foreign key (Email)
@@ -254,9 +254,9 @@ alter table WISHES add constraint FKWIS_USE_FK
      foreign key (Email)
      references USER (Email);
 
-alter table WISHES add constraint FKWIS_ITE
+alter table WISHES add constraint FKWIS_PRO
      foreign key (ID)
-     references ITEM (ID);
+     references PRODUCT (ID);
 
 
 -- Index Section
@@ -292,20 +292,20 @@ create index FKDIS_DIS_IND
 create unique index ID_IS_CATEGORY_IND
      on IS_CATEGORY (Tag, ID);
 
-create index FKIS__ITE_1_IND
+create index FKIS__PRO_1_IND
      on IS_CATEGORY (ID);
 
 create unique index ID_IS_COLOR_IND
      on IS_COLOR (Color, ID);
 
-create index FKIS__ITE_IND
+create index FKIS__PRO_IND
      on IS_COLOR (ID);
 
-create unique index ID_ITEM_IND
-     on ITEM (ID);
+create unique index ID_PRODUCT_IND
+     on PRODUCT (ID);
 
 create index FKSELLS_IND
-     on ITEM (SEL_ID);
+     on PRODUCT (SEL_ID);
 
 create unique index ID_LIVES_IND
      on LIVES (CAP, Street, Civic, Email);
@@ -319,20 +319,20 @@ create unique index ID_NOTIFY_IND
 create index FKHAS_IND
      on NOTIFY (Email);
 
-create unique index ID_ORDERS_IND
-     on ORDERS (ID);
+create unique index ID_ORDER_IND
+     on ORDER (ID);
 
 create index FKSHIPPED_IND
-     on ORDERS (CAP, Street, Civic);
+     on ORDER (CAP, Street, Civic);
 
 create index FKORDERS_IND
-     on ORDERS (Email);
+     on ORDER (Email);
 
-create unique index ID_ORDERS_ITEM_IND
-     on ORDERS_ITEM (ID, O_I_ID);
+create unique index ID_ORDER_PRODUCT_IND
+     on ORDER_PRODUCT (O_O_ID, ID);
 
-create index FKORD_ITE_IND
-     on ORDERS_ITEM (O_I_ID);
+create index FKORD_PRO_IND
+     on ORDER_PRODUCT (ID);
 
 create unique index ID_PLACE_IND
      on PLACE (CAP, Street, Civic);
