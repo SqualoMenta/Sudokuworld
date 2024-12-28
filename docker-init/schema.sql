@@ -9,6 +9,7 @@
 -- ********************************************* 
 -- Database Section
 -- ________________ 
+drop database if exists SUDOKUWORLD;
 create database SUDOKUWORLD;
 use SUDOKUWORLD;
 -- Tables Section
@@ -59,7 +60,7 @@ create table IS_COLOR (
     constraint ID_IS_COLOR_ID primary key (Color, ID)
 );
 create table PRODUCT (
-    ID int not null,
+    ID int not null AUTO_INCREMENT,
     Name varchar(128) not null,
     Description varchar(1024) not null,
     Price int not null,

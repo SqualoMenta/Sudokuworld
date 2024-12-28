@@ -9,14 +9,14 @@ class Product
     private $img;
     private $sellerId;
 
-    public function __construct($id, $name, $price, $description, $img, $sellerId)
+    public function __construct($ID, $Name, $Price, $Description, $Image, $SEL_ID)
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->price = $price;
-        $this->description = $description;
-        $this->img = $img;
-        $sellerId = $sellerId;
+        $this->id = $ID;
+        $this->name = $Name;
+        $this->price = $Price;
+        $this->description = $Description;
+        $this->img = $Image;
+        $this->sellerId = $SEL_ID;
     }
 
     public function getId()
@@ -37,5 +37,12 @@ class Product
     public function getDescription()
     {
         return $this->description;
+    }
+    public function getImg(){
+        return $this->img;
+    }
+    public function getSellerId()
+    {
+        return $this->sellerId;
     }
 }

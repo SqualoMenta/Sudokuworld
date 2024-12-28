@@ -19,9 +19,22 @@ class Database
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    private function getProduct($id)
+    private function query2($query, $param_types, ...$params)
+    {
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param($param_types, ...$params);
+        $stmt->execute();
+    }
+
+    public function getProduct($id)
     {
         return $this->query("SELECT * FROM PRODUCT WHERE ID = ?", 'i', $id);
+    }
+
+    public function insertProduct($name, $price, $description, $img, $sellerId)
+    {
+        $query = "INSERT INTO PRODUCT (Name, Price, Description, Image, SEL_ID) VALUES (?, ?, ?, ?, ?)";
+        $this->query2($query, 'sissi',$name, $price, $description, $img, $sellerId);
     }
 
     private function getUser($username)
