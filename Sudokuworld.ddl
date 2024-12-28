@@ -3,7 +3,7 @@
 -- *--------------------------------------------
 -- * DB-MAIN version: 11.0.2              
 -- * Generator date: Sep 20 2021              
--- * Generation date: Sat Dec 28 16:04:37 2024 
+-- * Generation date: Sat Dec 28 20:51:26 2024 
 -- * LUN file: /home/davide/Desktop/unibo/web/Sudokuworld/Sudokuworld.lun 
 -- * Schema: SUDOKUWORLD/1-1 
 -- ********************************************* 
@@ -19,350 +19,352 @@ use SUDOKUWORLD;
 -- Tables Section
 -- _____________ 
 
+create table CART (
+     id_product int not null,
+     email varchar(64) not null,
+     constraint ID_CART_ID primary key (id_product, email));
+
 create table CATEGORY (
-     Tag varchar(32) not null,
-     constraint ID_CATEGORY_ID primary key (Tag));
+     tag varchar(32) not null,
+     constraint ID_CATEGORY_ID primary key (tag));
 
 create table COLOR (
-     Color varchar(32) not null,
-     constraint ID_COLOR_ID primary key (Color));
+     color varchar(32) not null,
+     constraint ID_COLOR_ID primary key (color));
 
 create table CREDIT_CARD (
-     Email varchar(64) not null,
-     Number varchar(16) not null,
-     Propretary_Name varchar(32) not null,
-     Propertary_Surname varchar(32) not null,
-     Expiration date not null,
-     constraint ID_CREDIT_CARD_ID primary key (Email, Number));
+     email varchar(64) not null,
+     number varchar(16) not null,
+     propretary_name varchar(32) not null,
+     propertary_surname varchar(32) not null,
+     expiration date not null,
+     constraint ID_CREDIT_CARD_ID primary key (email, number));
 
 create table DAY (
-     Day date not null,
-     constraint ID_DAY_ID primary key (Day));
+     day date not null,
+     constraint ID_DAY_ID primary key (day));
 
 create table DIMESION (
-     ID -- Index attribute not implemented -- not null,
-     Tag varchar(8) not null,
-     constraint ID_DIMESION_ID primary key (ID, Tag));
+     id_product int not null,
+     tag varchar(8) not null,
+     constraint ID_DIMESION_ID primary key (id_product, tag));
 
 create table DISCOUNT (
-     Percentage int not null,
-     ID int not null,
-     constraint ID_DISCOUNT_ID primary key (ID));
+     percentage int not null,
+     id_discount int not null auto_increment,
+     constraint ID_DISCOUNT_ID primary key (id_discount));
 
 create table DISCOUNTS (
-     D_D_ID int not null,
-     ID -- Index attribute not implemented -- not null,
-     constraint ID_DISCOUNTS_ID primary key (ID, D_D_ID));
+     id_discount int not null,
+     id_product int not null,
+     constraint ID_DISCOUNTS_ID primary key (id_product, id_discount));
 
 create table IS_CATEGORY (
-     Tag varchar(32) not null,
-     ID -- Index attribute not implemented -- not null,
-     constraint ID_IS_CATEGORY_ID primary key (Tag, ID));
+     tag varchar(32) not null,
+     id_product int not null,
+     constraint ID_IS_CATEGORY_ID primary key (tag, id_product));
 
 create table IS_COLOR (
-     Color varchar(32) not null,
-     ID -- Index attribute not implemented -- not null,
-     constraint ID_IS_COLOR_ID primary key (Color, ID));
-
-create table PRODUCT (
-     ID -- Index attribute not implemented -- not null,
-     Name varchar(128) not null,
-     Description varchar(1024) not null,
-     Price int not null,
-     Image varchar(128) not null,
-     SEL_ID char(1) not null,
-     constraint ID_PRODUCT_ID primary key (ID));
+     color varchar(32) not null,
+     id_product int not null,
+     constraint ID_IS_COLOR_ID primary key (color, id_product));
 
 create table LIVES (
-     CAP char(1) not null,
-     Street char(1) not null,
-     Civic char(1) not null,
-     Email varchar(64) not null,
-     constraint ID_LIVES_ID primary key (CAP, Street, Civic, Email));
+     cap char(1) not null,
+     street char(1) not null,
+     civic char(1) not null,
+     email varchar(64) not null,
+     constraint ID_LIVES_ID primary key (cap, street, civic, email));
 
 create table NOTIFY (
-     ID int not null,
-     Title varchar(32) not null,
-     Day date not null,
-     Seen char not null,
-     Description varchar(1024) not null,
-     Email varchar(64) not null,
-     constraint ID_NOTIFY_ID primary key (ID));
+     id_notify int not null,
+     title varchar(32) not null,
+     day date not null,
+     seen char not null,
+     description varchar(1024) not null,
+     email varchar(64) not null,
+     constraint ID_NOTIFY_ID primary key (id_notify));
 
-create table ORDER (
-     ID int not null,
-     Day char(1) not null,
-     CAP char(1) not null,
-     Street char(1) not null,
-     Civic char(1) not null,
-     Email varchar(64) not null,
-     constraint ID_ORDER_ID primary key (ID));
+create table ORDERS (
+     id_order int not null auto_increment,
+     day char(1) not null,
+     cap char(1) not null,
+     street char(1) not null,
+     civic char(1) not null,
+     email varchar(64) not null,
+     constraint ID_ORDERS_ID primary key (id_order));
 
-create table ORDER_PRODUCT (
-     O_O_ID int not null,
-     ID -- Index attribute not implemented -- not null,
-     constraint ID_ORDER_PRODUCT_ID primary key (O_O_ID, ID));
+create table ORDERS_ITEM (
+     id_order int not null,
+     id_product int not null,
+     constraint ID_ORDERS_ITEM_ID primary key (id_order, id_product));
 
 create table PLACE (
-     CAP char(1) not null,
-     City char(1) not null,
-     Street char(1) not null,
-     Civic char(1) not null,
-     constraint ID_PLACE_ID primary key (CAP, Street, Civic));
+     cap char(1) not null,
+     city char(1) not null,
+     street char(1) not null,
+     civic char(1) not null,
+     constraint ID_PLACE_ID primary key (cap, street, civic));
 
-create table SELLER (
-     ID char(1) not null,
-     Name varchar(32) not null,
-     Email varchar(64) not null,
-     Password varchar(256) not null,
-     constraint ID_SELLER_ID primary key (ID));
+create table PRODUCT (
+     id_product int not null auto_increment,
+     name varchar(128) not null,
+     description varchar(1024) not null,
+     price int not null,
+     Image varchar(128) not null,
+     email varchar(64) not null,
+     constraint ID_PRODUCT_ID primary key (id_product));
 
 create table SIZE (
-     Tag varchar(8) not null,
-     constraint ID_SIZE_ID primary key (Tag));
+     tag varchar(8) not null,
+     constraint ID_SIZE_ID primary key (tag));
 
 create table SUDOKU (
-     ID int not null,
-     Day date not null,
-     Grid varchar(128) not null,
-     Solution varchar(128) not null,
-     constraint ID_SUDOKU_ID primary key (ID),
-     constraint FKLINKED_ID unique (Day));
+     id_sudoku int not null auto_increment,
+     day date not null,
+     grid varchar(128) not null,
+     solution varchar(128) not null,
+     constraint ID_SUDOKU_ID primary key (id_sudoku),
+     constraint FKLINKED_ID unique (day));
 
 create table USER (
-     Name varchar(32) not null,
-     Email varchar(64) not null,
-     Password varchar(256) not null,
-     ID -- Index attribute not implemented -- not null,
-     constraint ID_USER_ID primary key (Email));
+     name varchar(32) not null,
+     email varchar(64) not null,
+     password varchar(256) not null,
+     seller char not null,
+     constraint ID_USER_ID primary key (email));
 
 create table WINS (
-     Day date not null,
-     Email varchar(64) not null,
-     constraint ID_WINS_ID primary key (Day, Email));
+     day date not null,
+     email varchar(64) not null,
+     constraint ID_WINS_ID primary key (day, email));
 
 create table WISHES (
-     ID -- Index attribute not implemented -- not null,
-     Email varchar(64) not null,
-     constraint ID_WISHES_ID primary key (ID, Email));
+     id_product int not null,
+     email varchar(64) not null,
+     constraint ID_WISHES_ID primary key (id_product, email));
 
 
 -- Constraints Section
 -- ___________________ 
 
+alter table CART add constraint FKCAR_USE_FK
+     foreign key (email)
+     references USER (email);
+
+alter table CART add constraint FKCAR_PRO
+     foreign key (id_product)
+     references PRODUCT (id_product);
+
 alter table CREDIT_CARD add constraint FKOWNS
-     foreign key (Email)
-     references USER (Email);
+     foreign key (email)
+     references USER (email);
 
 -- Not implemented
 -- alter table DAY add constraint ID_DAY_CHK
 --     check(exists(select * from SUDOKU
---                  where SUDOKU.Day = Day)); 
+--                  where SUDOKU.day = day)); 
 
 alter table DIMESION add constraint FKDIM_SIZ_FK
-     foreign key (Tag)
-     references SIZE (Tag);
+     foreign key (tag)
+     references SIZE (tag);
 
 alter table DIMESION add constraint FKDIM_PRO
-     foreign key (ID)
-     references PRODUCT (ID);
+     foreign key (id_product)
+     references PRODUCT (id_product);
 
 alter table DISCOUNTS add constraint FKDIS_PRO
-     foreign key (ID)
-     references PRODUCT (ID);
+     foreign key (id_product)
+     references PRODUCT (id_product);
 
 alter table DISCOUNTS add constraint FKDIS_DIS_FK
-     foreign key (D_D_ID)
-     references DISCOUNT (ID);
+     foreign key (id_discount)
+     references DISCOUNT (id_discount);
 
 alter table IS_CATEGORY add constraint FKIS__PRO_1_FK
-     foreign key (ID)
-     references PRODUCT (ID);
+     foreign key (id_product)
+     references PRODUCT (id_product);
 
 alter table IS_CATEGORY add constraint FKIS__CAT
-     foreign key (Tag)
-     references CATEGORY (Tag);
+     foreign key (tag)
+     references CATEGORY (tag);
 
 alter table IS_COLOR add constraint FKIS__PRO_FK
-     foreign key (ID)
-     references PRODUCT (ID);
+     foreign key (id_product)
+     references PRODUCT (id_product);
 
 alter table IS_COLOR add constraint FKIS__COL
-     foreign key (Color)
-     references COLOR (Color);
+     foreign key (color)
+     references COLOR (color);
+
+alter table LIVES add constraint FKLIV_USE_FK
+     foreign key (email)
+     references USER (email);
+
+alter table LIVES add constraint FKLIV_PLA
+     foreign key (cap, street, civic)
+     references PLACE (cap, street, civic);
+
+alter table NOTIFY add constraint FKHAS_FK
+     foreign key (email)
+     references USER (email);
+
+-- Not implemented
+-- alter table ORDERS add constraint ID_ORDERS_CHK
+--     check(exists(select * from ORDERS_ITEM
+--                  where ORDERS_ITEM.id_order = id_order)); 
+
+alter table ORDERS add constraint FKSHIPPED_FK
+     foreign key (cap, street, civic)
+     references PLACE (cap, street, civic);
+
+alter table ORDERS add constraint FKORDERS_FK
+     foreign key (email)
+     references USER (email);
+
+alter table ORDERS_ITEM add constraint FKORD_PRO_FK
+     foreign key (id_product)
+     references PRODUCT (id_product);
+
+alter table ORDERS_ITEM add constraint FKORD_ORD
+     foreign key (id_order)
+     references ORDERS (id_order);
 
 -- Not implemented
 -- alter table PRODUCT add constraint ID_PRODUCT_CHK
 --     check(exists(select * from IS_CATEGORY
---                  where IS_CATEGORY.ID = ID)); 
+--                  where IS_CATEGORY.id_product = id_product)); 
 
 alter table PRODUCT add constraint FKSELLS_FK
-     foreign key (SEL_ID)
-     references SELLER (ID);
-
-alter table LIVES add constraint FKLIV_USE_FK
-     foreign key (Email)
-     references USER (Email);
-
-alter table LIVES add constraint FKLIV_PLA
-     foreign key (CAP, Street, Civic)
-     references PLACE (CAP, Street, Civic);
-
-alter table NOTIFY add constraint FKHAS_FK
-     foreign key (Email)
-     references USER (Email);
-
--- Not implemented
--- alter table ORDER add constraint ID_ORDER_CHK
---     check(exists(select * from ORDER_PRODUCT
---                  where ORDER_PRODUCT.O_O_ID = ID)); 
-
-alter table ORDER add constraint FKSHIPPED_FK
-     foreign key (CAP, Street, Civic)
-     references PLACE (CAP, Street, Civic);
-
-alter table ORDER add constraint FKORDERS_FK
-     foreign key (Email)
-     references USER (Email);
-
-alter table ORDER_PRODUCT add constraint FKORD_PRO_FK
-     foreign key (ID)
-     references PRODUCT (ID);
-
-alter table ORDER_PRODUCT add constraint FKORD_ORD
-     foreign key (O_O_ID)
-     references ORDER (ID);
+     foreign key (email)
+     references USER (email);
 
 alter table SUDOKU add constraint FKLINKED_FK
-     foreign key (Day)
-     references DAY (Day);
-
-alter table USER add constraint FKCART_FK
-     foreign key (ID)
-     references PRODUCT (ID);
+     foreign key (day)
+     references DAY (day);
 
 alter table WINS add constraint FKWIN_USE_FK
-     foreign key (Email)
-     references USER (Email);
+     foreign key (email)
+     references USER (email);
 
 alter table WINS add constraint FKWIN_DAY
-     foreign key (Day)
-     references DAY (Day);
+     foreign key (day)
+     references DAY (day);
 
 alter table WISHES add constraint FKWIS_USE_FK
-     foreign key (Email)
-     references USER (Email);
+     foreign key (email)
+     references USER (email);
 
 alter table WISHES add constraint FKWIS_PRO
-     foreign key (ID)
-     references PRODUCT (ID);
+     foreign key (id_product)
+     references PRODUCT (id_product);
 
 
 -- Index Section
 -- _____________ 
 
+create unique index ID_CART_IND
+     on CART (id_product, email);
+
+create index FKCAR_USE_IND
+     on CART (email);
+
 create unique index ID_CATEGORY_IND
-     on CATEGORY (Tag);
+     on CATEGORY (tag);
 
 create unique index ID_COLOR_IND
-     on COLOR (Color);
+     on COLOR (color);
 
 create unique index ID_CREDIT_CARD_IND
-     on CREDIT_CARD (Email, Number);
+     on CREDIT_CARD (email, number);
 
 create unique index ID_DAY_IND
-     on DAY (Day);
+     on DAY (day);
 
 create unique index ID_DIMESION_IND
-     on DIMESION (ID, Tag);
+     on DIMESION (id_product, tag);
 
 create index FKDIM_SIZ_IND
-     on DIMESION (Tag);
+     on DIMESION (tag);
 
 create unique index ID_DISCOUNT_IND
-     on DISCOUNT (ID);
+     on DISCOUNT (id_discount);
 
 create unique index ID_DISCOUNTS_IND
-     on DISCOUNTS (ID, D_D_ID);
+     on DISCOUNTS (id_product, id_discount);
 
 create index FKDIS_DIS_IND
-     on DISCOUNTS (D_D_ID);
+     on DISCOUNTS (id_discount);
 
 create unique index ID_IS_CATEGORY_IND
-     on IS_CATEGORY (Tag, ID);
+     on IS_CATEGORY (tag, id_product);
 
 create index FKIS__PRO_1_IND
-     on IS_CATEGORY (ID);
+     on IS_CATEGORY (id_product);
 
 create unique index ID_IS_COLOR_IND
-     on IS_COLOR (Color, ID);
+     on IS_COLOR (color, id_product);
 
 create index FKIS__PRO_IND
-     on IS_COLOR (ID);
-
-create unique index ID_PRODUCT_IND
-     on PRODUCT (ID);
-
-create index FKSELLS_IND
-     on PRODUCT (SEL_ID);
+     on IS_COLOR (id_product);
 
 create unique index ID_LIVES_IND
-     on LIVES (CAP, Street, Civic, Email);
+     on LIVES (cap, street, civic, email);
 
 create index FKLIV_USE_IND
-     on LIVES (Email);
+     on LIVES (email);
 
 create unique index ID_NOTIFY_IND
-     on NOTIFY (ID);
+     on NOTIFY (id_notify);
 
 create index FKHAS_IND
-     on NOTIFY (Email);
+     on NOTIFY (email);
 
-create unique index ID_ORDER_IND
-     on ORDER (ID);
+create unique index ID_ORDERS_IND
+     on ORDERS (id_order);
 
 create index FKSHIPPED_IND
-     on ORDER (CAP, Street, Civic);
+     on ORDERS (cap, street, civic);
 
 create index FKORDERS_IND
-     on ORDER (Email);
+     on ORDERS (email);
 
-create unique index ID_ORDER_PRODUCT_IND
-     on ORDER_PRODUCT (O_O_ID, ID);
+create unique index ID_ORDERS_ITEM_IND
+     on ORDERS_ITEM (id_order, id_product);
 
 create index FKORD_PRO_IND
-     on ORDER_PRODUCT (ID);
+     on ORDERS_ITEM (id_product);
 
 create unique index ID_PLACE_IND
-     on PLACE (CAP, Street, Civic);
+     on PLACE (cap, street, civic);
 
-create unique index ID_SELLER_IND
-     on SELLER (ID);
+create unique index ID_PRODUCT_IND
+     on PRODUCT (id_product);
+
+create index FKSELLS_IND
+     on PRODUCT (email);
 
 create unique index ID_SIZE_IND
-     on SIZE (Tag);
+     on SIZE (tag);
 
 create unique index ID_SUDOKU_IND
-     on SUDOKU (ID);
+     on SUDOKU (id_sudoku);
 
 create unique index FKLINKED_IND
-     on SUDOKU (Day);
+     on SUDOKU (day);
 
 create unique index ID_USER_IND
-     on USER (Email);
-
-create index FKCART_IND
-     on USER (ID);
+     on USER (email);
 
 create unique index ID_WINS_IND
-     on WINS (Day, Email);
+     on WINS (day, email);
 
 create index FKWIN_USE_IND
-     on WINS (Email);
+     on WINS (email);
 
 create unique index ID_WISHES_IND
-     on WISHES (ID, Email);
+     on WISHES (id_product, email);
 
 create index FKWIS_USE_IND
-     on WISHES (Email);
+     on WISHES (email);
 
