@@ -35,7 +35,7 @@ create table DAY (
     constraint ID_DAY_ID primary key (Day)
 );
 create table DIMESION (
-    ID int not null,
+    ID -- Index attribute not implemented -- not null,
     Tag varchar(8) not null,
     constraint ID_DIMESION_ID primary key (ID, Tag)
 );
@@ -46,21 +46,21 @@ create table DISCOUNT (
 );
 create table DISCOUNTS (
     D_D_ID int not null,
-    ID int not null,
+    ID -- Index attribute not implemented -- not null,
     constraint ID_DISCOUNTS_ID primary key (ID, D_D_ID)
 );
 create table IS_CATEGORY (
     Tag varchar(32) not null,
-    ID int not null,
+    ID -- Index attribute not implemented -- not null,
     constraint ID_IS_CATEGORY_ID primary key (Tag, ID)
 );
 create table IS_COLOR (
     Color varchar(32) not null,
-    ID int not null,
+    ID -- Index attribute not implemented -- not null,
     constraint ID_IS_COLOR_ID primary key (Color, ID)
 );
 create table PRODUCT (
-    ID int not null AUTO_INCREMENT,
+    ID -- Index attribute not implemented -- not null,
     Name varchar(128) not null,
     Description varchar(1024) not null,
     Price int not null,
@@ -95,7 +95,7 @@ create table ORDER (
 );
 create table ORDER_PRODUCT (
     O_O_ID int not null,
-    ID int not null,
+    ID -- Index attribute not implemented -- not null,
     constraint ID_ORDER_PRODUCT_ID primary key (O_O_ID, ID)
 );
 create table PLACE (
@@ -126,10 +126,9 @@ create table SUDOKU (
 );
 create table USER (
     Name varchar(32) not null,
-    Birthday date not null,
     Email varchar(64) not null,
     Password varchar(256) not null,
-    ID int not null,
+    ID -- Index attribute not implemented -- not null,
     constraint ID_USER_ID primary key (Email)
 );
 create table WINS (
@@ -138,7 +137,7 @@ create table WINS (
     constraint ID_WINS_ID primary key (Day, Email)
 );
 create table WISHES (
-    ID int not null,
+    ID -- Index attribute not implemented -- not null,
     Email varchar(64) not null,
     constraint ID_WISHES_ID primary key (ID, Email)
 );
