@@ -1,14 +1,13 @@
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">Ecommerce</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="/pages/cart.php">Cart</a></li>
-                <li class="nav-item"><a class="nav-link" href="/pages/checkout.php">Checkout</a></li>
-            </ul>
+    <header class="header">
+        <div class="logo">SudokuWorld</div>
+        <div class="search-container">
+            <input type="text" placeholder="Search">
         </div>
-    </nav>
-</header>
+        <ul class="icons">
+            <li><a href="#">Griglia</a></li> <!-- Grid Icon -->
+            <li><a href="#">Cuore</a></li> <!-- Heart Icon -->
+            <li><a href="#">Carrello</a></li> <!-- Cart Icon -->
+            <li><a href="#">Utente</a></li> <!-- Profile Icon -->
+            <li><a href="#">Notifiche</a></li> <!-- Bell Icon -->
+            </div>
+    </header>

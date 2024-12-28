@@ -1,13 +1,12 @@
+<!-- $product= $db->getProductById($productId); -->
 <?php
-if (isset($_GET['id'])) {
-    $productId = $_GET['id'];
-    // Fetch product details logic here
-} else {
-    echo "<h1>Product Not Found</h1>";
-    exit;
-}
+include '../includes/header.php';
 ?>
-<div class="container mt-4">
+
+<body>
     <h1>Product Details</h1>
     <p>Details about the product will go here.</p>
-</div>
+</body>
+<?php
+include '../includes/footer.php';
+?>

@@ -1,7 +1,7 @@
 <?php
 
-include_once '../includes/bootstrap.php';
-include_once '../includes/functions.php';
+include_once ("../includes/bootstrap.php");
+include_once ("../includes/functions.php");
 
 if (isset($_POST["username"]) && isset($_POST["password"])) {
     $login_result = $db->checkLogin($_POST["username"], $_POST["password"]);
@@ -13,11 +13,11 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
     }
 }
 
-if (isUserLoggedIn()) {
-    echo "Benvenuto " . $_SESSION["nome"];
-} else {
-    echo "vaffanculo";
-}
+// if (isUserLoggedIn()) {
+//     echo "Benvenuto " . $_SESSION["nome"];
+// } else {
+//     echo "Credenziali errate. Login fallito";
+// }
 
 ?>
 <form action="#" method="POST">
