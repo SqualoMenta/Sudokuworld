@@ -3,9 +3,9 @@
 -- *--------------------------------------------
 -- * DB-MAIN version: 11.0.2              
 -- * Generator date: Sep 20 2021              
--- * Generation date: Sat Dec 28 14:43:31 2024 
+-- * Generation date: Sat Dec 28 15:08:06 2024 
 -- * LUN file: /home/davide/Desktop/unibo/web/Sudokuworld/Sudokuworld.lun 
--- * Schema: SUDOKUWORLD/SQL 
+-- * Schema: SUDOKUWORLD/1-1 
 -- ********************************************* 
 
 
@@ -84,23 +84,23 @@ create table NOTIFY (
      ID int not null,
      Title varchar(32) not null,
      Day date not null,
-     Read char not null,
+     Seen char not null,
      Description varchar(1024) not null,
      Email varchar(64) not null,
      constraint ID_NOTIFY_ID primary key (ID));
 
-create table ORDER (
-     ID char(1) not null,
+create table ORDERS (
+     ID int not null,
      Day char(1) not null,
      CAP char(1) not null,
      Street char(1) not null,
      Civic char(1) not null,
      Email varchar(64) not null,
-     constraint ID_ORDER_ID primary key (ID));
+     constraint ID_ORDERS_ID primary key (ID));
 
 create table ORDERS_ITEM (
      O_I_ID int not null,
-     ID char(1) not null,
+     ID int not null,
      constraint ID_ORDERS_ITEM_ID primary key (ID, O_I_ID));
 
 create table PLACE (
@@ -114,8 +114,7 @@ create table SELLER (
      ID char(1) not null,
      Name varchar(32) not null,
      Email varchar(64) not null,
-     Pas_Salt varchar(256) not null,
-     Pas_Hash varchar(256) not null,
+     Password varchar(256) not null,
      constraint ID_SELLER_ID primary key (ID));
 
 create table SIZE (
@@ -132,11 +131,9 @@ create table SUDOKU (
 
 create table USER (
      Name varchar(32) not null,
-     Surname varchar(32) not null,
      Birthday date not null,
      Email varchar(64) not null,
-     Pas_Salt varchar(256) not null,
-     Pas_Hash varchar(256) not null,
+     Password varchar(256) not null,
      ID int not null,
      constraint ID_USER_ID primary key (Email));
 
@@ -154,7 +151,7 @@ create table WISHES (
 -- Constraints Section
 -- ___________________ 
 
-alter table CREDIT_CARD add constraint FKR_9
+alter table CREDIT_CARD add constraint FKOWNS
      foreign key (Email)
      references USER (Email);
 
@@ -217,21 +214,21 @@ alter table NOTIFY add constraint FKHAS_FK
      references USER (Email);
 
 -- Not implemented
--- alter table ORDER add constraint ID_ORDER_CHK
+-- alter table ORDERS add constraint ID_ORDERS_CHK
 --     check(exists(select * from ORDERS_ITEM
 --                  where ORDERS_ITEM.ID = ID)); 
 
-alter table ORDER add constraint FKSHIPPED_FK
+alter table ORDERS add constraint FKSHIPPED_FK
      foreign key (CAP, Street, Civic)
      references PLACE (CAP, Street, Civic);
 
-alter table ORDER add constraint FKORDERS_FK
+alter table ORDERS add constraint FKORDERS_FK
      foreign key (Email)
      references USER (Email);
 
 alter table ORDERS_ITEM add constraint FKORD_ORD
      foreign key (ID)
-     references ORDER (ID);
+     references ORDERS (ID);
 
 alter table ORDERS_ITEM add constraint FKORD_ITE_FK
      foreign key (O_I_ID)
@@ -322,14 +319,14 @@ create unique index ID_NOTIFY_IND
 create index FKHAS_IND
      on NOTIFY (Email);
 
-create unique index ID_ORDER_IND
-     on ORDER (ID);
+create unique index ID_ORDERS_IND
+     on ORDERS (ID);
 
 create index FKSHIPPED_IND
-     on ORDER (CAP, Street, Civic);
+     on ORDERS (CAP, Street, Civic);
 
 create index FKORDERS_IND
-     on ORDER (Email);
+     on ORDERS (Email);
 
 create unique index ID_ORDERS_ITEM_IND
      on ORDERS_ITEM (ID, O_I_ID);

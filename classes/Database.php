@@ -173,7 +173,7 @@ class Database
 
     private function getUser($username)
     {
-        return $this->query("SELECT Name, Email, Pas_Salt, Pas_Hash FROM USER WHERE Email = ?", 's', $username);
+        return $this->query("SELECT Name, Email, Password FROM USER WHERE Email = ?", 's', $username);
     }
     public function checkLogin($username, $password)
     {
@@ -182,7 +182,7 @@ class Database
             return [];
         }
         $user = $users[0];
-        if (password_verify($password, $user['Pas_Hash'])) {
+        if (password_verify($password, $user['Password'])) {
             return [$user];
         }
         return [];
