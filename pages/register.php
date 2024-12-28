@@ -4,16 +4,16 @@ include_once("../includes/bootstrap.php");
 include_once("../includes/functions.php");
 
 if (isset($_POST["name"]) && isset($_POST["mail"]) && isset($_POST["password"])) {
-
     if (count($db->getUser($_POST["mail"])) > 0) {
         $register_error = "Errore! Email gia' utilizzata!";
     } else {
         unset($register_error);
         $db->registerUser($_POST["name"], $_POST["mail"], $_POST["password"]);
+        header("location: pages/login.php");
     }
 }
 
-
+include("../includes/header.php");
 ?>
 <form action="#" method="POST">
     <h2>Registrazione</h2>
@@ -35,3 +35,7 @@ if (isset($_POST["name"]) && isset($_POST["mail"]) && isset($_POST["password"]))
         </li>
     </ul>
 </form>
+
+<?php
+include("../includes/footer.php");
+?>
