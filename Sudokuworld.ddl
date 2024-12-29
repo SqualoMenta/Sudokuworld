@@ -35,8 +35,8 @@ create table COLOR (
 create table CREDIT_CARD (
      email varchar(64) not null,
      number varchar(16) not null,
-     propretary_name varchar(32) not null,
-     propertary_surname varchar(32) not null,
+     proprietary_name varchar(32) not null,
+     proprietary_surname varchar(32) not null,
      expiration date not null,
      constraint ID_CREDIT_CARD_ID primary key (email, number));
 
