@@ -2,9 +2,9 @@
 -- * SQL MySQL generation                      
 -- *--------------------------------------------
 -- * DB-MAIN version: 11.0.2              
--- * Generator date: Sep 20 2021              
--- * Generation date: Sun Dec 29 15:12:55 2024 
--- * LUN file: /home/davide/Desktop/unibo/web/Sudokuworld/Sudokuworld.lun 
+-- * Generator date: Sep 14 2021              
+-- * Generation date: Sun Dec 29 17:48:06 2024 
+-- * LUN file: C:\Users\andre\Documents\Sudokuworld\Sudokuworld.lun 
 -- * Schema: SUDOKUWORLD/1-1 
 -- ********************************************* 
 
@@ -40,19 +40,15 @@ create table CREDIT_CARD (
      expiration date not null,
      constraint ID_CREDIT_CARD_ID primary key (email, number));
 
-create table DAY (
-     day date not null,
-     constraint ID_DAY_ID primary key (day));
+create table DISCOUNT (
+     percentage int not null,
+     id_discount int not null auto_increment,
+     constraint ID_DISCOUNT_ID primary key (id_discount));
 
 create table DIMESION (
      id_product int not null,
      tag varchar(8) not null,
      constraint ID_DIMESION_ID primary key (id_product, tag));
-
-create table DISCOUNT (
-     percentage int not null,
-     id_discount int not null auto_increment,
-     constraint ID_DISCOUNT_ID primary key (id_discount));
 
 create table DISCOUNTS (
      id_discount int not null,
@@ -80,7 +76,7 @@ create table NOTIFY (
 
 create table ORDERS (
      id_order int not null auto_increment,
-     day char(1) not null,
+     day date not null,
      email varchar(64) not null,
      constraint ID_ORDERS_ID primary key (id_order));
 
@@ -103,12 +99,10 @@ create table SIZE (
      constraint ID_SIZE_ID primary key (tag));
 
 create table SUDOKU (
-     id_sudoku int not null auto_increment,
      day date not null,
      grid varchar(128) not null,
      solution varchar(128) not null,
-     constraint ID_SUDOKU_ID primary key (id_sudoku),
-     constraint FKLINKED_ID unique (day));
+     constraint ID_SUDOKU_ID primary key (day));
 
 create table USER (
      name varchar(32) not null,
@@ -142,11 +136,6 @@ alter table CART add constraint FKCAR_PRO
 alter table CREDIT_CARD add constraint FKOWNS
      foreign key (email)
      references USER (email);
-
--- Not implemented
--- alter table DAY add constraint ID_DAY_CHK
---     check(exists(select * from SUDOKU
---                  where SUDOKU.day = day)); 
 
 alter table DIMESION add constraint FKDIM_SIZ_FK
      foreign key (tag)
@@ -210,17 +199,13 @@ alter table PRODUCT add constraint FKSELLS_FK
      foreign key (email)
      references USER (email);
 
-alter table SUDOKU add constraint FKLINKED_FK
-     foreign key (day)
-     references DAY (day);
-
 alter table WINS add constraint FKWIN_USE_FK
      foreign key (email)
      references USER (email);
 
-alter table WINS add constraint FKWIN_DAY
+alter table WINS add constraint FKWIN_SUD
      foreign key (day)
-     references DAY (day);
+     references SUDOKU (day);
 
 alter table WISHES add constraint FKWIS_USE_FK
      foreign key (email)
@@ -249,17 +234,14 @@ create unique index ID_COLOR_IND
 create unique index ID_CREDIT_CARD_IND
      on CREDIT_CARD (email, number);
 
-create unique index ID_DAY_IND
-     on DAY (day);
+create unique index ID_DISCOUNT_IND
+     on DISCOUNT (id_discount);
 
 create unique index ID_DIMESION_IND
      on DIMESION (id_product, tag);
 
 create index FKDIM_SIZ_IND
      on DIMESION (tag);
-
-create unique index ID_DISCOUNT_IND
-     on DISCOUNT (id_discount);
 
 create unique index ID_DISCOUNTS_IND
      on DISCOUNTS (id_product, id_discount);
@@ -307,9 +289,6 @@ create unique index ID_SIZE_IND
      on SIZE (tag);
 
 create unique index ID_SUDOKU_IND
-     on SUDOKU (id_sudoku);
-
-create unique index FKLINKED_IND
      on SUDOKU (day);
 
 create unique index ID_USER_IND
