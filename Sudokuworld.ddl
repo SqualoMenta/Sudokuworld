@@ -3,7 +3,7 @@
 -- *--------------------------------------------
 -- * DB-MAIN version: 11.0.2              
 -- * Generator date: Sep 20 2021              
--- * Generation date: Sat Dec 28 20:51:26 2024 
+-- * Generation date: Sun Dec 29 15:12:55 2024 
 -- * LUN file: /home/davide/Desktop/unibo/web/Sudokuworld/Sudokuworld.lun 
 -- * Schema: SUDOKUWORLD/1-1 
 -- ********************************************* 
@@ -69,13 +69,6 @@ create table IS_COLOR (
      id_product int not null,
      constraint ID_IS_COLOR_ID primary key (color, id_product));
 
-create table LIVES (
-     cap char(1) not null,
-     street char(1) not null,
-     civic char(1) not null,
-     email varchar(64) not null,
-     constraint ID_LIVES_ID primary key (cap, street, civic, email));
-
 create table NOTIFY (
      id_notify int not null,
      title varchar(32) not null,
@@ -88,9 +81,6 @@ create table NOTIFY (
 create table ORDERS (
      id_order int not null auto_increment,
      day char(1) not null,
-     cap char(1) not null,
-     street char(1) not null,
-     civic char(1) not null,
      email varchar(64) not null,
      constraint ID_ORDERS_ID primary key (id_order));
 
@@ -99,19 +89,12 @@ create table ORDERS_ITEM (
      id_product int not null,
      constraint ID_ORDERS_ITEM_ID primary key (id_order, id_product));
 
-create table PLACE (
-     cap char(1) not null,
-     city char(1) not null,
-     street char(1) not null,
-     civic char(1) not null,
-     constraint ID_PLACE_ID primary key (cap, street, civic));
-
 create table PRODUCT (
      id_product int not null auto_increment,
      name varchar(128) not null,
      description varchar(1024) not null,
      price int not null,
-     Image varchar(128) not null,
+     image varchar(128) not null,
      email varchar(64) not null,
      constraint ID_PRODUCT_ID primary key (id_product));
 
@@ -197,14 +180,6 @@ alter table IS_COLOR add constraint FKIS__COL
      foreign key (color)
      references COLOR (color);
 
-alter table LIVES add constraint FKLIV_USE_FK
-     foreign key (email)
-     references USER (email);
-
-alter table LIVES add constraint FKLIV_PLA
-     foreign key (cap, street, civic)
-     references PLACE (cap, street, civic);
-
 alter table NOTIFY add constraint FKHAS_FK
      foreign key (email)
      references USER (email);
@@ -213,10 +188,6 @@ alter table NOTIFY add constraint FKHAS_FK
 -- alter table ORDERS add constraint ID_ORDERS_CHK
 --     check(exists(select * from ORDERS_ITEM
 --                  where ORDERS_ITEM.id_order = id_order)); 
-
-alter table ORDERS add constraint FKSHIPPED_FK
-     foreign key (cap, street, civic)
-     references PLACE (cap, street, civic);
 
 alter table ORDERS add constraint FKORDERS_FK
      foreign key (email)
@@ -308,12 +279,6 @@ create unique index ID_IS_COLOR_IND
 create index FKIS__PRO_IND
      on IS_COLOR (id_product);
 
-create unique index ID_LIVES_IND
-     on LIVES (cap, street, civic, email);
-
-create index FKLIV_USE_IND
-     on LIVES (email);
-
 create unique index ID_NOTIFY_IND
      on NOTIFY (id_notify);
 
@@ -323,9 +288,6 @@ create index FKHAS_IND
 create unique index ID_ORDERS_IND
      on ORDERS (id_order);
 
-create index FKSHIPPED_IND
-     on ORDERS (cap, street, civic);
-
 create index FKORDERS_IND
      on ORDERS (email);
 
@@ -334,9 +296,6 @@ create unique index ID_ORDERS_ITEM_IND
 
 create index FKORD_PRO_IND
      on ORDERS_ITEM (id_product);
-
-create unique index ID_PLACE_IND
-     on PLACE (cap, street, civic);
 
 create unique index ID_PRODUCT_IND
      on PRODUCT (id_product);

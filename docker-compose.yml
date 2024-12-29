@@ -20,13 +20,9 @@ services:
     container_name: mysql
     ports:
       - "3306:3306"
-    command: --init-file /init/schema.sql
     environment:
       MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: SUDOKUWORLD
     volumes:
-      - db_data:/var/lib/mysql
-      - ./docker-init:/init  # Mount SQL scripts
-
-volumes:
-  db_data:
+      - ./docker-init:/init
+    command: --init-file /init/init.sql

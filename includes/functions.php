@@ -18,6 +18,11 @@ function registerLoggedUser($user){
     $_SESSION["name"] = $user["name"];
 }
 
+function logout(){
+    session_unset();
+    session_destroy();
+}
+
 function getEmptyArticle(){
     return array("idarticolo" => "", "titoloarticolo" => "", "imgarticolo" => "", "testoarticolo" => "", "anteprimaarticolo" => "", "categorie" => array());
 }
