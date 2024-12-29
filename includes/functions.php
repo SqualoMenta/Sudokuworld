@@ -10,12 +10,12 @@ function getIdFromName($name){
 }
 
 function isUserLoggedIn(){
-    return !empty($_SESSION['username']);
+    return !empty($_SESSION['email']);
 }
 
 function registerLoggedUser($user){
-    $_SESSION["username"] = $user["username"];
-    $_SESSION["nome"] = $user["nome"];
+    $_SESSION["email"] = $user["email"];
+    $_SESSION["name"] = $user["name"];
 }
 
 function getEmptyArticle(){

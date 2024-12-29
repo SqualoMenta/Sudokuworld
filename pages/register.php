@@ -3,13 +3,13 @@
 include_once("../includes/bootstrap.php");
 include_once("../includes/functions.php");
 
-if (isset($_POST["name"]) && isset($_POST["mail"]) && isset($_POST["password"])) {
-    if (count($db->getUser($_POST["mail"])) > 0) {
+if (isset($_POST["name"]) && isset($_POST["email"]) && isset($_POST["password"])) {
+    if (count($db->getUser($_POST["email"])) > 0) {
         $register_error = "Errore! Email gia' utilizzata!";
     } else {
         unset($register_error);
-        $db->registerUser($_POST["name"], $_POST["mail"], $_POST["password"]);
-        header("location: pages/login.php");
+        $db->registerUser($_POST["name"], $_POST["email"], $_POST["password"]);
+        header("Location: login.php");
     }
 }
 
@@ -22,7 +22,7 @@ include("../includes/header.php");
     <?php endif; ?>
     <ul>
         <li>
-            <label for="username">Username:</label><input type="text" id="username" name="username" />
+            <label for="name">Nome:</label><input type="text" id="name" name="name" />
         </li>
         <li>
             <label for="email">Email:</label><input type="email" id="email" name="email" />

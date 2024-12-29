@@ -33,28 +33,28 @@ class Database
 
     public function insertProduct($name, $price, $description, $img, $sellerId)
     {
-        $query = "INSERT INTO PRODUCT (Name, Price, Description, Image, SEL_ID) VALUES (?, ?, ?, ?, ?)";
+        $query = "INSERT INTO PRODUCT (name, price, description, image, SEL_ID) VALUES (?, ?, ?, ?, ?)";
         $this->query2($query, 'sissi',$name, $price, $description, $img, $sellerId);
     }
 
-    public function getUser($username)
+    public function getUser($email)
     {
-        return $this->query("SELECT Name, Email, Password FROM USER WHERE Email = ?", 's', $username);
+        return $this->query("SELECT name, email, password FROM USER WHERE email = ?", 's', $email);
     }
-    public function checkLogin($username, $password)
+    public function checkLogin($email, $password)
     {
-        $users = $this->getUser($username);
+        $users = $this->getUser($email);
         if (count($users) == 0) {
             return [];
         }
         $user = $users[0];
-        if (password_verify($password, $user['Password'])) {
+        if (password_verify($password, $user['password'])) {
             return [$user];
         }
         return [];
     }
     public function registerUser(){
-        $query = "INSERT INTO USER (Name, Email, Password) VALUES (?, ?, ?)";
-        $this->query2($query, 'sss', $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT));
+        $query = "INSERT INTO USER (name, email, password, seller) VALUES (?, ?, ?, ?)";
+        $this->query2($query, 'sssi', $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT), 0);
     }
 }

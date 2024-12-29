@@ -126,7 +126,7 @@ create table USER (
     name varchar(32) not null,
     email varchar(64) not null,
     password varchar(256) not null,
-    seller char not null,
+    seller boolean not null,
     constraint ID_USER_ID primary key (email)
 );
 create table WINS (
