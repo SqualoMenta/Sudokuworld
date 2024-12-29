@@ -38,9 +38,12 @@ class Product
     {
         return $this->description;
     }
-    public function getImg(){
+    
+    public function getImg()
+    {
         return $this->img;
     }
+
     public function getSellerId()
     {
         return $this->sellerId;
