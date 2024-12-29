@@ -41,7 +41,7 @@ class Product
     public function getImg(){
         return $this->img;
     }
-    public function getSellerId()
+    public function getSellerEmail()
     {
         return $this->seller_email;
     }

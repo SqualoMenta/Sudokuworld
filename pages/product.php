@@ -1,5 +1,6 @@
 <?php
 include_once("../includes/bootstrap.php");
+require_once("../includes/functions.php");
 require_once("../classes/Product.php");
 $productList = $db->getProduct($_GET["id"]);
 
@@ -9,6 +10,9 @@ if (count($productList) == 0) {
 }
 
 $product = new Product(...$productList[0]);
+if (isUserLoggedIn() && isset($_POST["add_to_cart"])) {
+    $db->addProductToCart($_SESSION["email"], $product->getId());
+}
 
 include '../includes/header.php';
 ?>
@@ -19,10 +23,13 @@ include '../includes/header.php';
         <img src="<?= $product->getImg(); ?>" alt="">
         <div>
             <p>Prezzo: <strong>&euro;<?= $product->getPrice(); ?></strong></p>
-            <!-- TODO -->
             <p>Disponibilità: <strong>Disponibile</strong></p>
-            <button>Aggiungi al carrello</button>
-
+            <?php if (isUserLoggedIn() && !$db->isProductInCart($_SESSION['email'], $product->getId())): ?>
+                <form action="#" method="post">
+                    <input type="hidden" name="add_to_cart" value=true>
+                    <button type="submit">Aggiungi al carrello</button>
+                </form>
+            <?php endif; ?>
         </div>
     </div>
     <div>

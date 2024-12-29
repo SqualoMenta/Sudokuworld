@@ -26,6 +26,23 @@ class Database
         $stmt->execute();
     }
 
+    public function isProductInCart($email, $id_product)
+    {
+        $query = "SELECT * FROM CART WHERE email = ? AND id_product = ?";
+        return count($this->query($query, 'si', $email, $id_product)) > 0;
+    }
+
+    public function addProductToCart($email, $id_product)
+    {
+        $query = "INSERT INTO CART (email, id_product) VALUES (?, ?)";
+        $this->query2($query, 'si', $email, $id_product);
+    }
+
+    public function getCart($email)
+    {
+        return $this->query("SELECT * FROM CART where email = ?", 's', $email);
+    }
+
     public function getProduct($id)
     {
         return $this->query("SELECT * FROM PRODUCT WHERE id_product = ?", 'i', $id);
@@ -34,7 +51,7 @@ class Database
     public function insertProduct($name, $price, $description, $img, $sellerId)
     {
         $query = "INSERT INTO PRODUCT (name, price, description, image, SEL_ID) VALUES (?, ?, ?, ?, ?)";
-        $this->query2($query, 'sissi',$name, $price, $description, $img, $sellerId);
+        $this->query2($query, 'sissi', $name, $price, $description, $img, $sellerId);
     }
 
     public function getUser($email)
@@ -53,7 +70,8 @@ class Database
         }
         return [];
     }
-    public function registerUser(){
+    public function registerUser()
+    {
         $query = "INSERT INTO USER (name, email, password, seller) VALUES (?, ?, ?, ?)";
         $this->query2($query, 'sssi', $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT), 0);
     }
