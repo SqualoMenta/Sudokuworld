@@ -28,7 +28,7 @@ class Database
 
     public function getProduct($id)
     {
-        return $this->query("SELECT * FROM PRODUCT WHERE ID = ?", 'i', $id);
+        return $this->query("SELECT * FROM PRODUCT WHERE id_product = ?", 'i', $id);
     }
 
     public function insertProduct($name, $price, $description, $img, $sellerId)

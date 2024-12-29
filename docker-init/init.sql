@@ -64,13 +64,6 @@ create table IS_COLOR (
     id_product int not null,
     constraint ID_IS_COLOR_ID primary key (color, id_product)
 );
-create table LIVES (
-    cap char(1) not null,
-    street char(1) not null,
-    civic char(1) not null,
-    email varchar(64) not null,
-    constraint ID_LIVES_ID primary key (cap, street, civic, email)
-);
 create table NOTIFY (
     id_notify int not null,
     title varchar(32) not null,
@@ -83,9 +76,6 @@ create table NOTIFY (
 create table ORDERS (
     id_order int not null auto_increment,
     day char(1) not null,
-    cap char(1) not null,
-    street char(1) not null,
-    civic char(1) not null,
     email varchar(64) not null,
     constraint ID_ORDERS_ID primary key (id_order)
 );
@@ -94,19 +84,12 @@ create table ORDERS_ITEM (
     id_product int not null,
     constraint ID_ORDERS_ITEM_ID primary key (id_order, id_product)
 );
-create table PLACE (
-    cap char(1) not null,
-    city char(1) not null,
-    street char(1) not null,
-    civic char(1) not null,
-    constraint ID_PLACE_ID primary key (cap, street, civic)
-);
 create table PRODUCT (
     id_product int not null auto_increment,
     name varchar(128) not null,
     description varchar(1024) not null,
     price int not null,
-    Image varchar(128) not null,
+    image varchar(128) not null,
     email varchar(64) not null,
     constraint ID_PRODUCT_ID primary key (id_product)
 );
@@ -167,18 +150,12 @@ alter table IS_COLOR
 add constraint FKIS__PRO_FK foreign key (id_product) references PRODUCT (id_product);
 alter table IS_COLOR
 add constraint FKIS__COL foreign key (color) references COLOR (color);
-alter table LIVES
-add constraint FKLIV_USE_FK foreign key (email) references USER (email);
-alter table LIVES
-add constraint FKLIV_PLA foreign key (cap, street, civic) references PLACE (cap, street, civic);
 alter table NOTIFY
 add constraint FKHAS_FK foreign key (email) references USER (email);
 -- Not implemented
 -- alter table ORDERS add constraint ID_ORDERS_CHK
 --     check(exists(select * from ORDERS_ITEM
 --                  where ORDERS_ITEM.id_order = id_order)); 
-alter table ORDERS
-add constraint FKSHIPPED_FK foreign key (cap, street, civic) references PLACE (cap, street, civic);
 alter table ORDERS
 add constraint FKORDERS_FK foreign key (email) references USER (email);
 alter table ORDERS_ITEM
@@ -218,16 +195,12 @@ create unique index ID_IS_CATEGORY_IND on IS_CATEGORY (tag, id_product);
 create index FKIS__PRO_1_IND on IS_CATEGORY (id_product);
 create unique index ID_IS_COLOR_IND on IS_COLOR (color, id_product);
 create index FKIS__PRO_IND on IS_COLOR (id_product);
-create unique index ID_LIVES_IND on LIVES (cap, street, civic, email);
-create index FKLIV_USE_IND on LIVES (email);
 create unique index ID_NOTIFY_IND on NOTIFY (id_notify);
 create index FKHAS_IND on NOTIFY (email);
 create unique index ID_ORDERS_IND on ORDERS (id_order);
-create index FKSHIPPED_IND on ORDERS (cap, street, civic);
 create index FKORDERS_IND on ORDERS (email);
 create unique index ID_ORDERS_ITEM_IND on ORDERS_ITEM (id_order, id_product);
 create index FKORD_PRO_IND on ORDERS_ITEM (id_product);
-create unique index ID_PLACE_IND on PLACE (cap, street, civic);
 create unique index ID_PRODUCT_IND on PRODUCT (id_product);
 create index FKSELLS_IND on PRODUCT (email);
 create unique index ID_SIZE_IND on SIZE (tag);
@@ -238,3 +211,50 @@ create unique index ID_WINS_IND on WINS (day, email);
 create index FKWIN_USE_IND on WINS (email);
 create unique index ID_WISHES_IND on WISHES (id_product, email);
 create index FKWIS_USE_IND on WISHES (email);
+insert into USER (name, email, password, seller)
+VALUES (
+        'seller1',
+        'seller1@gmail.com',
+        '$2y$10$N6wsVyo0tewSM9aJB/DB0ue0xohDC2.WgoF.SvLO2Z5n0to1bku9e',
+        1
+    ),
+    (
+        'seller2',
+        'seller2@gmail.com',
+        '$2y$10$n4cbfzT/WLdSF/Le9P0PW.i0iJPLNeDHZp14chLM1eQgD4QTXsEL6',
+        1
+    ),
+    (
+        'user1',
+        'user1@gmail.com',
+        '$2y$10$vhlDCfDUNa8UCYiitSN8Vuwl.9W0lRR/HgF8sTBQWn8e6j.zYwLBG',
+        0
+    ),
+    (
+        'user2',
+        'user2@gmail.com',
+        '$2y$10$cTQEdrPr.1NlNLBEX.l.neXS4HfOQnzkgNZXtaaa520JS9w.HjsHK',
+        0
+    );
+insert into PRODUCT (name, description, price, image, email)
+VALUES (
+        'tazza love sudoku',
+        'Bellissima tazza con scritto I love sudoku',
+        1000,
+        '/uploads/products/tazza1.jpg',
+        'seller1@gmail.com'
+    ),
+    (
+        'rivista settimana sudoku',
+        'Fantastica rivista per allenare la mente con sudoku',
+        800,
+        '/uploads/products/settimana_sudoku1.png',
+        'seller1@gmail.com'
+    ),
+    (
+        'maglietta commit sudoku',
+        'Maglietta con scritta commit sudoku',
+        1000,
+        '/uploads/products/tshirt_commit_sudoky.jpg',
+        'seller2@gmail.com'
+    );

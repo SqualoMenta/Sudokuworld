@@ -8,13 +8,20 @@ if (isset($_POST["name"]) && isset($_POST["email"]) && isset($_POST["password"])
         $register_error = "Errore! Email gia' utilizzata!";
     } else {
         unset($register_error);
-        $db->registerUser($_POST["name"], $_POST["email"], $_POST["password"]);
-        header("Location: login.php");
+        print_r(password_hash($_POST["password"], PASSWORD_DEFAULT));
+        // $db->registerUser($_POST["name"], $_POST["email"], $_POST["password"]);
+        // header("Location: login.php");
     }
 }
 
 include("../includes/header.php");
 ?>
+<?php if (isUserLoggedIn()): ?>
+    <div>
+        <h1>Benvenuto <?= $_SESSION["name"] ?></h1>
+        <a href="logout.php">Logout</a>
+    </div>
+<?php else: ?>
 <form action="#" method="POST">
     <h2>Registrazione</h2>
     <?php if (isset($register_error)): ?>
@@ -35,6 +42,7 @@ include("../includes/header.php");
         </li>
     </ul>
 </form>
+<?php endif; ?>
 
 <?php
 include("../includes/footer.php");
