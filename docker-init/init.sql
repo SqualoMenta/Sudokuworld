@@ -13,6 +13,7 @@ drop database if exists SUDOKUWORLD;
 create database SUDOKUWORLD;
 use SUDOKUWORLD;
 
+
 -- Tables Section
 -- _____________ 
 
@@ -32,25 +33,20 @@ create table COLOR (
 create table CREDIT_CARD (
      email varchar(64) not null,
      number varchar(16) not null,
-     proprietary_name varchar(32) not null,
-     proprietary_surname varchar(32) not null,
+     propretary_name varchar(32) not null,
+     propertary_surname varchar(32) not null,
      expiration date not null,
      constraint ID_CREDIT_CARD_ID primary key (email, number));
-
-create table DISCOUNT (
-     percentage int not null,
-     id_discount int not null auto_increment,
-     constraint ID_DISCOUNT_ID primary key (id_discount));
 
 create table DIMESION (
      id_product int not null,
      tag varchar(8) not null,
      constraint ID_DIMESION_ID primary key (id_product, tag));
 
-create table DISCOUNTS (
-     id_discount int not null,
-     id_product int not null,
-     constraint ID_DISCOUNTS_ID primary key (id_product, id_discount));
+create table DISCOUNT (
+     percentage int not null,
+     id_discount int not null auto_increment,
+     constraint ID_DISCOUNT_ID primary key (id_discount));
 
 create table IS_CATEGORY (
      tag varchar(32) not null,
@@ -89,6 +85,7 @@ create table PRODUCT (
      price int not null,
      image varchar(128) not null,
      email varchar(64) not null,
+     id_discount int,
      constraint ID_PRODUCT_ID primary key (id_product));
 
 create table SIZE (
@@ -142,14 +139,6 @@ alter table DIMESION add constraint FKDIM_PRO
      foreign key (id_product)
      references PRODUCT (id_product);
 
-alter table DISCOUNTS add constraint FKDIS_PRO
-     foreign key (id_product)
-     references PRODUCT (id_product);
-
-alter table DISCOUNTS add constraint FKDIS_DIS_FK
-     foreign key (id_discount)
-     references DISCOUNT (id_discount);
-
 alter table IS_CATEGORY add constraint FKIS__PRO_1_FK
      foreign key (id_product)
      references PRODUCT (id_product);
@@ -196,6 +185,10 @@ alter table PRODUCT add constraint FKSELLS_FK
      foreign key (email)
      references USER (email);
 
+alter table PRODUCT add constraint FKDISCOUNTS_FK
+     foreign key (id_discount)
+     references DISCOUNT (id_discount);
+
 alter table WINS add constraint FKWIN_USE_FK
      foreign key (email)
      references USER (email);
@@ -231,20 +224,14 @@ create unique index ID_COLOR_IND
 create unique index ID_CREDIT_CARD_IND
      on CREDIT_CARD (email, number);
 
-create unique index ID_DISCOUNT_IND
-     on DISCOUNT (id_discount);
-
 create unique index ID_DIMESION_IND
      on DIMESION (id_product, tag);
 
 create index FKDIM_SIZ_IND
      on DIMESION (tag);
 
-create unique index ID_DISCOUNTS_IND
-     on DISCOUNTS (id_product, id_discount);
-
-create index FKDIS_DIS_IND
-     on DISCOUNTS (id_discount);
+create unique index ID_DISCOUNT_IND
+     on DISCOUNT (id_discount);
 
 create unique index ID_IS_CATEGORY_IND
      on IS_CATEGORY (tag, id_product);
@@ -281,6 +268,9 @@ create unique index ID_PRODUCT_IND
 
 create index FKSELLS_IND
      on PRODUCT (email);
+
+create index FKDISCOUNTS_IND
+     on PRODUCT (id_discount);
 
 create unique index ID_SIZE_IND
      on SIZE (tag);

@@ -43,7 +43,7 @@ class Database
         return $this->query("SELECT id_product FROM CART where email = ?", 's', $email);
     }
 
-    public function getProduct($id)
+    public function getProduct($id)//TODO: wrong
     {
         return $this->query("SELECT * FROM PRODUCT 
         LEFT JOIN DISCOUNTS dis ON dis.id_product = p.id_color  
@@ -51,7 +51,7 @@ class Database
         WHERE id_product = ?", 'i', $id);
     }
 
-    public function getProductDetailed($id)
+    public function getProductDetailed($id)//TODO: wrong
     {
         return $this->query("SELECT * FROM PRODUCT 
         LEFT JOIN IS_COLOR ic ON ic.id_product = p.id_color 
@@ -97,11 +97,37 @@ class Database
         return $this->query($query, 'sss', "%$productName%", $productName, "%$productName%");
     }
 
-    public function insertProduct($name, $price, $description, $img, $sellerId)
+    public function updateDescription($id_product, $description)
     {
-        $query = "INSERT INTO PRODUCT (name, price, description, image, SEL_ID) VALUES (?, ?, ?, ?, ?)";
-        $this->query2($query, 'sissi', $name, $price, $description, $img, $sellerId);
-        $this->query2($query, 'sissi', $name, $price, $description, $img, $sellerId);
+        $query = "UPDATE PRODUCT SET description = ? WHERE id_product = ?";
+        $this->query2($query, 'si', $description, $id_product);
+    }
+
+    public function updatePrice($id_product, $price)
+    {
+        $query = "UPDATE PRODUCT SET price = ? WHERE id_product = ?";
+        $this->query2($query, 'ii', $price, $id_product);
+    }
+
+    public function updateImage($id_product, $img)
+    {
+        $query = "UPDATE PRODUCT SET image = ? WHERE id_product = ?";
+        $this->query2($query, 'si', $img, $id_product);
+    }
+
+    public function removeColor($id_product, $color){
+        $query = "DELETE FROM IS_COLOR WHERE id_product = ? AND color = ?";
+        $this->query2($query, 'is', $id_product, $color);
+    }
+
+    public function changeDimension($id_product, $dimension){
+        $query = "UPDATE DIMENSION SET dimension = ? WHERE id_product = ?";
+        $this->query2($query, 'si', $dimension, $id_product);
+    }
+
+    public function getSoldProductBy($email){
+        $query = "SELECT p.id_product FROM PRODUCT p where p.email = ?";
+        return $this->query($query, 's', $email);
     }
 
     public function getUser($email)
@@ -123,8 +149,14 @@ class Database
     }
     public function registerUser()
     {
-        $query = "INSERT INTO USER (name, email, password, seller) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO USER (name, email, password, seller) VALUES (?, ?, ?, 0)";//Don't know if it's correct
         $this->query2($query, 'sssi', $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT), 0);
+    }
+
+    public function registerSeller()
+    {
+        $query = "INSERT INTO USER (name, email, password, seller) VALUES (?, ?, ?, 1)";//Don't know if it's correct
+        $this->query2($query, 'sssi', $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT), 1);
     }
 
     public function addWishlist($id_product, $email)
@@ -195,4 +227,21 @@ class Database
         $query = "SELECT w.day from WINS w, USER, u WHERE w.email = u.email AND u.email = ? AND w.day > DATE_SUB(CURDATE(), INTERVAL 1 MONTH)";
         return $this->query($query, 's', $email);
     }
+
+    public function removeCreditCard($email, $number)
+    {
+        $query = "DELETE FROM CREDIT_CARD WHERE email = ? AND number = ?";
+        $this->query2($query, 'ss', $email, $number);
+    }
+
+    public function getSudoku($day)
+    {
+        return $this->query("SELECT * FROM SUDOKU WHERE day = ?", 's', $day);
+    }
+
+    public function getCreditCard($email)
+    {
+        return $this->query("SELECT * FROM CREDIT_CARD WHERE email = ?", 's', $email);
+    }
 }
+?>
