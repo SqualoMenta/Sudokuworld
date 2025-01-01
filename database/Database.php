@@ -211,7 +211,7 @@ class Database
         $this->query2($query, 'si', $email, $id_order);
     }
 
-    public function addSudoku($day = new DateTime(), $grid, $solution)
+    public function addSudoku($grid, $solution, $day = new DateTime())
     {
         $query = "INSERT INTO SUDOKU (day, grid, solution) VALUES (?, ?, ?)";
         $this->query2($query, 'sss', $day->format('Y-m-d'), $grid, $solution);
