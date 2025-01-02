@@ -79,8 +79,7 @@ class Database
     {
         $query = "SELECT p.id_product 
         FROM PRODUCT p 
-        JOIN ORDERS_ITEM oi 
-        ON p.id_product = oi.id_product 
+        JOIN ORDERS_ITEM oi ON p.id_product = oi.id_product 
         GROUP BY p.id_product 
         ORDER BY COUNT(oi.id_product) DESC";
         return $this->query($query, '');
@@ -88,15 +87,21 @@ class Database
 
     public function searchProductsInDiscount()
     {
-        return $this->query("SELECT p.id_product FROM PRODUCT p, DISCOUNTS d, ORDERS_ITEM oi WHERE d.id_product = p.id_product and p.id_product = oi.id_product ORDER BY COUNT(oi.id_product) DESC", '');
+        $query = "SELECT p.id_product 
+        FROM PRODUCT p, DISCOUNT d 
+        WHERE d.id_discount = p.id_discount";
+        return $this->query($query, '');
     }
 
     public function searchProductByCategory($category)
     {
-        return $this->query("SELECT p.id_product FROM PRODUCT p JOIN IS_CATEGORY ic ON p.id_product = ic.id_product WHERE ic.tag = ?", 's', $category);
+        $query = "SELECT p.id_product 
+        FROM PRODUCT p JOIN IS_CATEGORY ic ON p.id_product = ic.id_product 
+        WHERE ic.tag = ?";
+        return $this->query($query, 's', $category);
     }
 
-    public function searchProductByName($productName) // TODO: copilot made this
+    public function searchProductByName($productName)
     {
         $query = "
             SELECT p.id_product
@@ -137,12 +142,6 @@ class Database
     {
         $query = "INSERT INTO USER (name, email, password, seller) VALUES (?, ?, ?, ?)";
         $this->query2($query, 'sssi', $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT), 0);
-    }
-
-    public function registerSeller()
-    {
-        $query = "INSERT INTO USER (name, email, password, seller) VALUES (?, ?, ?, ?)";
-        $this->query2($query, 'sssi', $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT), 1);
     }
 
     public function addWishlist($id_product, $email)
