@@ -1,11 +1,13 @@
 <?php
 
 require_once 'Seller.php';
+require_once 'SudokuRunner.php';
 
 class Database
 {
     private $db;
     public $seller;
+    public $sudokuRunner;
 
     public function __construct($servername, $username, $password, $dbname, $port)
     {
@@ -15,6 +17,7 @@ class Database
         }
 
         $this->seller = new Seller($this);
+        $this->sudokuRunner = new SudokuRunner($this);
     }
 
     public function query($query, $param_types, ...$params)
@@ -277,39 +280,16 @@ class Database
         $this->query2($query, 'si', $email, $id_order);
     }
 
-    public function addSudoku($grid, $solution, $day = new DateTime())
-    {
-        $query = "INSERT INTO SUDOKU (day, grid, solution) VALUES (?, ?, ?)";
-        $this->query2($query, 'sss', $day->format('Y-m-d'), $grid, $solution);
-    }
-
-    public function isTodaySudokuWon($email)
-    {
-        $query = "SELECT * FROM WINS WHERE email = ? AND day = CURDATE()";
-        return count($this->query($query, 's', $email)) > 0;
-    }
-
     public function addCreditCard($email, $number, $proprietary_name, $proprietary_surname, $expiration)
     {
         $query = "INSERT INTO CREDIT_CARD (email, number, proprietary_name, proprietary_surname, expiration) VALUES (?, ?, ?, ?, ?)";
         $this->query2($query, 'sssss', $email, $number, $proprietary_name, $proprietary_surname, $expiration);
     }
 
-    public function seeLastMonthSudokuSolved($email)
-    {
-        $query = "SELECT w.day from WINS w, USER, u WHERE w.email = u.email AND u.email = ? AND w.day > DATE_SUB(CURDATE(), INTERVAL 1 MONTH)";
-        return $this->query($query, 's', $email);
-    }
-
     public function removeCreditCard($email, $number)
     {
         $query = "DELETE FROM CREDIT_CARD WHERE email = ? AND number = ?";
         $this->query2($query, 'ss', $email, $number);
-    }
-
-    public function getSudoku($day)
-    {
-        return $this->query("SELECT * FROM SUDOKU WHERE day = ?", 's', $day);
     }
 
     public function getCreditCard($email)
