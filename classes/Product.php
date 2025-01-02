@@ -8,8 +8,9 @@ class Product
     private $description;
     private $img;
     private $seller_email;
+    private $discount;
 
-    public function __construct($id_product, $name, $price, $description, $image, $email, $id_discount, $percentage)
+    public function __construct($id_product, $name, $price, $description, $image, $email, $discount)
     {
         $this->id = $id_product;
         $this->name = $name;
@@ -17,6 +18,7 @@ class Product
         $this->description = $description;
         $this->img = $image;
         $this->seller_email = $email;
+        $this->discount = $discount;
     }
 
     public function getId()
@@ -38,11 +40,16 @@ class Product
     {
         return $this->description;
     }
-    public function getImg(){
+    public function getImg()
+    {
         return $this->img;
     }
     public function getSellerEmail()
     {
         return $this->seller_email;
+    }
+    public function getDiscount()
+    {
+        return $this->discount;
     }
 }
