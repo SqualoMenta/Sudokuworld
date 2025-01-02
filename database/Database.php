@@ -1,7 +1,11 @@
 <?php
+
+require_once 'SellRepository.php';
+
 class Database
 {
     private $db;
+    public $productRepository;
 
     public function __construct($servername, $username, $password, $dbname, $port)
     {
@@ -9,6 +13,8 @@ class Database
         if ($this->db->connect_error) {
             die("Connection failed: " . $this->db->connect_error);
         }
+
+        $this->productRepository = new SellRepository($this);
     }
 
     private function query($query, $param_types, ...$params)
@@ -95,39 +101,6 @@ class Database
         ";
 
         return $this->query($query, 'sss', "%$productName%", $productName, "%$productName%");
-    }
-
-    public function updateDescription($id_product, $description)
-    {
-        $query = "UPDATE PRODUCT SET description = ? WHERE id_product = ?";
-        $this->query2($query, 'si', $description, $id_product);
-    }
-
-    public function updatePrice($id_product, $price)
-    {
-        $query = "UPDATE PRODUCT SET price = ? WHERE id_product = ?";
-        $this->query2($query, 'ii', $price, $id_product);
-    }
-
-    public function updateImage($id_product, $img)
-    {
-        $query = "UPDATE PRODUCT SET image = ? WHERE id_product = ?";
-        $this->query2($query, 'si', $img, $id_product);
-    }
-
-    public function removeColor($id_product, $color){
-        $query = "DELETE FROM IS_COLOR WHERE id_product = ? AND color = ?";
-        $this->query2($query, 'is', $id_product, $color);
-    }
-
-    public function changeDimension($id_product, $dimension){
-        $query = "UPDATE DIMENSION SET dimension = ? WHERE id_product = ?";
-        $this->query2($query, 'si', $dimension, $id_product);
-    }
-
-    public function getSoldProductBy($email){
-        $query = "SELECT p.id_product FROM PRODUCT p where p.email = ?";
-        return $this->query($query, 's', $email);
     }
 
     public function getUser($email)
