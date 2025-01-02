@@ -20,7 +20,9 @@ class Database
     public function query($query, $param_types, ...$params)
     {
         $stmt = $this->db->prepare($query);
-        $stmt->bind_param($param_types, ...$params);
+        if($param_types !== ''){
+            $stmt->bind_param($param_types, ...$params);
+        }
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
@@ -28,6 +30,9 @@ class Database
     public function query2($query, $param_types, ...$params)
     {
         $stmt = $this->db->prepare($query);
+        if ($param_types !== '') {
+            $stmt->bind_param($param_types, ...$params);
+        }
         $stmt->bind_param($param_types, ...$params);
         $stmt->execute();
     }
@@ -321,8 +326,7 @@ class Database
         return $this->query("SELECT color FROM COLOR", '');
     }
 
-    public function getAllDimensions()
-    {
-        return $this->query("SELECT dimension FROM DIMENSION", '');
+    public function getAllDimensions(){
+        return $this->query("SELECT tag FROM SIZE", '');
     }
 }
