@@ -1,7 +1,11 @@
 <?php
+
+require_once 'Seller.php';
+
 class Database
 {
     private $db;
+    public $seller;
 
     public function __construct($servername, $username, $password, $dbname, $port)
     {
@@ -9,9 +13,11 @@ class Database
         if ($this->db->connect_error) {
             die("Connection failed: " . $this->db->connect_error);
         }
+
+        $this->seller = new Seller($this);
     }
 
-    private function query($query, $param_types, ...$params)
+    public function query($query, $param_types, ...$params)
     {
         $stmt = $this->db->prepare($query);
         $stmt->bind_param($param_types, ...$params);
@@ -19,7 +25,7 @@ class Database
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    private function query2($query, $param_types, ...$params)
+    public function query2($query, $param_types, ...$params)
     {
         $stmt = $this->db->prepare($query);
         $stmt->bind_param($param_types, ...$params);
@@ -43,53 +49,68 @@ class Database
         return $this->query("SELECT id_product FROM CART where email = ?", 's', $email);
     }
 
-    public function getProduct($id)//TODO: wrong
+    // public function getProduct($id)
+    // {
+    //     $query = "SELECT * FROM PRODUCT p
+    //     WHERE id_product = ?";
+    //     return $this->query($query, 'i', $id);
+    // }
+
+    public function getProduct($id) //TODO: wrong
     {
-        return $this->query("SELECT * FROM PRODUCT 
-        LEFT JOIN DISCOUNTS dis ON dis.id_product = p.id_color  
-        LEFT JOIN DISCOUNT di ON di.id_discount = dis.id_discount
-        WHERE id_product = ?", 'i', $id);
+        $query = "SELECT * FROM PRODUCT p
+        LEFT JOIN DISCOUNT dis ON dis.id_discount = p.id_discount
+        WHERE id_product = ?";
+        return $this->query($query, 'i', $id);
     }
 
-    public function getProductDetailed($id)//TODO: wrong
+    public function getProductDetailed($id) //TODO: wrong
     {
-        return $this->query("SELECT * FROM PRODUCT 
+        $query = "SELECT * FROM PRODUCT p
         LEFT JOIN IS_COLOR ic ON ic.id_product = p.id_color 
         LEFT JOIN DIMENSION dim ON dim.id_product = p.id_color 
-        LEFT JOIN DISCOUNTS dis ON dis.id_product = p.id_color  
-        LEFT JOIN DISCOUNT di ON di.id_discount = dis.id_discount
+        LEFT JOIN DISCOUNT di ON di.id_discount = p.id_discount
         LEFT JOIN IS_CATEGORY icat ON icat.id_product = p.id_color
-        WHERE id_product = ?", 'i', $id);
+        WHERE id_product = ?";
+        return $this->query($query, 'i', $id);
     }
 
     public function searchProducts()
     {
-        return $this->query("SELECT p.id_product FROM PRODUCT p JOIN ORDERS_ITEM oi ON p.id_product = oi.id_product GROUP BY p.id_product ORDER BY COUNT(oi.id_product) DESC", '');
+        $query = "SELECT p.id_product 
+        FROM PRODUCT p 
+        JOIN ORDERS_ITEM oi ON p.id_product = oi.id_product 
+        GROUP BY p.id_product 
+        ORDER BY COUNT(oi.id_product) DESC";
+        return $this->query($query, '');
     }
 
     public function searchProductsInDiscount()
     {
-        return $this->query("SELECT p.id_product FROM PRODUCT p, DISCOUNTS d, ORDERS_ITEM oi WHERE d.id_product = p.id_product and p.id_product = oi.id_product ORDER BY COUNT(oi.id_product) DESC", '');
+        $query = "SELECT p.id_product 
+        FROM PRODUCT p, DISCOUNT d 
+        WHERE d.id_discount = p.id_discount";
+        return $this->query($query, '');
     }
 
     public function searchProductByCategory($category)
     {
-        return $this->query("SELECT p.id_product FROM PRODUCT p JOIN IS_CATEGORY ic ON p.id_product = ic.id_product WHERE ic.tag = ?", 's', $category);
+        $query = "SELECT p.id_product 
+        FROM PRODUCT p JOIN IS_CATEGORY ic ON p.id_product = ic.id_product 
+        WHERE ic.tag = ?";
+        return $this->query($query, 's', $category);
     }
 
-    public function searchProductByName($productName) // TODO: copilot made this
+    public function searchProductByName($productName)
     {
         $query = "
             SELECT p.id_product
             FROM PRODUCT p
-            LEFT JOIN IS_CATEGORY ic ON p.id_product = ic.id_product
-            LEFT JOIN CATEGORY c ON ic.tag = c.tag
             WHERE p.name LIKE ?
             ORDER BY 
                 CASE 
                     WHEN p.name = ? THEN 1 -- Nomi esatti
                     WHEN p.name LIKE ? THEN 2 -- Nomi simili
-                    ELSE 3 -- Categoria corrispondente
                 END,
                 p.id_product
         ";
@@ -97,42 +118,9 @@ class Database
         return $this->query($query, 'sss', "%$productName%", $productName, "%$productName%");
     }
 
-    public function updateDescription($id_product, $description)
-    {
-        $query = "UPDATE PRODUCT SET description = ? WHERE id_product = ?";
-        $this->query2($query, 'si', $description, $id_product);
-    }
-
-    public function updatePrice($id_product, $price)
-    {
-        $query = "UPDATE PRODUCT SET price = ? WHERE id_product = ?";
-        $this->query2($query, 'ii', $price, $id_product);
-    }
-
-    public function updateImage($id_product, $img)
-    {
-        $query = "UPDATE PRODUCT SET image = ? WHERE id_product = ?";
-        $this->query2($query, 'si', $img, $id_product);
-    }
-
-    public function removeColor($id_product, $color){
-        $query = "DELETE FROM IS_COLOR WHERE id_product = ? AND color = ?";
-        $this->query2($query, 'is', $id_product, $color);
-    }
-
-    public function changeDimension($id_product, $dimension){
-        $query = "UPDATE DIMENSION SET dimension = ? WHERE id_product = ?";
-        $this->query2($query, 'si', $dimension, $id_product);
-    }
-
-    public function getSoldProductBy($email){
-        $query = "SELECT p.id_product FROM PRODUCT p where p.email = ?";
-        return $this->query($query, 's', $email);
-    }
-
     public function getUser($email)
     {
-        return $this->query("SELECT name, email, password FROM USER WHERE email = ?", 's', $email);
+        return $this->query("SELECT * FROM USER WHERE email = ?", 's', $email);
     }
 
     public function checkLogin($email, $password)
@@ -149,14 +137,8 @@ class Database
     }
     public function registerUser()
     {
-        $query = "INSERT INTO USER (name, email, password, seller) VALUES (?, ?, ?, 0)";//Don't know if it's correct
+        $query = "INSERT INTO USER (name, email, password, seller) VALUES (?, ?, ?, ?)";
         $this->query2($query, 'sssi', $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT), 0);
-    }
-
-    public function registerSeller()
-    {
-        $query = "INSERT INTO USER (name, email, password, seller) VALUES (?, ?, ?, 1)";//Don't know if it's correct
-        $this->query2($query, 'sssi', $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT), 1);
     }
 
     public function addWishlist($id_product, $email)
@@ -223,7 +205,8 @@ class Database
         $this->query2($query, 'sssss', $email, $number, $proprietary_name, $proprietary_surname, $expiration);
     }
 
-    public function seeLastMonthSudokuSolved($email){
+    public function seeLastMonthSudokuSolved($email)
+    {
         $query = "SELECT w.day from WINS w, USER, u WHERE w.email = u.email AND u.email = ? AND w.day > DATE_SUB(CURDATE(), INTERVAL 1 MONTH)";
         return $this->query($query, 's', $email);
     }
@@ -244,4 +227,3 @@ class Database
         return $this->query("SELECT * FROM CREDIT_CARD WHERE email = ?", 's', $email);
     }
 }
-?>
