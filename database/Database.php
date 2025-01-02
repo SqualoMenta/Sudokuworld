@@ -278,6 +278,12 @@ class Database
         $this->query2($query, 'sss', $day->format('Y-m-d'), $grid, $solution);
     }
 
+    public function isTodaySudokuWon($email)
+    {
+        $query = "SELECT * FROM WINS WHERE email = ? AND day = CURDATE()";
+        return count($this->query($query, 's', $email)) > 0;
+    }
+
     public function addCreditCard($email, $number, $proprietary_name, $proprietary_surname, $expiration)
     {
         $query = "INSERT INTO CREDIT_CARD (email, number, proprietary_name, proprietary_surname, expiration) VALUES (?, ?, ?, ?, ?)";

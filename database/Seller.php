@@ -9,7 +9,7 @@ class Seller{
 
     public function insertProduct($name, $price, $description, $img, $sellerId, $category)
     {
-        $query = "INSERT INTO PRODUCT (name, price, description, image, SEL_ID) VALUES (?, ?, ?, ?, ?)";
+        $query = "INSERT INTO PRODUCT (name, price, description, image, email, discount) VALUES (?, ?, ?, ?, ?, 0)";
         $this->db->query2($query, 'sissi', $name, $price, $description, $img, $sellerId);
         $id_product = $this->db->insert_id;
         $query = "INSERT INTO IS_CATEGORY (id_product, tag) VALUES (?, ?)";
