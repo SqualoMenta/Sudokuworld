@@ -17,7 +17,7 @@ class Database
         $this->seller = new Seller($this);
     }
 
-    private function query($query, $param_types, ...$params)
+    public function query($query, $param_types, ...$params)
     {
         $stmt = $this->db->prepare($query);
         $stmt->bind_param($param_types, ...$params);
@@ -25,7 +25,7 @@ class Database
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    private function query2($query, $param_types, ...$params)
+    public function query2($query, $param_types, ...$params)
     {
         $stmt = $this->db->prepare($query);
         $stmt->bind_param($param_types, ...$params);
@@ -51,15 +51,22 @@ class Database
 
     public function getProduct($id)
     {
-        $query = "SELECT * FROM PRODUCT 
-        JOIN DISCOUNT dis ON dis.id_discount = p.id_discount
+        $query = "SELECT * FROM PRODUCT p
         WHERE id_product = ?";
         return $this->query($query, 'i', $id);
     }
 
-    public function getProductDetailed($id)
+    // public function getProduct($id) //TODO: wrong
+    // {
+    //     $query = "SELECT * FROM PRODUCT p
+    //     LEFT JOIN DISCOUNT dis ON dis.id_discount = p.id_discount
+    //     WHERE id_product = ?";
+    //     return $this->query($query, 'i', $id);
+    // }
+
+    public function getProductDetailed($id) //TODO: wrong
     {
-        $query = "SELECT * FROM PRODUCT 
+        $query = "SELECT * FROM PRODUCT p
         LEFT JOIN IS_COLOR ic ON ic.id_product = p.id_color 
         LEFT JOIN DIMENSION dim ON dim.id_product = p.id_color 
         LEFT JOIN DISCOUNT di ON di.id_discount = p.id_discount
@@ -111,7 +118,7 @@ class Database
 
     public function getUser($email)
     {
-        return $this->query("SELECT name, email, password FROM USER WHERE email = ?", 's', $email);
+        return $this->query("SELECT * FROM USER WHERE email = ?", 's', $email);
     }
 
     public function checkLogin($email, $password)
@@ -128,13 +135,13 @@ class Database
     }
     public function registerUser()
     {
-        $query = "INSERT INTO USER (name, email, password, seller) VALUES (?, ?, ?, 0)"; //Don't know if it's correct
+        $query = "INSERT INTO USER (name, email, password, seller) VALUES (?, ?, ?, ?)";
         $this->query2($query, 'sssi', $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT), 0);
     }
 
     public function registerSeller()
     {
-        $query = "INSERT INTO USER (name, email, password, seller) VALUES (?, ?, ?, 1)"; //Don't know if it's correct
+        $query = "INSERT INTO USER (name, email, password, seller) VALUES (?, ?, ?, ?)";
         $this->query2($query, 'sssi', $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT), 1);
     }
 

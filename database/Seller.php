@@ -90,8 +90,8 @@ class Seller{
         $this->db->query2($query, 'i', $id_product);
     }
 
-    public function getSoldProductBy($email){
-        $query = "SELECT id_product FROM PRODUCT WHERE SEL_ID = ?";
+    public function getProductsSoldBy($email){
+        $query = "SELECT id_product FROM PRODUCT WHERE email = ?";
         return $this->db->query($query, 's', $email);
     }
 }

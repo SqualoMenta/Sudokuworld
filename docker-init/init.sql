@@ -302,12 +302,6 @@ VALUES (
         1
     ),
     (
-        'seller2',
-        'seller2@gmail.com',
-        '$2y$10$n4cbfzT/WLdSF/Le9P0PW.i0iJPLNeDHZp14chLM1eQgD4QTXsEL6',
-        1
-    ),
-    (
         'user1',
         'user1@gmail.com',
         '$2y$10$vhlDCfDUNa8UCYiitSN8Vuwl.9W0lRR/HgF8sTBQWn8e6j.zYwLBG',
@@ -339,5 +333,5 @@ VALUES (
         'Maglietta con scritta commit sudoku',
         1000,
         '/uploads/products/tshirt_commit_sudoky.jpg',
-        'seller2@gmail.com'
+        'seller1@gmail.com'
     );
