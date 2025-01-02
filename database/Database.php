@@ -49,28 +49,34 @@ class Database
         return $this->query("SELECT id_product FROM CART where email = ?", 's', $email);
     }
 
-    public function getProduct($id)//TODO: wrong
+    public function getProduct($id)
     {
-        return $this->query("SELECT * FROM PRODUCT 
-        LEFT JOIN DISCOUNTS dis ON dis.id_product = p.id_color  
-        LEFT JOIN DISCOUNT di ON di.id_discount = dis.id_discount
-        WHERE id_product = ?", 'i', $id);
+        $query = "SELECT * FROM PRODUCT 
+        JOIN DISCOUNT dis ON dis.id_discount = p.id_discount
+        WHERE id_product = ?";
+        return $this->query($query, 'i', $id);
     }
 
-    public function getProductDetailed($id)//TODO: wrong
+    public function getProductDetailed($id)
     {
-        return $this->query("SELECT * FROM PRODUCT 
+        $query = "SELECT * FROM PRODUCT 
         LEFT JOIN IS_COLOR ic ON ic.id_product = p.id_color 
         LEFT JOIN DIMENSION dim ON dim.id_product = p.id_color 
-        LEFT JOIN DISCOUNTS dis ON dis.id_product = p.id_color  
-        LEFT JOIN DISCOUNT di ON di.id_discount = dis.id_discount
+        LEFT JOIN DISCOUNT di ON di.id_discount = p.id_discount
         LEFT JOIN IS_CATEGORY icat ON icat.id_product = p.id_color
-        WHERE id_product = ?", 'i', $id);
+        WHERE id_product = ?";
+        return $this->query($query, 'i', $id);
     }
 
     public function searchProducts()
     {
-        return $this->query("SELECT p.id_product FROM PRODUCT p JOIN ORDERS_ITEM oi ON p.id_product = oi.id_product GROUP BY p.id_product ORDER BY COUNT(oi.id_product) DESC", '');
+        $query = "SELECT p.id_product 
+        FROM PRODUCT p 
+        JOIN ORDERS_ITEM oi 
+        ON p.id_product = oi.id_product 
+        GROUP BY p.id_product 
+        ORDER BY COUNT(oi.id_product) DESC";
+        return $this->query($query, '');
     }
 
     public function searchProductsInDiscount()
@@ -122,13 +128,13 @@ class Database
     }
     public function registerUser()
     {
-        $query = "INSERT INTO USER (name, email, password, seller) VALUES (?, ?, ?, 0)";//Don't know if it's correct
+        $query = "INSERT INTO USER (name, email, password, seller) VALUES (?, ?, ?, 0)"; //Don't know if it's correct
         $this->query2($query, 'sssi', $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT), 0);
     }
 
     public function registerSeller()
     {
-        $query = "INSERT INTO USER (name, email, password, seller) VALUES (?, ?, ?, 1)";//Don't know if it's correct
+        $query = "INSERT INTO USER (name, email, password, seller) VALUES (?, ?, ?, 1)"; //Don't know if it's correct
         $this->query2($query, 'sssi', $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT), 1);
     }
 
@@ -196,7 +202,8 @@ class Database
         $this->query2($query, 'sssss', $email, $number, $proprietary_name, $proprietary_surname, $expiration);
     }
 
-    public function seeLastMonthSudokuSolved($email){
+    public function seeLastMonthSudokuSolved($email)
+    {
         $query = "SELECT w.day from WINS w, USER, u WHERE w.email = u.email AND u.email = ? AND w.day > DATE_SUB(CURDATE(), INTERVAL 1 MONTH)";
         return $this->query($query, 's', $email);
     }
@@ -217,4 +224,3 @@ class Database
         return $this->query("SELECT * FROM CREDIT_CARD WHERE email = ?", 's', $email);
     }
 }
-?>
