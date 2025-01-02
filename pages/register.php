@@ -8,9 +8,8 @@ if (isset($_POST["name"]) && isset($_POST["email"]) && isset($_POST["password"])
         $register_error = "Errore! Email gia' utilizzata!";
     } else {
         unset($register_error);
-        print_r(password_hash($_POST["password"], PASSWORD_DEFAULT));
-        // $db->registerUser($_POST["name"], $_POST["email"], $_POST["password"]);
-        // header("Location: login.php");
+        $db->registerUser($_POST["name"], $_POST["email"], $_POST["password"]);
+        header("Location: login.php");
     }
 }
 

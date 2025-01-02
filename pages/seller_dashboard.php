@@ -21,12 +21,16 @@ include("../includes/header.php");
 </div>
 
 <?php foreach ($products as $product_id): ?>
-    <p>
-        <?php
-        $prod = new Product(...$db->getProduct($product_id['id_product'])[0]);
-        echo $prod->getName();
-        ?>
-    </p>
+    <form action="/pages/edit_product.php" method="GET">
+        <label>
+            <?php
+            $prod = new Product(...$db->getProduct($product_id['id_product'])[0]);
+            echo $prod->getName();
+            ?>
+        </label>
+        <input type="hidden" name="id_product" value="<?= $product_id['id_product'] ?>" />
+        <input type="submit" value="Modifica" />
+    </form>
 <?php endforeach; ?>
 
 
