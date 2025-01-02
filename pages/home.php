@@ -4,10 +4,8 @@ include_once("../includes/functions.php");
 require_once("../classes/Product.php");
 require_once("../classes/Cart.php");
 
-if(isset($_POST["search"])){
-    $search = $_POST["search"];
-    header("Location: /pages/pro?search=$search");
-    exit();
+if(isset($_POST['searched-product'])){
+    header("Location: search.php");
 }
 
 include '../includes/header.php';

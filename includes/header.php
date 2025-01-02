@@ -4,7 +4,7 @@
         </div>
 
         <form action="/pages/search.php" method="post">
-            <input type="text" name="reserched-product" placeholder="Search">
+            <input type="text" name="searched-product" placeholder="Search">
             <button type="submit">Cerca</button>
         </form>
         <ul class="icons">
