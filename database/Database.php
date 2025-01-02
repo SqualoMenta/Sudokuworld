@@ -85,7 +85,7 @@ class Database
         return $this->query($query, '');
     }
 
-    public function filteredSearchProduct($name, $minPrice, $maxPrice, $category, $color, $dimension, $discount, $seller)
+    public function filteredSearchProduct($name = null, $minPrice = null, $maxPrice = null, $category = null, $color = null, $dimension = null, $discount = null, $seller = null)
     {
         // Inizia con la base della query
         $query = "SELECT p.id_product 
@@ -311,15 +311,18 @@ class Database
         return $this->query("SELECT * FROM CREDIT_CARD WHERE email = ?", 's', $email);
     }
 
-    public function getAllCategories(){
+    public function getAllCategories()
+    {
         return $this->query("SELECT tag FROM CATEGORY", '');
     }
 
-    public function getAllColors(){
+    public function getAllColors()
+    {
         return $this->query("SELECT color FROM COLOR", '');
     }
 
-    public function getAllDimensions(){
+    public function getAllDimensions()
+    {
         return $this->query("SELECT dimension FROM DIMENSION", '');
     }
 }
