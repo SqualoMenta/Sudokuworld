@@ -72,21 +72,13 @@ class Seller{
 
     public function addDiscount($id_product, $percentage)
     {
-        $query="SELECT id_discount FROM DISCOUNT WHERE percentage = ?";
-        $result = $this->db->query($query, 'i', $percentage);
-        if(count($result) == 0)
-        {
-            $query = "INSERT INTO DISCOUNT (percentage) VALUES (?)";
-            $this->db->query2($query, 'i', $percentage);
-            $result = $this->db->insert_id;
-        }
-        $query ="UPDATE PRODUCT SET id_discount = ? WHERE id_product = ?";
-        $this->db->query2($query, 'ii', $result, $id_product);
+        $query ="UPDATE PRODUCT SET discount = ? WHERE id_product = ?";
+        $this->db->query2($query, 'ii', $percentage, $id_product);
     }
 
     public function removeDiscount($id_product)
     {
-        $query = "UPDATE PRODUCT SET id_discount = NULL WHERE id_product = ?";
+        $query = "UPDATE PRODUCT SET discount = 0 WHERE id_product = ?";
         $this->db->query2($query, 'i', $id_product);
     }
 
