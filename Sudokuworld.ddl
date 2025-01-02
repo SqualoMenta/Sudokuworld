@@ -3,7 +3,7 @@
 -- *--------------------------------------------
 -- * DB-MAIN version: 11.0.2              
 -- * Generator date: Sep 14 2021              
--- * Generation date: Tue Dec 31 17:50:11 2024 
+-- * Generation date: Thu Jan  2 16:17:30 2025 
 -- * LUN file: C:\Users\andre\Documents\Sudokuworld\Sudokuworld.lun 
 -- * Schema: SUDOKUWORLD/1-1 
 -- ********************************************* 
@@ -45,11 +45,6 @@ create table DIMESION (
      tag varchar(8) not null,
      constraint ID_DIMESION_ID primary key (id_product, tag));
 
-create table DISCOUNT (
-     percentage int not null,
-     id_discount int not null auto_increment,
-     constraint ID_DISCOUNT_ID primary key (id_discount));
-
 create table IS_CATEGORY (
      tag varchar(32) not null,
      id_product int not null,
@@ -86,8 +81,8 @@ create table PRODUCT (
      description varchar(1024) not null,
      price int not null,
      image varchar(128) not null,
+     discount int not null,
      email varchar(64) not null,
-     id_discount int,
      constraint ID_PRODUCT_ID primary key (id_product));
 
 create table SIZE (
@@ -187,10 +182,6 @@ alter table PRODUCT add constraint FKSELLS_FK
      foreign key (email)
      references USER (email);
 
-alter table PRODUCT add constraint FKDISCOUNTS_FK
-     foreign key (id_discount)
-     references DISCOUNT (id_discount);
-
 alter table WINS add constraint FKWIN_USE_FK
      foreign key (email)
      references USER (email);
@@ -232,9 +223,6 @@ create unique index ID_DIMESION_IND
 create index FKDIM_SIZ_IND
      on DIMESION (tag);
 
-create unique index ID_DISCOUNT_IND
-     on DISCOUNT (id_discount);
-
 create unique index ID_IS_CATEGORY_IND
      on IS_CATEGORY (tag, id_product);
 
@@ -270,9 +258,6 @@ create unique index ID_PRODUCT_IND
 
 create index FKSELLS_IND
      on PRODUCT (email);
-
-create index FKDISCOUNTS_IND
-     on PRODUCT (id_discount);
 
 create unique index ID_SIZE_IND
      on SIZE (tag);

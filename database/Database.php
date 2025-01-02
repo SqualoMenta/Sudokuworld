@@ -64,7 +64,6 @@ class Database
     public function getProduct($id) //TODO: wrong
     {
         $query = "SELECT * FROM PRODUCT p
-        LEFT JOIN DISCOUNT dis ON dis.id_discount = p.id_discount
         WHERE id_product = ?";
         return $this->query($query, 'i', $id);
     }
@@ -73,8 +72,7 @@ class Database
     {
         $query = "SELECT * FROM PRODUCT p
         LEFT JOIN IS_COLOR ic ON ic.id_product = p.id_color 
-        LEFT JOIN DIMENSION dim ON dim.id_product = p.id_color 
-        LEFT JOIN DISCOUNT di ON di.id_discount = p.id_discount
+        LEFT JOIN DIMENSION dim ON dim.id_product = p.id_color
         LEFT JOIN IS_CATEGORY icat ON icat.id_product = p.id_color
         WHERE id_product = ?";
         return $this->query($query, 'i', $id);
@@ -90,15 +88,14 @@ class Database
         return $this->query($query, '');
     }
 
-    public function filteredSearchProduct($name = null, $minPrice = null, $maxPrice = null, $category = null, $color = null, $dimension = null, $discount = null, $seller = null)
+    public function filteredSearchProduct($name = null, $minPrice = null, $maxPrice = null, $category = null, $color = null, $dimension = null, $is_discount = false, $seller = null)
     {
         // Inizia con la base della query
         $query = "SELECT p.id_product 
         FROM PRODUCT p 
         JOIN ORDERS_ITEM oi ON p.id_product = oi.id_product
         JOIN IS_COLOR ic ON p.id_product = ic.id_product 
-        JOIN DIMENSION d ON p.id_product = d.id_product 
-        JOIN DISCOUNT di ON p.id_discount = di.id_discount 
+        JOIN DIMENSION d ON p.id_product = d.id_product
         JOIN IS_CATEGORY icat ON p.id_product = icat.id_product 
         WHERE 1=1"; // 1=1 è una base sempre vera per concatenare le condizioni dinamiche
 
@@ -137,10 +134,8 @@ class Database
             $types .= 's';
         }
 
-        if (!empty($discount)) {
-            $query .= " AND di.percentage = ?";
-            $params[] = $discount;
-            $types .= 'i';
+        if ($is_discount) {
+            $query .= " AND di.percentage > 0";
         }
 
         if (!empty($category)) {
@@ -286,6 +281,12 @@ class Database
     {
         $query = "INSERT INTO SUDOKU (day, grid, solution) VALUES (?, ?, ?)";
         $this->query2($query, 'sss', $day->format('Y-m-d'), $grid, $solution);
+    }
+
+    public function isTodaySudokuWon($email)
+    {
+        $query = "SELECT * FROM WINS WHERE email = ? AND day = CURDATE()";
+        return count($this->query($query, 's', $email)) > 0;
     }
 
     public function addCreditCard($email, $number, $proprietary_name, $proprietary_surname, $expiration)

@@ -40,11 +40,6 @@ create table DIMESION (
     tag varchar(8) not null,
     constraint ID_DIMESION_ID primary key (id_product, tag)
 );
-create table DISCOUNT (
-    percentage int not null,
-    id_discount int not null auto_increment,
-    constraint ID_DISCOUNT_ID primary key (id_discount)
-);
 create table IS_CATEGORY (
     tag varchar(32) not null,
     id_product int not null,
@@ -81,8 +76,8 @@ create table PRODUCT (
     description varchar(1024) not null,
     price int not null,
     image varchar(128) not null,
+    discount int not null,
     email varchar(64) not null,
-    id_discount int,
     constraint ID_PRODUCT_ID primary key (id_product)
 );
 create table SIZE (
@@ -150,8 +145,6 @@ add constraint FKORD_ORD foreign key (id_order) references ORDERS (id_order);
 --                  where IS_CATEGORY.id_product = id_product)); 
 alter table PRODUCT
 add constraint FKSELLS_FK foreign key (email) references USER (email);
-alter table PRODUCT
-add constraint FKDISCOUNTS_FK foreign key (id_discount) references DISCOUNT (id_discount);
 alter table WINS
 add constraint FKWIN_USE_FK foreign key (email) references USER (email);
 alter table WINS
@@ -169,7 +162,6 @@ create unique index ID_COLOR_IND on COLOR (color);
 create unique index ID_CREDIT_CARD_IND on CREDIT_CARD (email, number);
 create unique index ID_DIMESION_IND on DIMESION (id_product, tag);
 create index FKDIM_SIZ_IND on DIMESION (tag);
-create unique index ID_DISCOUNT_IND on DISCOUNT (id_discount);
 create unique index ID_IS_CATEGORY_IND on IS_CATEGORY (tag, id_product);
 create index FKIS__PRO_1_IND on IS_CATEGORY (id_product);
 create unique index ID_IS_COLOR_IND on IS_COLOR (color, id_product);
@@ -182,7 +174,6 @@ create unique index ID_ORDERS_ITEM_IND on ORDERS_ITEM (id_order, id_product);
 create index FKORD_PRO_IND on ORDERS_ITEM (id_product);
 create unique index ID_PRODUCT_IND on PRODUCT (id_product);
 create index FKSELLS_IND on PRODUCT (email);
-create index FKDISCOUNTS_IND on PRODUCT (id_discount);
 create unique index ID_SIZE_IND on SIZE (tag);
 create unique index ID_SUDOKU_IND on SUDOKU (day);
 create unique index ID_USER_IND on USER (email);
@@ -209,26 +200,32 @@ VALUES (
         '$2y$10$cTQEdrPr.1NlNLBEX.l.neXS4HfOQnzkgNZXtaaa520JS9w.HjsHK',
         0
     );
-insert into PRODUCT (name, description, price, image, email)
+insert into PRODUCT (name, description, price, image, email, discount)
 VALUES (
         'tazza love sudoku',
         'Bellissima tazza con scritto I love sudoku',
         1000,
         '/uploads/products/tazza1.jpg',
-        'seller1@gmail.com'
+        'seller1@gmail.com',
+        10
     ),
     (
         'rivista settimana sudoku',
         'Fantastica rivista per allenare la mente con sudoku',
         800,
         '/uploads/products/settimana_sudoku1.png',
-        'seller1@gmail.com'
+        'seller1@gmail.com',
+        0
     ),
     (
         'maglietta commit sudoku',
         'Maglietta con scritta commit sudoku',
         1000,
         '/uploads/products/tshirt_commit_sudoky.jpg',
-        'seller1@gmail.com'
+        'seller1@gmail.com',
+        20
     );
-insert into CATEGORY (tag) VALUES ('passatempo'), ('abbigliamento'), ('casa');
+insert into CATEGORY (tag)
+VALUES ('passatempo'),
+    ('abbigliamento'),
+    ('casa');
