@@ -106,14 +106,11 @@ class Database
         $query = "
             SELECT p.id_product
             FROM PRODUCT p
-            LEFT JOIN IS_CATEGORY ic ON p.id_product = ic.id_product
-            LEFT JOIN CATEGORY c ON ic.tag = c.tag
             WHERE p.name LIKE ?
             ORDER BY 
                 CASE 
                     WHEN p.name = ? THEN 1 -- Nomi esatti
                     WHEN p.name LIKE ? THEN 2 -- Nomi simili
-                    ELSE 3 -- Categoria corrispondente
                 END,
                 p.id_product
         ";
