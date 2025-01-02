@@ -1,5 +1,6 @@
 <?php
-class Seller{
+class Seller
+{
     private $db;
 
     public function __construct($db)
@@ -72,7 +73,7 @@ class Seller{
 
     public function addDiscount($id_product, $percentage)
     {
-        $query ="UPDATE PRODUCT SET discount = ? WHERE id_product = ?";
+        $query = "UPDATE PRODUCT SET discount = ? WHERE id_product = ?";
         $this->db->query2($query, 'ii', $percentage, $id_product);
     }
 
@@ -82,10 +83,49 @@ class Seller{
         $this->db->query2($query, 'i', $id_product);
     }
 
-    public function getProductsSoldBy($email){
+    public function getProductsSoldBy($email)
+    {
         $query = "SELECT id_product FROM PRODUCT WHERE email = ?";
         return $this->db->query($query, 's', $email);
     }
-}
 
-?>
+    public function updateProduct($id_product, $name = null, $description = null, $price = null, $img = null, $discount = -1)
+    {
+        $query = "UPDATE PRODUCT SET id_product = id_product";
+
+        $params = [];
+        $types = '';
+
+        if ($name != null) {
+            $query .= ", name = ?";
+            $params[] = $name;
+            $types .= 's';
+        }
+
+        if ($description != null) {
+            $query .= ", description = ?";
+            $params[] = $description;
+            $types .= 's';
+        }
+
+        if ($price != null) {
+            $query .= ", price = ?";
+            $params[] = $price;
+            $types .= 'i';
+        }
+
+        if ($img != null) {
+            $query .= ", image = ?";
+            $params[] = $img;
+            $types .= 's';
+        }
+
+        if ($discount != -1) {
+            $query .= ", discount = ?";
+            $params[] = $discount;
+            $types .= 'i';
+        }
+
+        $this->db->query2($query, $types, ...$params);
+    }
+}
