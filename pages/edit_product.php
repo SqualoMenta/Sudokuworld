@@ -12,8 +12,19 @@ if (!$_SESSION["is_seller"]) {
     die();
 }
 
-$products = $db->seller->getProductsSoldBy($_SESSION["email"]);
+
+$productList = $db->getProduct($_GET["id"]);
+
+if (count($productList) == 0) {
+    echo "Prodotto non trovato!";
+    exit();
+}
+
+
 include("../includes/header.php");
+
+$products = $db->seller->getProductsSoldBy($_SESSION["email"]);
+print_r($products);
 ?>
 
 <div>

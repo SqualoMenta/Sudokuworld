@@ -49,20 +49,20 @@ class Database
         return $this->query("SELECT id_product FROM CART where email = ?", 's', $email);
     }
 
-    public function getProduct($id)
-    {
-        $query = "SELECT * FROM PRODUCT p
-        WHERE id_product = ?";
-        return $this->query($query, 'i', $id);
-    }
-
-    // public function getProduct($id) //TODO: wrong
+    // public function getProduct($id)
     // {
     //     $query = "SELECT * FROM PRODUCT p
-    //     LEFT JOIN DISCOUNT dis ON dis.id_discount = p.id_discount
     //     WHERE id_product = ?";
     //     return $this->query($query, 'i', $id);
     // }
+
+    public function getProduct($id) //TODO: wrong
+    {
+        $query = "SELECT * FROM PRODUCT p
+        LEFT JOIN DISCOUNT dis ON dis.id_discount = p.id_discount
+        WHERE id_product = ?";
+        return $this->query($query, 'i', $id);
+    }
 
     public function getProductDetailed($id) //TODO: wrong
     {
