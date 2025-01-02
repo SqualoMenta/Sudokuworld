@@ -1,8 +1,12 @@
     <header class="header">
-        <div class="logo">SudokuWorld</div>
-        <div class="search-container">
-            <input type="text" placeholder="Search">
+        <div class="logo">
+            <a href="/pages/home.php">SudokuWorld</a>
         </div>
+
+        <form action="/pages/search.php" method="post">
+            <input type="text" name="reserched-product" placeholder="Search">
+            <button type="submit">Cerca</button>
+        </form>
         <ul class="icons">
             <li><a href="#">Griglia</a></li> <!-- Grid Icon -->
             <li><a href="#">Cuore</a></li> <!-- Heart Icon -->
