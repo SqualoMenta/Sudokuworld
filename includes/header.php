@@ -4,7 +4,7 @@
         </div>
 
         <form action="/pages/search.php" method="post">
-            <input type="text" name="searched-product" placeholder="Search">
+            <input type="text" name="searched-product" placeholder="Search" value="<?php if (isset($_POST['searched-product'])) echo $_POST['searched-product']; ?>">
             <button type="submit">Cerca</button>
         </form>
         <ul class="icons">

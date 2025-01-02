@@ -14,48 +14,50 @@ if (isset($_POST['searched-product'])) {
         echo $prod->getName();
     }
 }
+if(!isset($_POST['disocunt'])){
+    $_POST['discount'] = "false";
+}
+var_dump($_POST);
+
 if(isset($_POST['category'])){
-    $ids = $db->searchProductByName($_POST['searched-product']);
+    $ids = $db->filteredSearchProduct($name = $_POST['searched-product'], $category = $_POST['category'], $discount = $_POST['discount'], $color = $_POST['color'], $size = $_POST['size']);
     foreach ($ids as $id) {
         $prod = new Product(...$db->getProduct($id['id_product'])[0]);
         echo $prod->getName();
     }
     echo "Risultati per: " . $_POST['category'];
 }
-
-
-
 $categories = $db->getAllCategories();
 $colors = $db->getAllColors();
 $dimensions = $db->getAllDimensions();
-// var_dump($categories);
 ?>
 
 <form action="/pages/search.php" method="post">
+    <input type="hidden" name="searched-product" value="<?php if (isset($_POST['searched-product'])) echo $_POST['searched-product']; ?>">
     <aside>
         <!-- Category Dropdown -->
         <label for="category">Categoria</label>
         <select id="category" name="category">
             <option value="">Seleziona una categoria</option>
             <?php foreach ($categories as $category) : ?>
-                <option><?= $category['tag'] ?></option>
+                <option <?php if (isset($_POST['category']) && $category["tag"]===$_POST['category']) echo 'selected'; ?>><?= $category['tag'] ?></option>
             <?php endforeach; ?>
         </select>
 
         <!-- Price Range Slider -->
-        <label>Prezzo Minimo</label>
+        <!-- <label>Prezzo Minimo</label>
         <div class="range-container">
-            <input type="range" id="minprice" name="minprice" min="0" max="100" value="50">
+            <input type="range" id="minprice" name="minprice" min="0" max="100" value="0">
         </div>
         <label>Prezzo Massimo</label>
         <div class="range-container">
-            <input type="range" id="maxprice" name="maxprice" min="0" max="100" value="50">
-        </div>
+            <input type="range" id="maxprice" name="maxprice" min="0" max="100" value="100">
+        </div> -->
 
 
         <!-- Discount Checkbox -->
         <label>
-            <input type="checkbox" id="discount" name="discount">
+            <input type="checkbox" id="discount" name="discount" value="true">
             In sconto
         </label>
 
@@ -73,7 +75,7 @@ $dimensions = $db->getAllDimensions();
         <select id="color" name="color">
             <option value="">Seleziona un colore</option>
             <?php foreach ($colors as $color) : ?>
-                <option value=""><?= $color['tag'] ?></option>
+                <option value=""><?= $color['color'] ?></option>
             <?php endforeach; ?>
         </select>
 

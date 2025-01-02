@@ -229,3 +229,12 @@ insert into CATEGORY (tag)
 VALUES ('passatempo'),
     ('abbigliamento'),
     ('casa');
+insert into SIZE (tag)
+VALUES ('S'),
+    ('M'),
+    ('L'),
+    ('XL');
+insert into COLOR (color)
+VALUES ('bianco'),
+    ('nero'),
+    ('rosso');
