@@ -1,11 +1,11 @@
 <?php
 
-require_once 'SellRepository.php';
+require_once 'Seller.php';
 
 class Database
 {
     private $db;
-    public $productRepository;
+    public $seller;
 
     public function __construct($servername, $username, $password, $dbname, $port)
     {
@@ -14,7 +14,7 @@ class Database
             die("Connection failed: " . $this->db->connect_error);
         }
 
-        $this->productRepository = new SellRepository($this);
+        $this->seller = new Seller($this);
     }
 
     private function query($query, $param_types, ...$params)

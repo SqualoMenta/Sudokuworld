@@ -1,5 +1,5 @@
 <?php
-class SellRepository{
+class Seller{
     private $db;
 
     public function __construct($db)
