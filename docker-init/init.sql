@@ -231,3 +231,4 @@ VALUES (
         '/uploads/products/tshirt_commit_sudoky.jpg',
         'seller1@gmail.com'
     );
+insert into CATEGORY (tag) VALUES ('passatempo'), ('abbigliamento'), ('casa');
