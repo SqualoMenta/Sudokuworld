@@ -85,21 +85,105 @@ class Database
         return $this->query($query, '');
     }
 
-    public function searchProductsInDiscount()
+    public function filteredSearchProduct($name, $minPrice, $maxPrice, $category, $color, $dimension, $discount, $seller)
     {
+        // Inizia con la base della query
         $query = "SELECT p.id_product 
-        FROM PRODUCT p, DISCOUNT d 
-        WHERE d.id_discount = p.id_discount";
-        return $this->query($query, '');
+        FROM PRODUCT p 
+        JOIN ORDERS_ITEM oi ON p.id_product = oi.id_product
+        JOIN IS_COLOR ic ON p.id_product = ic.id_product 
+        JOIN DIMENSION d ON p.id_product = d.id_product 
+        JOIN DISCOUNT di ON p.id_discount = di.id_discount 
+        JOIN IS_CATEGORY icat ON p.id_product = icat.id_product 
+        WHERE 1=1"; // 1=1 è una base sempre vera per concatenare le condizioni dinamiche
+
+        // Array per raccogliere i parametri
+        $params = [];
+        $types = '';
+
+        // Aggiungi le condizioni solo se i parametri non sono nulli o vuoti
+        if (!empty($name)) {
+            $query .= " AND p.name LIKE ?";
+            $params[] = "%$name%";
+            $types .= 's'; // Tipo stringa
+        }
+
+        if (!empty($minPrice)) {
+            $query .= " AND p.price >= ?";
+            $params[] = $minPrice;
+            $types .= 'i'; // Tipo intero
+        }
+
+        if (!empty($maxPrice)) {
+            $query .= " AND p.price <= ?";
+            $params[] = $maxPrice;
+            $types .= 'i';
+        }
+
+        if (!empty($color)) {
+            $query .= " AND ic.color = ?";
+            $params[] = $color;
+            $types .= 's';
+        }
+
+        if (!empty($dimension)) {
+            $query .= " AND d.dimension = ?";
+            $params[] = $dimension;
+            $types .= 's';
+        }
+
+        if (!empty($discount)) {
+            $query .= " AND di.percentage = ?";
+            $params[] = $discount;
+            $types .= 'i';
+        }
+
+        if (!empty($category)) {
+            $query .= " AND icat.tag = ?";
+            $params[] = $category;
+            $types .= 's';
+        }
+
+        if (!empty($seller)) {
+            $query .= " AND p.email = ?";
+            $params[] = $seller;
+            $types .= 's';
+        }
+
+        if (empty($name)) {
+            $query .= "ORDER BY COUNT(oi.id_product) DESC";
+        } else {
+            $query .= "ORDER BY 
+                CASE 
+                    WHEN p.name = ? THEN 1 -- Nomi esatti
+                    WHEN p.name LIKE ? THEN 2 -- Nomi simili
+                END,
+                p.id_product";
+            $params[] = $name;
+            $params[] = "%$name%";
+            $types .= 'ss';
+        }
+
+        // Esegui la query con i parametri raccolti
+        return $this->query($query, $types, ...$params);
     }
 
-    public function searchProductByCategory($category)
-    {
-        $query = "SELECT p.id_product 
-        FROM PRODUCT p JOIN IS_CATEGORY ic ON p.id_product = ic.id_product 
-        WHERE ic.tag = ?";
-        return $this->query($query, 's', $category);
-    }
+
+    // public function searchProductsInDiscount()
+    // {
+    //     $query = "SELECT p.id_product 
+    //     FROM PRODUCT p, DISCOUNT d 
+    //     WHERE d.id_discount = p.id_discount";
+    //     return $this->query($query, '');
+    // }
+
+    // public function searchProductByCategory($category)
+    // {
+    //     $query = "SELECT p.id_product 
+    //     FROM PRODUCT p JOIN IS_CATEGORY ic ON p.id_product = ic.id_product 
+    //     WHERE ic.tag = ?";
+    //     return $this->query($query, 's', $category);
+    // }
 
     public function searchProductByName($productName)
     {
