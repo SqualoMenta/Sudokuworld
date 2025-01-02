@@ -310,4 +310,16 @@ class Database
     {
         return $this->query("SELECT * FROM CREDIT_CARD WHERE email = ?", 's', $email);
     }
+
+    public function getAllCategories(){
+        return $this->query("SELECT tag FROM CATEGORY", '');
+    }
+
+    public function getAllColors(){
+        return $this->query("SELECT color FROM COLOR", '');
+    }
+
+    public function getAllDimensions(){
+        return $this->query("SELECT dimension FROM DIMENSION", '');
+    }
 }
