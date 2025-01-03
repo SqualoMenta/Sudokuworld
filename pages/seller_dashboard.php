@@ -12,6 +12,11 @@ if (!$_SESSION["is_seller"]) {
     die();
 }
 
+if (isset($_POST["delete"])) {
+    $db->seller->deleteProduct($_POST["id_product"]);
+    echo "Prodotto cancellato con successo!";
+}
+
 $products = $db->seller->getProductsSoldBy($_SESSION["email"]);
 include("../includes/header.php");
 ?>
@@ -21,7 +26,7 @@ include("../includes/header.php");
 </div>
 
 <?php foreach ($products as $product_id): ?>
-    <form action="/pages/edit_product.php" method="GET">
+    <form>
         <label>
             <?php
             $prod = new Product(...$db->getProduct($product_id['id_product'])[0]);
@@ -29,7 +34,8 @@ include("../includes/header.php");
             ?>
         </label>
         <input type="hidden" name="id_product" value="<?= $product_id['id_product'] ?>" />
-        <input type="submit" value="Modifica" />
+        <input type="submit" value="Modifica" formaction="/pages/edit_product.php" formmethod="GET" />
+        <input type="submit" value="Elimina" formaction="#" formmethod="POST" name="delete"/>
     </form>
 <?php endforeach; ?>
 

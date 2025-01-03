@@ -89,6 +89,12 @@ class Seller
         return $this->db->query($query, 's', $email);
     }
 
+    public function deleteProduct($id_product)
+    {
+        $query = "DELETE FROM PRODUCT WHERE id_product = ?";
+        $this->db->query2($query, 'i', $id_product);
+    }
+
     public function updateProduct($id_product, $name = null, $description = null, $price = null, $img = null, $discount = -1)
     {
         $query = "UPDATE PRODUCT SET id_product = id_product";
