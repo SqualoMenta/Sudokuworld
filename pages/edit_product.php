@@ -15,7 +15,7 @@ if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
 }
 
 if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["price"]) && isset($_POST["discount"])) {
-    // fixare sta roba
+    $imageName = $imageName ?? null;
     $db->seller->updateProduct($_GET["id_product"], $_POST["name"], $_POST["description"], $_POST["price"], $imageName);
     echo "Prodotto aggiotnato con successo!";
 }
@@ -26,7 +26,6 @@ if (count($productList) == 0) {
     exit();
 }
 $product = new Product(...$productList[0]);
-print_r($product);
 include("../includes/header.php");
 ?>
 <form action="#" method="POST" enctype="multipart/form-data">

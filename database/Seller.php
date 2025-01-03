@@ -126,6 +126,10 @@ class Seller
             $types .= 'i';
         }
 
+        $query .= " WHERE id_product = ?";
+        $params[] = $id_product;
+        $types .= 'i';
+
         $this->db->query2($query, $types, ...$params);
     }
 }
