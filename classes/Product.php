@@ -56,6 +56,59 @@ class Product
         return $this->discount;
     }
 
+    public function displayEditForm($title)
+    {
+        echo '
+        <form action="#" method="POST" enctype="multipart/form-data" class="container mt-4">
+            <h2 class="mb-4">' . htmlspecialchars($title) . '</h2>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="name">Nome:</label>
+                    <input type="text" id="name" name="name" class="form-control" value="' . htmlspecialchars($this->name) . '" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="price">Prezzo:</label>
+                    <input type="number" id="price" name="price" class="form-control" value="' . number_format($this->price, 2) . '" />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="description">Descrizione:</label>
+                <input type="text" id="description" name="description" class="form-control" value="' . htmlspecialchars($this->description) . '" />
+            </div>
+            <div class="mb-3">
+                <label for="discount">Sconto:</label>
+                <input type="number" id="discount" name="discount" class="form-control" value="' . htmlspecialchars($this->discount) . '" />
+            </div>
+            <div class="mb-3">
+                <label for="image">Immagine:</label><br>
+                <img id="imagePreview" src="' . htmlspecialchars($this->img) . '" alt="Product Image" style="max-width: 100px;" class="mb-2" /><br>
+                <input type="file" name="image" id="image" accept="image/*" class="form-control-file" onchange="previewImage(event)" />
+            </div>
+            <div class="mb-3 d-flex gap-1">
+                <input type="submit" name="submit" value="Salva" class="btn btn-primary" />
+                <input type="submit" value="Annulla" class="btn btn-danger" formmethod="GET" formaction="/pages/seller_dashboard.php"/>
+            </div>
+        </form>
+
+    
+        <script>
+            function previewImage(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        // Update the image preview
+                        document.getElementById("imagePreview").src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        </script>';
+    }
+
+
+
+
     // Display preview with minimal details (like an Amazon listing)
     public function displayPreview($sellerActions = false)
     {

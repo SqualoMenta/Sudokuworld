@@ -17,20 +17,15 @@ if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
 if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["price"]) && isset($_POST["discount"])) {
     $imageName = $imageName ?? null;
     $_POST["price"] = 100 * $_POST["price"];
-    $db->seller->updateProduct($_GET["id_product"], $_POST["name"], $_POST["description"], $_POST["price"], $imageName, $_POST["discount"]);
-    echo "Prodotto aggiotnato con successo!";
+    $db->seller->insertProduct($_POST["name"], $_POST["description"], $_POST["price"], $imageName, $_SESSION["email"], $_POST["discount"]);
+    echo "Prodotto inserito con successo!";
 }
 
-$productList = $db->getProduct($_GET["id_product"]);
-if (count($productList) == 0) {
-    echo "Prodotto non trovato!";
-    exit();
-}
-$product = new Product(...$productList[0]);
+$product = new Product(null, '', 0, '', '', $_SESSION["email"], 0);
 include("../includes/header.php");
 ?>
 
-<?= $product->displayEditForm("Modifica prodotto") ?>
+<?= $product->displayEditForm("Inserisci prodotto") ?>
 
 <?php
 include("../includes/footer.php");

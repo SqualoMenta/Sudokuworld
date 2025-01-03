@@ -25,6 +25,9 @@ include("../includes/header.php");
     <h1>Benvenuto <?= $_SESSION["name"] ?></h1>
 </div>
 
+<form action="/pages/add_product.php" method="GET">
+    <input type="submit" value="Aggiungi Prodotto" class="btn btn-info" />
+</form>
 <?=
 displayProductPreviews($id_products, $db, true);
 ?>

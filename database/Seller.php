@@ -8,13 +8,10 @@ class Seller
         $this->db = $db;
     }
 
-    public function insertProduct($name, $price, $description, $img, $sellerId, $category)
+    public function insertProduct($name, $description, $price, $image, $email, $discount)
     {
-        $query = "INSERT INTO PRODUCT (name, price, description, image, email, discount) VALUES (?, ?, ?, ?, ?, 0)";
-        $this->db->query2($query, 'sissi', $name, $price, $description, $img, $sellerId);
-        $id_product = $this->db->insert_id;
-        $query = "INSERT INTO IS_CATEGORY (id_product, tag) VALUES (?, ?)";
-        $this->db->query2($query, 'is', $id_product, $category);
+        $query = "INSERT INTO PRODUCT (name, price, description, image, email, discount) VALUES (?, ?, ?, ?, ?, ?)";
+        $this->db->query2($query, 'sisssi', $name, $price, $description, $image, $email, $discount);
     }
 
     public function addProductColor($id_product, $color)
