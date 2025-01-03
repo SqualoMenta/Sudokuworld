@@ -17,7 +17,7 @@
         <!-- Navbar Icons -->
         <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-                <a class="nav-link" href="#">Griglia</a>
+                <a class="nav-link" href="/pages/sudoku.php">Griglia</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Cuore</a>
