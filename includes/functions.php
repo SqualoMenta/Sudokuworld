@@ -99,3 +99,14 @@ function uploadImage($path, $image)
     }
     return array($result, $msg);
 }
+
+function displayProductPreviews($id_products, $db, $sellerActions = false)
+{
+    echo '<div class="container-fluid mt-4"><div class="row">';
+    foreach ($id_products as $id_product) {
+        $productData = $db->getProduct($id_product['id_product'])[0];
+        $prod = new Product(...$productData);
+        $prod->displayPreview($sellerActions);
+    }
+    echo '</div></div>';
+}

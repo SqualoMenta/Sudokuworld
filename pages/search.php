@@ -6,22 +6,18 @@ require_once("../classes/Cart.php");
 
 include '../includes/header.php';
 
-if (isset($_POST['searched-product'])) {
-    // echo "Risultati per: " . $_POST['searched-product'];
-    $ids = $db->searchProductByName($_POST['searched-product']);
-    foreach ($ids as $id) {
-        $prod = new Product(...$db->getProduct($id['id_product'])[0]);
-        echo $prod->getName();
-    }
+if (!isset($_POST['searched-product'])) {
+    $_POST['searched-product'] = "";
 }
-if(!isset($_POST['disocunt'])){
+$id_products = $db->searchProductByName($_POST['searched-product']);
+if (!isset($_POST['disocunt'])) {
     $_POST['discount'] = "false";
 }
 var_dump($_POST);
 
-if(isset($_POST['category'])){
-    $ids = $db->filteredSearchProduct($name = $_POST['searched-product'], $category = $_POST['category'], $discount = $_POST['discount'], $color = $_POST['color'], $size = $_POST['size']);
-    foreach ($ids as $id) {
+if (isset($_POST['category'])) {
+    $id_products = $db->filteredSearchProduct($name = $_POST['searched-product'], $category = $_POST['category'], $discount = $_POST['discount'], $color = $_POST['color'], $size = $_POST['size']);
+    foreach ($id_products as $id) {
         $prod = new Product(...$db->getProduct($id['id_product'])[0]);
         echo $prod->getName();
     }
@@ -31,16 +27,16 @@ $categories = $db->getAllCategories();
 $colors = $db->getAllColors();
 $dimensions = $db->getAllDimensions();
 ?>
+<aside>
+    <form action="/pages/search.php" method="post">
+        <input type="hidden" name="searched-product" value="<?php if (isset($_POST['searched-product'])) echo $_POST['searched-product']; ?>">
 
-<form action="/pages/search.php" method="post">
-    <input type="hidden" name="searched-product" value="<?php if (isset($_POST['searched-product'])) echo $_POST['searched-product']; ?>">
-    <aside>
         <!-- Category Dropdown -->
         <label for="category">Categoria</label>
         <select id="category" name="category">
             <option value="">Seleziona una categoria</option>
             <?php foreach ($categories as $category) : ?>
-                <option <?php if (isset($_POST['category']) && $category["tag"]===$_POST['category']) echo 'selected'; ?>><?= $category['tag'] ?></option>
+                <option <?php if (isset($_POST['category']) && $category["tag"] === $_POST['category']) echo 'selected'; ?>><?= $category['tag'] ?></option>
             <?php endforeach; ?>
         </select>
 
@@ -88,8 +84,13 @@ $dimensions = $db->getAllDimensions();
             <?php endforeach; ?>
         </select>
         <button type="submit">Applica filtri</button>
-</form>
+    </form>
 </aside>
+
+<?=
+displayProductPreviews($id_products, $db);
+?>
+
 <?php
 include '../includes/footer.php';
 ?>

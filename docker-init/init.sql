@@ -224,6 +224,30 @@ VALUES (
         '/uploads/products/tshirt_commit_sudoky.jpg',
         'seller1@gmail.com',
         20
+    ),
+     (
+        'tazza love sudoku',
+        'Bellissima tazza con scritto I love sudoku',
+        1000,
+        '/uploads/products/tazza1.jpg',
+        'seller1@gmail.com',
+        10
+    ),
+    (
+        'rivista settimana sudoku',
+        'Fantastica rivista per allenare la mente con sudoku',
+        800,
+        '/uploads/products/settimana_sudoku1.png',
+        'seller1@gmail.com',
+        0
+    ),
+    (
+        'maglia commit sudoku',
+        'Maglia con scritta commit sudoku',
+        1000,
+        '/uploads/products/tshirt_commit_sudoky.jpg',
+        'seller1@gmail.com',
+        20
     );
 insert into CATEGORY (tag)
 VALUES ('passatempo'),

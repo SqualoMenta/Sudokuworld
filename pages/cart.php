@@ -13,14 +13,7 @@ $products = $cart->getProducts();
 include '../includes/header.php';
 
 ?>
-<?php foreach ($products as $product_id): ?>
-    <p>
-        <?php
-        $prod = new Product(...$db->getProduct($product_id['id_product'])[0]);
-        echo $prod->getName();
-        ?>
-    </p>
-<?php endforeach; ?>
+<?= displayProductPreviews($products, $db) ?>
 
 <?php
 include '../includes/footer.php';

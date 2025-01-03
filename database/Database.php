@@ -52,6 +52,12 @@ class Database
         $this->query2($query, 'si', $email, $id_product);
     }
 
+    public function removeProductFromCart($email, $id_product)
+    {
+        $query = "DELETE FROM CART WHERE email = ? AND id_product = ?";
+        $this->query2($query, 'si', $email, $id_product);
+    }
+
     public function getCart($email)
     {
         return $this->query("SELECT id_product FROM CART where email = ?", 's', $email);

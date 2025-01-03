@@ -17,7 +17,7 @@ if (isset($_POST["delete"])) {
     echo "Prodotto cancellato con successo!";
 }
 
-$products = $db->seller->getProductsSoldBy($_SESSION["email"]);
+$id_products = $db->seller->getProductsSoldBy($_SESSION["email"]);
 include("../includes/header.php");
 ?>
 
@@ -25,21 +25,9 @@ include("../includes/header.php");
     <h1>Benvenuto <?= $_SESSION["name"] ?></h1>
 </div>
 
-<?php foreach ($products as $product_id): ?>
-    <form>
-        <label>
-            <?php
-            $prod = new Product(...$db->getProduct($product_id['id_product'])[0]);
-            echo $prod->getName();
-            ?>
-        </label>
-        <input type="hidden" name="id_product" value="<?= $product_id['id_product'] ?>" />
-        <input type="submit" value="Modifica" formaction="/pages/edit_product.php" formmethod="GET" />
-        <input type="submit" value="Elimina" formaction="#" formmethod="POST" name="delete"/>
-    </form>
-<?php endforeach; ?>
-
-
+<?=
+displayProductPreviews($id_products, $db, true);
+?>
 
 <?php
 include("../includes/footer.php");
