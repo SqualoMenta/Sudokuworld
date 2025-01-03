@@ -41,10 +41,10 @@ include("../includes/header.php");
             <label for="price">Prezzo:</label><input type="number" id="price" name="price" value="<?= $product->getPrice() ?>" />
         </li>
         <li>
-            <label for="price">Sconto:</label><input type="number" id="discount" name="discount" value="<?= $product->getDiscount() ?>" />
+            <label for="discount">Sconto:</label><input type="number" id="discount" name="discount" value="<?= $product->getDiscount() ?>" />
         </li>
         <li>
-            <label for="price">Immagine:</label>
+            <label for="image">Immagine:</label>
             <img src="<?= $product->getImg(); ?>" alt="" style="max-width:100px" />
             <input type="file" name="image" id="image" accept="image/*" />
         </li>

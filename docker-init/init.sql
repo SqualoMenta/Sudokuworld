@@ -218,8 +218,8 @@ VALUES (
         0
     ),
     (
-        'maglietta commit sudoku',
-        'Maglietta con scritta commit sudoku',
+        'maglia commit sudoku',
+        'Maglia con scritta commit sudoku',
         1000,
         '/uploads/products/tshirt_commit_sudoky.jpg',
         'seller1@gmail.com',
