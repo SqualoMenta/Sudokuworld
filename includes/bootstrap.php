@@ -8,5 +8,3 @@ error_reporting(E_ALL);
 define("UPLOAD_DIR", "./upload/");
 require_once("../database/Database.php");//TODO: change path
 $db = new Database("db", "root", "example", "SUDOKUWORLD", 3306);
-?>
-
