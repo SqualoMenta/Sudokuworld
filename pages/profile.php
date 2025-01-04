@@ -11,15 +11,17 @@ include("../includes/header.php");
 
 <div>
     <h1>Benvenuto <?= $_SESSION["name"] ?></h1>
-</div>
-
-<?php if ($_SESSION["is_seller"]): ?>
     <div>
-        <a href="seller_dashboard.php"> Dashboard</a>
+        <a href="logout.php">Effettua logout</a>
     </div>
-<?php endif; ?>
+
+    <?php if ($_SESSION["is_seller"]): ?>
+        <div>
+            <a href="seller_dashboard.php"> Dashboard</a>
+        </div>
+    <?php endif; ?>
 
 
-<?php
-include("../includes/footer.php");
-?>
+    <?php
+    include("../includes/footer.php");
+    ?>
