@@ -35,10 +35,10 @@ create table CREDIT_CARD (
     expiration date not null,
     constraint ID_CREDIT_CARD_ID primary key (email, number)
 );
-create table DIMESION (
+create table DIMENSION (
     id_product int not null,
     tag varchar(8) not null,
-    constraint ID_DIMESION_ID primary key (id_product, tag)
+    constraint ID_DIMENSION_ID primary key (id_product, tag)
 );
 create table IS_CATEGORY (
     tag varchar(32) not null,
@@ -115,9 +115,9 @@ alter table CART
 add constraint FKCAR_PRO foreign key (id_product) references PRODUCT (id_product);
 alter table CREDIT_CARD
 add constraint FKOWNS foreign key (email) references USER (email);
-alter table DIMESION
+alter table DIMENSION
 add constraint FKDIM_SIZ_FK foreign key (tag) references SIZE (tag);
-alter table DIMESION
+alter table DIMENSION
 add constraint FKDIM_PRO foreign key (id_product) references PRODUCT (id_product);
 alter table IS_CATEGORY
 add constraint FKIS__PRO_1_FK foreign key (id_product) references PRODUCT (id_product);
@@ -160,8 +160,8 @@ create index FKCAR_USE_IND on CART (email);
 create unique index ID_CATEGORY_IND on CATEGORY (tag);
 create unique index ID_COLOR_IND on COLOR (color);
 create unique index ID_CREDIT_CARD_IND on CREDIT_CARD (email, number);
-create unique index ID_DIMESION_IND on DIMESION (id_product, tag);
-create index FKDIM_SIZ_IND on DIMESION (tag);
+create unique index ID_DIMENSION_IND on DIMENSION (id_product, tag);
+create index FKDIM_SIZ_IND on DIMENSION (tag);
 create unique index ID_IS_CATEGORY_IND on IS_CATEGORY (tag, id_product);
 create index FKIS__PRO_1_IND on IS_CATEGORY (id_product);
 create unique index ID_IS_COLOR_IND on IS_COLOR (color, id_product);
@@ -225,7 +225,7 @@ VALUES (
         'seller1@gmail.com',
         20
     ),
-     (
+    (
         'tazza love sudoku',
         'Bellissima tazza con scritto I love sudoku',
         1000,

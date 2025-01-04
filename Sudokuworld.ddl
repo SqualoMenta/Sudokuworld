@@ -2,9 +2,9 @@
 -- * SQL MySQL generation                      
 -- *--------------------------------------------
 -- * DB-MAIN version: 11.0.2              
--- * Generator date: Sep 14 2021              
--- * Generation date: Thu Jan  2 16:17:30 2025 
--- * LUN file: C:\Users\andre\Documents\Sudokuworld\Sudokuworld.lun 
+-- * Generator date: Sep 20 2021              
+-- * Generation date: Sat Jan  4 15:34:05 2025 
+-- * LUN file: /home/davide/Desktop/unibo/web/Sudokuworld/Sudokuworld.lun 
 -- * Schema: SUDOKUWORLD/1-1 
 -- ********************************************* 
 
@@ -40,10 +40,10 @@ create table CREDIT_CARD (
      expiration date not null,
      constraint ID_CREDIT_CARD_ID primary key (email, number));
 
-create table DIMESION (
+create table DIMENSION (
      id_product int not null,
      tag varchar(8) not null,
-     constraint ID_DIMESION_ID primary key (id_product, tag));
+     constraint ID_DIMENSION_ID primary key (id_product, tag));
 
 create table IS_CATEGORY (
      tag varchar(32) not null,
@@ -128,11 +128,11 @@ alter table CREDIT_CARD add constraint FKOWNS
      foreign key (email)
      references USER (email);
 
-alter table DIMESION add constraint FKDIM_SIZ_FK
+alter table DIMENSION add constraint FKDIM_SIZ_FK
      foreign key (tag)
      references SIZE (tag);
 
-alter table DIMESION add constraint FKDIM_PRO
+alter table DIMENSION add constraint FKDIM_PRO
      foreign key (id_product)
      references PRODUCT (id_product);
 
@@ -217,11 +217,11 @@ create unique index ID_COLOR_IND
 create unique index ID_CREDIT_CARD_IND
      on CREDIT_CARD (email, number);
 
-create unique index ID_DIMESION_IND
-     on DIMESION (id_product, tag);
+create unique index ID_DIMENSION_IND
+     on DIMENSION (id_product, tag);
 
 create index FKDIM_SIZ_IND
-     on DIMESION (tag);
+     on DIMENSION (tag);
 
 create unique index ID_IS_CATEGORY_IND
      on IS_CATEGORY (tag, id_product);
