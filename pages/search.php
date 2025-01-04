@@ -23,6 +23,10 @@ if (isset($_POST['category'])) {
     }
     echo "Risultati per: " . $_POST['category'];
 }
+$sudoku_solved = false;
+if(isUserLoggedIn()) {
+    $sudoku_solved = $db->sudokuRunner->isTodaySudokuWon($_SESSION["email"]);
+}
 $categories = $db->getAllCategories();
 $colors = $db->getAllColors();
 $dimensions = $db->getAllDimensions();
@@ -88,7 +92,7 @@ $dimensions = $db->getAllDimensions();
 </aside>
 
 <?=
-displayProductPreviews($id_products, $db);
+displayProductPreviews($id_products, $db, $sudoku_solved);
 ?>
 
 <?php

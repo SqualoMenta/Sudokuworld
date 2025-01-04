@@ -106,14 +106,8 @@ class Product
         </script>';
     }
 
-
-
-
-    // Display preview with minimal details (like an Amazon listing)
-    public function displayPreview($sellerActions = false)
+    public function displayPreview($sudoku_solved, $sellerActions = false)
     {
-        $discountPrice = $this->price * (1 - $this->discount / 100);
-
         echo '
         <div class="col-md-2 mb-4">  <!-- Added col-md-4 to display 3 items per row -->
             
@@ -124,7 +118,7 @@ class Product
                     <p class="card-text"><strong>Prezzo:</strong> $' . number_format($this->price, 2) . '</p>';
 
         if ($this->discount > 0) {
-            echo '<p class="card-text text-danger"><strong>Prezzo scontato:</strong> $' . number_format($discountPrice, 2) . ' (' . $this->discount . '% off)</p>';
+            echo '<p class="card-text text-danger"><strong>Prezzo scontato:</strong> $' . number_format($this->getFinalPrice($sudoku_solved), 2) . ' (' . number_format($this->getFinalDiscount($sudoku_solved), 1) . '% off)</p>';
         }
 
         echo '
@@ -147,5 +141,19 @@ class Product
                 </div>
             </div>
         </div>';
+    }
+
+    public function getFinalPrice($sudoku_solved)
+    {
+        $discountPrice = $this->price * (1 - $this->discount / 100);
+        if ($sudoku_solved) {
+            $discountPrice = $discountPrice * 0.9;
+        }
+        return $discountPrice;
+    }
+
+    public function getFinalDiscount($sudoku_solved)
+    {
+        return (1 - ($this->getFinalPrice($sudoku_solved) / $this->price)) * 100;
     }
 }

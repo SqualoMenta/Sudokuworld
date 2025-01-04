@@ -10,6 +10,7 @@ if (count($productList) == 0) {
 }
 
 $product = new Product(...$productList[0]);
+$sudoku_solved = false;
 if (isUserLoggedIn()) {
     if (isset($_POST["add_to_cart"]) && !$db->isProductInCart($_SESSION["email"], $product->getId())) {
         $db->addProductToCart($_SESSION["email"], $product->getId());
@@ -26,13 +27,10 @@ if (isUserLoggedIn()) {
     if (isset($_POST["remove_from_wishlist"]) && $db->isProductInWishlist($_SESSION["email"], $product->getId())) {
         $db->removeProductFromWishlist($_SESSION["email"], $product->getId());
     }
+    $sudoku_solved = $db->sudokuRunner->isTodaySudokuWon($_SESSION["email"]);
 }
 
 include '../includes/header.php';
-?>
-
-<?php
-$discountPrice = $product->getPrice() * (1 - $product->getDiscount() / 100);
 ?>
 
 <div class="container mt-4">
@@ -46,7 +44,7 @@ $discountPrice = $product->getPrice() * (1 - $product->getDiscount() / 100);
             <p><strong>Prezzo:</strong> $<?= number_format($product->getPrice(), 2) ?></p>
 
             <?php if ($product->getDiscount() > 0): ?>
-                <p class="text-danger"><strong>Prezzo scontato:</strong> $<?= number_format($discountPrice, 2) ?> (<?= $product->getDiscount() ?>% off)</p>
+                <p class="text-danger"><strong>Prezzo scontato:</strong> $<?= number_format($product->getFinalPrice($sudoku_solved), 2) ?> (<?= $product->getDiscount($sudoku_solved) ?>% off)</p>
             <?php endif; ?>
 
             <p><strong>Venditore:</strong> <?= htmlspecialchars($product->getSellerEmail()) ?></p>

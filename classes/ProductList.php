@@ -12,4 +12,14 @@ class ProductList
     {
         return $this->products;
     }
+
+    public function getTotalPrice($db, $sudoku_solved)
+    {
+        $totalPrice = 0;
+        foreach ($this->products as $p) {
+            $product = new Product(...$db->getProduct($p['id_product'])[0]);
+            $totalPrice += $product->getFinalPrice($sudoku_solved);
+        }
+        return $totalPrice;
+    }
 }

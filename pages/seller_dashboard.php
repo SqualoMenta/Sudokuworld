@@ -29,7 +29,7 @@ include("../includes/header.php");
     <input type="submit" value="Aggiungi Prodotto" class="btn btn-info" />
 </form>
 <?=
-displayProductPreviews($id_products, $db, true);
+displayProductPreviews($id_products, $db, false, true);
 ?>
 
 <?php
