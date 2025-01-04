@@ -34,7 +34,7 @@ class SudokuRunner
 
     public function getTodaySudoku()
     {
-        return $this->getSudoku(date('Y-m-d'));
+        return $this->db->query("SELECT grid FROM SUDOKU WHERE day = CURDATE()", '');
     }
 
     public function winSudoku($email)
@@ -43,10 +43,9 @@ class SudokuRunner
         $this->db->query2($query, 's', $email);
     }
 
-    public function getTodaySudokuSolved()
+    public function getTodaySolution()
     {
-        $query = "SELECT * FROM WINS WHERE day = CURDATE()";
-        return $this->db->query($query);
+        return $this->db->query("SELECT solution FROM SUDOKU WHERE day = CURDATE()", '');
     }
 }
 ?>
