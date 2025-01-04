@@ -1,6 +1,6 @@
 <?php
 
-class Cart
+class ProductList
 {
     private $products = [];
     public function __construct($products)

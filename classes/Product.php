@@ -146,7 +146,6 @@ class Product
         </div>';
     }
 
-
     public function displayFullPage($db)
     {
         $discountPrice = $this->price * (1 - $this->discount / 100);

@@ -20,7 +20,7 @@
                 <a class="nav-link" href="/pages/sudoku.php">Griglia</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Cuore</a>
+                <a class="nav-link" href="/pages/wishlist.php">Cuore</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/pages/cart.php">Carrello</a>

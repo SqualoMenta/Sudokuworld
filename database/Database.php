@@ -237,9 +237,21 @@ class Database
         $this->query2($query, 'sssi', $_POST['name'], $_POST['email'], password_hash($_POST['password'], PASSWORD_DEFAULT), 0);
     }
 
-    public function addWishlist($id_product, $email)
+    public function isProductInWishlist($email, $id_product)
+    {
+        $query = "SELECT * FROM WISHES WHERE id_product = ? AND email = ?";
+        return count($this->query($query, 'is', $id_product, $email)) > 0;
+    }
+
+    public function addProductToWishlist($email, $id_product)
     {
         $query = "INSERT INTO WISHES (id_product, email) VALUES (?, ?)";
+        $this->query2($query, 'is', $id_product, $email);
+    }
+
+    public function removeProductFromWishlist($email, $id_product)
+    {
+        $query = "DELETE FROM WISHES WHERE id_product = ? AND email = ?";
         $this->query2($query, 'is', $id_product, $email);
     }
 
@@ -248,11 +260,6 @@ class Database
         return $this->query("SELECT p.id_product FROM WISHES w JOIN PRODUCT p ON w.id_product = p.id_product WHERE w.email = ?", 's', $email);
     }
 
-    public function removeWishlist($id_product, $email)
-    {
-        $query = "DELETE FROM WISHES WHERE id_product = ? AND email = ?";
-        $this->query2($query, 'is', $id_product, $email);
-    }
 
     public function addOrder($email, $id_product)
     {
@@ -261,12 +268,6 @@ class Database
         $id_order = $this->db->insert_id;
         $query2 = "INSERT INTO ORDERS_ITEM (id_product, id_order) VALUES (?, ?)";
         $this->query2($query2, 'is', $id_product, $id_order);
-    }
-
-    public function removeCart($email, $id_product)
-    {
-        $query = "DELETE FROM CART WHERE email = ? AND id_product = ?";
-        $this->query2($query, 'si', $email, $id_product);
     }
 
     public function getOrders($email)

@@ -8,7 +8,7 @@ if (!isUserLoggedIn()) {
     header("Location: login.php");
 }
 
-$cart = new ProductList($db->getCart($_SESSION["email"]));
+$cart = new ProductList($db->getWishlist($_SESSION["email"]));
 $products = $cart->getProducts();
 include '../includes/header.php';
 

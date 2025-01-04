@@ -2,7 +2,7 @@
 include_once("../includes/bootstrap.php");
 include_once("../includes/functions.php");
 require_once("../classes/Product.php");
-require_once("../classes/Cart.php");
+require_once("../classes/ProductList.php");
 
 include '../includes/header.php';
 
