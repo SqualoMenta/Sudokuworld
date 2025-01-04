@@ -116,6 +116,7 @@ class Product
 
         echo '
         <div class="col-md-2 mb-4">  <!-- Added col-md-4 to display 3 items per row -->
+            
             <div class="card" style="width: 100%;">  <!-- Set width to 100% to fill the column -->
                 <img src="' . htmlspecialchars($this->img) . '" class="card-img-top" alt="' . htmlspecialchars($this->name) . '">
                 <div class="card-body">
@@ -127,7 +128,9 @@ class Product
         }
 
         echo '
-                    <a href="product.php?id=' . $this->id . '" class="btn btn-info">View Details</a>';
+            <a href="product.php?id=' . $this->id . '" class="btn btn-info">Vedi dettagli</a>
+            ';
+                    
         if ($sellerActions) {
             echo '
             <form method="get" action="/pages/edit_product.php">

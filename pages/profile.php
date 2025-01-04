@@ -11,9 +11,23 @@ include("../includes/header.php");
 
 <div>
     <h1>Benvenuto <?= $_SESSION["name"] ?></h1>
-    <div>
-        <a href="logout.php">Effettua logout</a>
-    </div>
+    <aside>
+        <div>
+            <a href="">Informazioni</a>
+        </div>
+        <div>
+            <a href="">I miei ordini</a>
+        </div>
+        <div>
+            <a href="">Lista desideri</a>
+        </div>
+        <div>
+            <a href="cart.php">Carrello</a>
+        </div>
+        <div>
+            <a href="logout.php">Esci</a>
+        </div>
+    </aside>
 
     <?php if ($_SESSION["is_seller"]): ?>
         <div>
