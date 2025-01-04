@@ -145,47 +145,4 @@ class Product
             </div>
         </div>';
     }
-
-    public function displayFullPage($db)
-    {
-        $discountPrice = $this->price * (1 - $this->discount / 100);
-
-        echo '
-        <div class="container mt-4">
-            <div class="row">
-                <div class="col-md-6">
-                    <img src="' . htmlspecialchars($this->img) . '" class="img-fluid" alt="' . htmlspecialchars($this->name) . '">
-                </div>
-                <div class="col-md-6">
-                    <h2>' . htmlspecialchars($this->name) . '</h2>
-                    <p><strong>Descrizione:</strong> ' . nl2br(htmlspecialchars($this->description)) . '</p>
-                    <p><strong>Prezzo:</strong> $' . number_format($this->price, 2) . '</p>';
-
-        if ($this->discount > 0) {
-            echo '<p class="text-danger"><strong>Prezzo scontato:</strong> $' . number_format($discountPrice, 2) . ' (' . $this->discount . '% off)</p>';
-        }
-
-        echo '
-                    <p><strong>Venditore:</strong> ' . htmlspecialchars($this->seller_email) . '</p>';
-
-        if (isUserLoggedIn()) {
-            if ($db->isProductInCart($_SESSION['email'], $this->id)) {
-                echo '
-                    <form action="#" method="post">
-                        <input type="hidden" name="remove_from_cart" value="true">
-                        <button type="submit" class="btn btn-danger">Rimuovi dal carrello</button>
-                    </form>';
-            } else {
-                echo '
-                    <form action="#" method="post">
-                        <input type="hidden" name="add_to_cart" value="true">
-                        <button type="submit" class="btn btn-primary">Aggiungi al carrello</button>
-                    </form>';
-            }
-        }
-        echo '
-                </div>
-            </div>
-        </div>';
-    }
 }
