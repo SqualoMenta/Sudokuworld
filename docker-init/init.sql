@@ -262,3 +262,11 @@ insert into COLOR (color)
 VALUES ('bianco'),
     ('nero'),
     ('rosso');
+
+insert into IS_CATEGORY (tag, id_product)
+VALUES ('passatempo', 1),
+    ('passatempo', 2),
+    ('abbigliamento', 3),
+    ('abbigliamento', 4),
+    ('passatempo', 5),
+    ('abbigliamento', 6);

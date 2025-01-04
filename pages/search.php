@@ -10,13 +10,13 @@ if (!isset($_POST['searched-product'])) {
     $_POST['searched-product'] = "";
 }
 $id_products = $db->searchProductByName($_POST['searched-product']);
-if (!isset($_POST['disocunt'])) {
-    $_POST['discount'] = "false";
+if (!isset($_POST['discount'])) {
+    $_POST['discount'] = false;
 }
 var_dump($_POST);
 
 if (isset($_POST['category'])) {
-    $id_products = $db->filteredSearchProduct($name = $_POST['searched-product'], $category = $_POST['category'], $discount = $_POST['discount'], $color = $_POST['color'], $size = $_POST['size']);
+    $id_products = $db->filteredSearchProduct(name:$_POST['searched-product'], category:$_POST['category'], is_discount:$_POST['discount'], color:$_POST['color'], dimension:$_POST['size']);
     foreach ($id_products as $id) {
         $prod = new Product(...$db->getProduct($id['id_product'])[0]);
         echo $prod->getName();

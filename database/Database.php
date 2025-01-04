@@ -144,7 +144,7 @@ class Database
         }
 
         if ($is_discount) {
-            $query .= " AND di.percentage > 0";
+            $query .= " AND p.discount > 0";
         }
 
         if (!empty($category)) {
@@ -159,21 +159,22 @@ class Database
             $types .= 's';
         }
 
-        if (empty($name)) {
-            $query .= "ORDER BY COUNT(oi.id_product) DESC";
-        } else {
-            $query .= "ORDER BY 
-                CASE 
-                    WHEN p.name = ? THEN 1 -- Nomi esatti
-                    WHEN p.name LIKE ? THEN 2 -- Nomi simili
-                END,
-                p.id_product";
-            $params[] = $name;
-            $params[] = "%$name%";
-            $types .= 'ss';
-        }
+        // if (empty($name)) {
+        //     $query .= "ORDER BY COUNT(oi.id_product) DESC";
+        // } else {
+        //     $query .= "ORDER BY 
+        //         CASE 
+        //             WHEN p.name = ? THEN 1 -- Nomi esatti
+        //             WHEN p.name LIKE ? THEN 2 -- Nomi simili
+        //         END,
+        //         p.id_product";
+        //     $params[] = $name;
+        //     $params[] = "%$name%";
+        //     $types .= 'ss';
+        // }
 
         // Esegui la query con i parametri raccolti
+        echo $query;
         return $this->query($query, $types, ...$params);
     }
 
