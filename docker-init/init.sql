@@ -30,8 +30,8 @@ create table COLOR (
 create table CREDIT_CARD (
     email varchar(64) not null,
     number varchar(16) not null,
-    propretary_name varchar(32) not null,
-    propertary_surname varchar(32) not null,
+    name varchar(32) not null,
+    surname varchar(32) not null,
     expiration date not null,
     constraint ID_CREDIT_CARD_ID primary key (email, number)
 );
@@ -65,11 +65,6 @@ create table ORDERS (
     email varchar(64) not null,
     constraint ID_ORDERS_ID primary key (id_order)
 );
-create table ORDERS_ITEM (
-    id_order int not null,
-    id_product int not null,
-    constraint ID_ORDERS_ITEM_ID primary key (id_order, id_product)
-);
 create table PRODUCT (
     id_product int not null auto_increment,
     name varchar(128) not null,
@@ -79,6 +74,11 @@ create table PRODUCT (
     discount int not null,
     email varchar(64) not null,
     constraint ID_PRODUCT_ID primary key (id_product)
+);
+create table ORDERS_ITEM (
+    id_order int not null,
+    id_product int not null,
+    constraint ID_ORDERS_ITEM_ID primary key (id_order, id_product)
 );
 create table SIZE (
     tag varchar(8) not null,
@@ -135,16 +135,16 @@ add constraint FKHAS_FK foreign key (email) references USER (email);
 --                  where ORDERS_ITEM.id_order = id_order)); 
 alter table ORDERS
 add constraint FKORDERS_FK foreign key (email) references USER (email);
-alter table ORDERS_ITEM
-add constraint FKORD_PRO_FK foreign key (id_product) references PRODUCT (id_product);
-alter table ORDERS_ITEM
-add constraint FKORD_ORD foreign key (id_order) references ORDERS (id_order);
 -- Not implemented
 -- alter table PRODUCT add constraint ID_PRODUCT_CHK
 --     check(exists(select * from IS_CATEGORY
 --                  where IS_CATEGORY.id_product = id_product)); 
 alter table PRODUCT
 add constraint FKSELLS_FK foreign key (email) references USER (email);
+alter table ORDERS_ITEM
+add constraint FKORD_PRO_FK foreign key (id_product) references PRODUCT (id_product);
+alter table ORDERS_ITEM
+add constraint FKORD_ORD foreign key (id_order) references ORDERS (id_order);
 alter table WINS
 add constraint FKWIN_USE_FK foreign key (email) references USER (email);
 alter table WINS
@@ -170,10 +170,10 @@ create unique index ID_NOTIFY_IND on NOTIFY (id_notify);
 create index FKHAS_IND on NOTIFY (email);
 create unique index ID_ORDERS_IND on ORDERS (id_order);
 create index FKORDERS_IND on ORDERS (email);
-create unique index ID_ORDERS_ITEM_IND on ORDERS_ITEM (id_order, id_product);
-create index FKORD_PRO_IND on ORDERS_ITEM (id_product);
 create unique index ID_PRODUCT_IND on PRODUCT (id_product);
 create index FKSELLS_IND on PRODUCT (email);
+create unique index ID_ORDERS_ITEM_IND on ORDERS_ITEM (id_order, id_product);
+create index FKORD_PRO_IND on ORDERS_ITEM (id_product);
 create unique index ID_SIZE_IND on SIZE (tag);
 create unique index ID_SUDOKU_IND on SUDOKU (day);
 create unique index ID_USER_IND on USER (email);
@@ -262,7 +262,6 @@ insert into COLOR (color)
 VALUES ('bianco'),
     ('nero'),
     ('rosso');
-
 insert into IS_CATEGORY (tag, id_product)
 VALUES ('passatempo', 1),
     ('passatempo', 2),
@@ -271,4 +270,29 @@ VALUES ('passatempo', 1),
     ('passatempo', 5),
     ('abbigliamento', 6);
 INSERT INTO SUDOKU (day, grid, solution)
-VALUES (CURDATE(), '530070000600195000098000060800060003400803001700020006060000280000419005000080079', '534678912672195348198342567859761423426853791713924856961537284287419635345286179');
+VALUES (
+        CURDATE(),
+        '530070000600195000098000060800060003400803001700020006060000280000419005000080079',
+        '534678912672195348198342567859761423426853791713924856961537284287419635345286179'
+    );
+insert into CREDIT_CARD (
+        email,
+        number,
+        name,
+        surname,
+        expiration
+    )
+VALUES (
+        'user1@gmail.com',
+        '1234567890123456',
+        'Mario',
+        'Rossi',
+        '2024-12-31'
+    ),
+    (
+        'user1@gmail.com',
+        '1234567890123457',
+        'Mario1',
+        'Rossi1',
+        '2027-1-1'
+    );

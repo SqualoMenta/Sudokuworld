@@ -3,7 +3,7 @@
 -- *--------------------------------------------
 -- * DB-MAIN version: 11.0.2              
 -- * Generator date: Sep 20 2021              
--- * Generation date: Sat Jan  4 15:34:05 2025 
+-- * Generation date: Sat Jan  4 18:53:19 2025 
 -- * LUN file: /home/davide/Desktop/unibo/web/Sudokuworld/Sudokuworld.lun 
 -- * Schema: SUDOKUWORLD/1-1 
 -- ********************************************* 
@@ -35,8 +35,8 @@ create table COLOR (
 create table CREDIT_CARD (
      email varchar(64) not null,
      number varchar(16) not null,
-     propretary_name varchar(32) not null,
-     propertary_surname varchar(32) not null,
+     name varchar(32) not null,
+     surname varchar(32) not null,
      expiration date not null,
      constraint ID_CREDIT_CARD_ID primary key (email, number));
 
@@ -70,11 +70,6 @@ create table ORDERS (
      email varchar(64) not null,
      constraint ID_ORDERS_ID primary key (id_order));
 
-create table ORDERS_ITEM (
-     id_order int not null,
-     id_product int not null,
-     constraint ID_ORDERS_ITEM_ID primary key (id_order, id_product));
-
 create table PRODUCT (
      id_product int not null auto_increment,
      name varchar(128) not null,
@@ -84,6 +79,11 @@ create table PRODUCT (
      discount int not null,
      email varchar(64) not null,
      constraint ID_PRODUCT_ID primary key (id_product));
+
+create table ORDERS_ITEM (
+     id_order int not null,
+     id_product int not null,
+     constraint ID_ORDERS_ITEM_ID primary key (id_order, id_product));
 
 create table SIZE (
      tag varchar(8) not null,
@@ -165,14 +165,6 @@ alter table ORDERS add constraint FKORDERS_FK
      foreign key (email)
      references USER (email);
 
-alter table ORDERS_ITEM add constraint FKORD_PRO_FK
-     foreign key (id_product)
-     references PRODUCT (id_product);
-
-alter table ORDERS_ITEM add constraint FKORD_ORD
-     foreign key (id_order)
-     references ORDERS (id_order);
-
 -- Not implemented
 -- alter table PRODUCT add constraint ID_PRODUCT_CHK
 --     check(exists(select * from IS_CATEGORY
@@ -181,6 +173,14 @@ alter table ORDERS_ITEM add constraint FKORD_ORD
 alter table PRODUCT add constraint FKSELLS_FK
      foreign key (email)
      references USER (email);
+
+alter table ORDERS_ITEM add constraint FKORD_PRO_FK
+     foreign key (id_product)
+     references PRODUCT (id_product);
+
+alter table ORDERS_ITEM add constraint FKORD_ORD
+     foreign key (id_order)
+     references ORDERS (id_order);
 
 alter table WINS add constraint FKWIN_USE_FK
      foreign key (email)
@@ -247,17 +247,17 @@ create unique index ID_ORDERS_IND
 create index FKORDERS_IND
      on ORDERS (email);
 
-create unique index ID_ORDERS_ITEM_IND
-     on ORDERS_ITEM (id_order, id_product);
-
-create index FKORD_PRO_IND
-     on ORDERS_ITEM (id_product);
-
 create unique index ID_PRODUCT_IND
      on PRODUCT (id_product);
 
 create index FKSELLS_IND
      on PRODUCT (email);
+
+create unique index ID_ORDERS_ITEM_IND
+     on ORDERS_ITEM (id_order, id_product);
+
+create index FKORD_PRO_IND
+     on ORDERS_ITEM (id_product);
 
 create unique index ID_SIZE_IND
      on SIZE (tag);

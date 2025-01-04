@@ -290,10 +290,10 @@ class Database
         $this->query2($query, 'si', $email, $id_order);
     }
 
-    public function addCreditCard($email, $number, $proprietary_name, $proprietary_surname, $expiration)
+    public function addCreditCard($email, $number, $name, $surname, $expiration)
     {
-        $query = "INSERT INTO CREDIT_CARD (email, number, proprietary_name, proprietary_surname, expiration) VALUES (?, ?, ?, ?, ?)";
-        $this->query2($query, 'sssss', $email, $number, $proprietary_name, $proprietary_surname, $expiration);
+        $query = "INSERT INTO CREDIT_CARD (email, number, name, surname, expiration) VALUES (?, ?, ?, ?, ?)";
+        $this->query2($query, 'sssss', $email, $number, $name, $surname, $expiration);
     }
 
     public function removeCreditCard($email, $number)
@@ -302,7 +302,7 @@ class Database
         $this->query2($query, 'ss', $email, $number);
     }
 
-    public function getCreditCard($email)
+    public function getCreditCards($email)
     {
         return $this->query("SELECT * FROM CREDIT_CARD WHERE email = ?", 's', $email);
     }
