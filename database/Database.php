@@ -102,10 +102,10 @@ class Database
         // Inizia con la base della query
         $query = "SELECT p.id_product 
         FROM PRODUCT p 
-        JOIN ORDERS_ITEM oi ON p.id_product = oi.id_product
-        JOIN IS_COLOR ic ON p.id_product = ic.id_product 
-        JOIN DIMENSION d ON p.id_product = d.id_product
-        JOIN IS_CATEGORY icat ON p.id_product = icat.id_product 
+        LEFT JOIN ORDERS_ITEM oi ON p.id_product = oi.id_product
+        LEFT JOIN IS_COLOR ic ON p.id_product = ic.id_product 
+        LEFT JOIN DIMENSION d ON p.id_product = d.id_product
+        LEFT JOIN IS_CATEGORY icat ON p.id_product = icat.id_product 
         WHERE 1=1"; // 1=1 è una base sempre vera per concatenare le condizioni dinamiche
 
         // Array per raccogliere i parametri
@@ -175,6 +175,8 @@ class Database
 
         // Esegui la query con i parametri raccolti
         echo $query;
+        echo $types;
+        var_dump($params);
         return $this->query($query, $types, ...$params);
     }
 
