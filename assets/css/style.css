@@ -9,36 +9,40 @@ footer {
     margin-top: auto;
 }
 
+/* Make the table smaller */
 table {
     width: 100%;
+    height: 100%;
     table-layout: fixed;
-    /* Ensures all columns have equal width */
-    height: 100vh;
-    /* Set the height to the full viewport height to make the table square */
+    /* Adjust this to make the table smaller, e.g., 50% of viewport height */
+    margin: 0 auto;
+    /* Centers the table */
 }
 
+/* Make each cell square */
 td {
     padding: 0;
     width: 11.1%;
-    /* 100% / 9 columns = approximately 11.1% width for each column */
-    height: 0;
     position: relative;
     padding-bottom: 11.1%;
-    /* This makes the height equal to the width, creating a square */
+    text-align: center;
+    vertical-align: middle;
 }
 
+/* Input field inside the table cell */
 td div {
-    height: 100%;
-    display: flex;
     align-items: center;
     justify-content: center;
+    height: 100%;
 }
 
-input[type="text"] {
+input[type="number"] {
     width: 100%;
     height: 100%;
     text-align: center;
     border: none;
     outline: none;
     box-sizing: border-box;
+    font-size: 2rem;
+    padding: 0;
 }

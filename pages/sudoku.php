@@ -6,10 +6,10 @@ include '../includes/header.php';
 ?>
 
 <body>
-    <div class="row">
+    <div class="row m-4">
         <div class="col-lg-8 mb-4">
             <section class="container border border-primary p-4 rounded">
-                <h2 class="text-center">Sezione Principale</h2>
+                <h2 class=" text-center">!! Sudoku !!</h2>
                 <?php
                 // Verifica se l'utente ha già risolto il Sudoku di oggi
                 if (isUserLoggedIn() && $db->sudokuRunner->isTodaySudokuWon($_SESSION["email"])) {
@@ -17,21 +17,26 @@ include '../includes/header.php';
                 }
                 ?>
 
+                <div id="winMessage" style="display: none;" class="alert alert-success text-center">
+                    <strong>Complimenti!</strong> Hai risolto il Sudoku di oggi!
+                </div>
+
                 <?php
                 // Recupera il Sudoku del giorno
                 $sudoku = $db->sudokuRunner->getTodaySudoku()[0]["grid"];
                 $sudokuSolved = $db->sudokuRunner->getTodaySolution()[0]["solution"];
                 ?>
-                <form>
+                <form class="container" style="aspect-ratio: 1; max-width: 800px;">
                     <table class="table table-bordered border border-dark">
                         <tbody>
                             <?php
                             for ($i = 0; $i < 9; $i++) : ?>
                                 <tr>
                                     <?php for ($j = 0; $j < 9; $j++) : ?>
-                                        <td scope="col">
+                                        <td scope="col" class="text-center">
                                             <div>
-                                                <input type="text" value="">
+                                                <input type="number" min="1" max="9" class="w-100 h-100 text-center" value="" data-i="<?= $i ?>"
+                                                    data-j="<?= $j ?>">
                                             </div>
                                         </td>
                                     <?php endfor ?>
@@ -40,6 +45,8 @@ include '../includes/header.php';
                         </tbody>
                     </table>
                 </form>
+                <div id="success-message"></div>
+
             </section>
         </div>
 
@@ -62,14 +69,15 @@ include '../includes/header.php';
             <?php endif; ?>
         </div>
 
-
+        <script>
+            // Pass PHP variables into JavaScript
+            var sudokuGrid = <?= json_encode($sudoku) ?>;
+            var sudokuSolution = <?= json_encode($sudokuSolved) ?>;
+        </script>
 
     </div>
 </body>
 <?php
 include '../includes/footer.php';
 ?>
-<script src="/assets/js/script.js"></script>
-
-
-</script>
+<script type="module" src="/assets/js/sudoku.js"></script>
