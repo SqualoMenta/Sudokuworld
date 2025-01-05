@@ -13,10 +13,10 @@ include("../includes/header.php");
     <h1>Benvenuto <?= $_SESSION["name"] ?></h1>
     <aside>
         <div>
-            <a href="">Informazioni</a>
+            <a href="info-user.php">Informazioni</a>
         </div>
         <div>
-            <a href="">I miei ordini</a>
+            <a href="previous_orders.php">I miei ordini</a>
         </div>
         <div>
             <a href="">Lista desideri</a>
