@@ -283,6 +283,11 @@ class Database
         return $this->query("SELECT o.id_order, o.day, oi.id_product FROM ORDERS o JOIN ORDERS_ITEM oi ON o.id_order = oi.id_order WHERE o.email = ?", 's', $email);
     }
 
+    public function getOrderProducts($id_order)
+    {
+        return $this->query("SELECT p.id_product FROM ORDERS_ITEM oi JOIN PRODUCT p ON oi.id_product = p.id_product WHERE oi.id_order = ?", 'i', $id_order);
+    }
+
     public function deleteOrderIfPossible($email, $id_order)
     {
         $query = "SELECT * FROM ORDERS WHERE email = ? AND id_order = ?";
