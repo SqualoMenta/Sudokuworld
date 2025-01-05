@@ -23,7 +23,7 @@ class Database
     public function query($query, $param_types, ...$params)
     {
         $stmt = $this->db->prepare($query);
-        if($param_types !== ''){
+        if ($param_types !== '') {
             $stmt->bind_param($param_types, ...$params);
         }
         $stmt->execute();
@@ -56,6 +56,12 @@ class Database
     {
         $query = "DELETE FROM CART WHERE email = ? AND id_product = ?";
         $this->query2($query, 'si', $email, $id_product);
+    }
+
+    public function emptyCart($email)
+    {
+        $query = "DELETE FROM CART WHERE email = ?";
+        $this->query2($query, 's', $email);
     }
 
     public function getCart($email)
@@ -261,13 +267,15 @@ class Database
     }
 
 
-    public function addOrder($email, $id_product)
+    public function addOrder($email, $id_products)
     {
         $query1 = "INSERT INTO ORDERS (day, email) VALUES (CURDATE(), ?)";
         $this->query2($query1, 's', $email);
         $id_order = $this->db->insert_id;
         $query2 = "INSERT INTO ORDERS_ITEM (id_product, id_order) VALUES (?, ?)";
-        $this->query2($query2, 'is', $id_product, $id_order);
+        foreach ($id_products as $id_product) {
+            $this->query2($query2, 'is', $id_product['id_product'], $id_order);
+        }
     }
 
     public function getOrders($email)
@@ -317,7 +325,8 @@ class Database
         return $this->query("SELECT color FROM COLOR", '');
     }
 
-    public function getAllDimensions(){
+    public function getAllDimensions()
+    {
         return $this->query("SELECT tag FROM SIZE", '');
     }
 }

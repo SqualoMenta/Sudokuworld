@@ -21,7 +21,8 @@ if (isset($_POST['credit_card'])) {
     if ($selected_card === 'new') {
         $db->addCreditCard($_SESSION["email"], $_POST['cardNumber'], $_POST['cardName'], $_POST['cardSurname'], $_POST['cardExpiration'] . '-01');
     }
-    // TODO: create order
+    $db->addOrder($_SESSION["email"], $cart->getProducts());
+    $db->emptyCart($_SESSION["email"]);
     header("Location: home.php");
 }
 
