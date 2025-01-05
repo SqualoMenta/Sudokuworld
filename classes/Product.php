@@ -9,8 +9,10 @@ class Product
     private $img;
     private $seller_email;
     private $discount;
+    private $availability;
+    private $removed;
 
-    public function __construct($id_product, $name, $price, $description, $image, $email, $discount)
+    public function __construct($id_product, $name, $price, $description, $image, $email, $discount, $availability, $removed = 0)
     {
         $this->id = $id_product;
         $this->name = $name;
@@ -19,6 +21,8 @@ class Product
         $this->img = $image;
         $this->seller_email = $email;
         $this->discount = $discount;
+        $this->availability = $availability;
+        $this->removed = $removed;
     }
 
     public function getId()
@@ -56,35 +60,47 @@ class Product
         return $this->discount;
     }
 
+    public function getAvailability()
+    {
+        return $this->availability;
+    }
+
+    public function isRemoved()
+    {
+        return $this->removed;
+    }
+
     public function displayEditForm($title)
     {
         echo '
-        <form action="#" method="POST" enctype="multipart/form-data" class="container mt-4">
-            <h2 class="mb-4">' . htmlspecialchars($title) . '</h2>
-            <div class="row">
-                <div class="col-md-6 mb-3">
+        <form action="#" method="POST" enctype="multipart/form-data" class="container mt-2">
+            <h2 class="mb-2">' . htmlspecialchars($title) . '</h2>
+                <div class="col-md-6 mb-2">
                     <label for="name">Nome:</label>
                     <input type="text" id="name" name="name" class="form-control" value="' . htmlspecialchars($this->name) . '" />
                 </div>
-                <div class="col-md-6 mb-3">
+                <div class="col-md-6 mb-2">
                     <label for="price">Prezzo:</label>
                     <input type="number" id="price" name="price" class="form-control" value="' . number_format($this->price, 2) . '" />
                 </div>
-            </div>
-            <div class="mb-3">
+            <div class="mb-2">
                 <label for="description">Descrizione:</label>
                 <input type="text" id="description" name="description" class="form-control" value="' . htmlspecialchars($this->description) . '" />
             </div>
-            <div class="mb-3">
+            <div class="mb-2">
                 <label for="discount">Sconto:</label>
                 <input type="number" id="discount" name="discount" class="form-control" value="' . htmlspecialchars($this->discount) . '" />
             </div>
-            <div class="mb-3">
+            <div class="mb-2">
+                <label for="availability">Disponibilit&agrave;:</label>
+                <input type="number" id="availability" name="availability" class="form-control" value="' . htmlspecialchars($this->availability) . '" />
+            </div>
+            <div class="mb-2">
                 <label for="image">Immagine:</label><br>
                 <img id="imagePreview" src="' . htmlspecialchars($this->img) . '" alt="Product Image" style="max-width: 100px;" class="mb-2" /><br>
                 <input type="file" name="image" id="image" accept="image/*" class="form-control-file" onchange="previewImage(event)" />
             </div>
-            <div class="mb-3 d-flex gap-1">
+            <div class="mb-2 d-flex gap-1">
                 <input type="submit" name="submit" value="Salva" class="btn btn-primary" />
                 <input type="submit" value="Annulla" class="btn btn-danger" formmethod="GET" formaction="/pages/seller_dashboard.php"/>
             </div>
@@ -124,7 +140,7 @@ class Product
         echo '
             <a href="product.php?id=' . $this->id . '" class="btn btn-info">Vedi dettagli</a>
             ';
-                    
+
         if ($sellerActions) {
             echo '
             <form method="get" action="/pages/edit_product.php">

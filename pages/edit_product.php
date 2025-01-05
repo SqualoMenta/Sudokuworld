@@ -17,7 +17,7 @@ if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
 if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["price"]) && isset($_POST["discount"])) {
     $imageName = $imageName ?? null;
     $_POST["price"] = 100 * $_POST["price"];
-    $db->seller->updateProduct($_GET["id_product"], $_POST["name"], $_POST["description"], $_POST["price"], $imageName, $_POST["discount"]);
+    $db->seller->updateProduct($_GET["id_product"], $_POST["name"], $_POST["description"], $_POST["price"], $imageName, $_POST["discount"], $_POST["availability"]);
     echo "Prodotto aggiotnato con successo!";
 }
 

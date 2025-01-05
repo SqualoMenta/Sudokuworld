@@ -76,10 +76,11 @@ class Database
     //     return $this->query($query, 'i', $id);
     // }
 
-    public function getProduct($id) //TODO: wrong
+    // TODO: le funzioni che ritornano dei prodotto non devono ritornare prodotti con removed = 1,
+    // tranne la funzione getProduct.
+    public function getProduct($id)
     {
-        $query = "SELECT * FROM PRODUCT p
-        WHERE id_product = ?";
+        $query = "SELECT * FROM PRODUCT p WHERE id_product = ?";
         return $this->query($query, 'i', $id);
     }
 
