@@ -47,9 +47,10 @@ include '../includes/header.php';
                 <p class="text-danger"><strong>Prezzo scontato:</strong> $<?= number_format($product->getFinalPrice($sudoku_solved), 2) ?> (<?= $product->getDiscount($sudoku_solved) ?>% off)</p>
             <?php endif; ?>
 
+            <p><strong>Disponibilit&agrave;:</strong> <?= $product->getAvailability() ?></p>
             <p><strong>Venditore:</strong> <?= htmlspecialchars($product->getSellerEmail()) ?></p>
 
-            <?php if (isUserLoggedIn()): ?>
+            <?php if (isUserLoggedIn() && !$product->isRemoved()): ?>
                 <?php if ($db->isProductInCart($_SESSION['email'], $product->getId())): ?>
                     <form action="#" method="post">
                         <input type="hidden" name="remove_from_cart" value="true">

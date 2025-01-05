@@ -5,6 +5,46 @@ include_once("../includes/functions.php");
 include '../includes/header.php';
 ?>
 
+<style>
+    /* Make the table smaller */
+    table {
+        width: 100%;
+        height: 100%;
+        table-layout: fixed;
+        /* Adjust this to make the table smaller, e.g., 50% of viewport height */
+        margin: 0 auto;
+        /* Centers the table */
+    }
+
+    /* Make each cell square */
+    td {
+        padding: 0;
+        width: 11.1%;
+        position: relative;
+        padding-bottom: 11.1%;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    /* Input field inside the table cell */
+    td div {
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    input[type="number"] {
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        border: none;
+        outline: none;
+        box-sizing: border-box;
+        font-size: 2rem;
+        padding: 0;
+    }
+</style>
+
 <body>
     <div class="row m-4">
         <div class="col-lg-8 mb-4">

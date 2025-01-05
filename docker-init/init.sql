@@ -14,11 +14,6 @@ create database SUDOKUWORLD;
 use SUDOKUWORLD;
 -- Tables Section
 -- _____________ 
-create table CART (
-    id_product int not null,
-    email varchar(64) not null,
-    constraint ID_CART_ID primary key (id_product, email)
-);
 create table CATEGORY (
     tag varchar(32) not null,
     constraint ID_CATEGORY_ID primary key (tag)
@@ -34,6 +29,11 @@ create table CREDIT_CARD (
     surname varchar(32) not null,
     expiration date not null,
     constraint ID_CREDIT_CARD_ID primary key (email, number)
+);
+create table CART (
+    id_product int not null,
+    email varchar(64) not null,
+    constraint ID_CART_ID primary key (id_product, email)
 );
 create table DIMENSION (
     id_product int not null,
@@ -62,8 +62,14 @@ create table NOTIFY (
 create table ORDERS (
     id_order int not null auto_increment,
     day date not null,
+    price int not null,
     email varchar(64) not null,
     constraint ID_ORDERS_ID primary key (id_order)
+);
+create table ORDERS_ITEM (
+    id_order int not null,
+    id_product int not null,
+    constraint ID_ORDERS_ITEM_ID primary key (id_order, id_product)
 );
 create table PRODUCT (
     id_product int not null auto_increment,
@@ -72,13 +78,10 @@ create table PRODUCT (
     price int not null,
     image varchar(128) not null,
     discount int not null,
+    availability int not null,
+    removed char not null,
     email varchar(64) not null,
     constraint ID_PRODUCT_ID primary key (id_product)
-);
-create table ORDERS_ITEM (
-    id_order int not null,
-    id_product int not null,
-    constraint ID_ORDERS_ITEM_ID primary key (id_order, id_product)
 );
 create table SIZE (
     tag varchar(8) not null,
@@ -109,12 +112,12 @@ create table WISHES (
 );
 -- Constraints Section
 -- ___________________ 
+alter table CREDIT_CARD
+add constraint FKOWNS foreign key (email) references USER (email);
 alter table CART
 add constraint FKCAR_USE_FK foreign key (email) references USER (email);
 alter table CART
 add constraint FKCAR_PRO foreign key (id_product) references PRODUCT (id_product);
-alter table CREDIT_CARD
-add constraint FKOWNS foreign key (email) references USER (email);
 alter table DIMENSION
 add constraint FKDIM_SIZ_FK foreign key (tag) references SIZE (tag);
 alter table DIMENSION
@@ -135,16 +138,16 @@ add constraint FKHAS_FK foreign key (email) references USER (email);
 --                  where ORDERS_ITEM.id_order = id_order)); 
 alter table ORDERS
 add constraint FKORDERS_FK foreign key (email) references USER (email);
+alter table ORDERS_ITEM
+add constraint FKORD_PRO_FK foreign key (id_product) references PRODUCT (id_product);
+alter table ORDERS_ITEM
+add constraint FKORD_ORD foreign key (id_order) references ORDERS (id_order);
 -- Not implemented
 -- alter table PRODUCT add constraint ID_PRODUCT_CHK
 --     check(exists(select * from IS_CATEGORY
 --                  where IS_CATEGORY.id_product = id_product)); 
 alter table PRODUCT
 add constraint FKSELLS_FK foreign key (email) references USER (email);
-alter table ORDERS_ITEM
-add constraint FKORD_PRO_FK foreign key (id_product) references PRODUCT (id_product);
-alter table ORDERS_ITEM
-add constraint FKORD_ORD foreign key (id_order) references ORDERS (id_order);
 alter table WINS
 add constraint FKWIN_USE_FK foreign key (email) references USER (email);
 alter table WINS
@@ -155,11 +158,11 @@ alter table WISHES
 add constraint FKWIS_PRO foreign key (id_product) references PRODUCT (id_product);
 -- Index Section
 -- _____________ 
-create unique index ID_CART_IND on CART (id_product, email);
-create index FKCAR_USE_IND on CART (email);
 create unique index ID_CATEGORY_IND on CATEGORY (tag);
 create unique index ID_COLOR_IND on COLOR (color);
 create unique index ID_CREDIT_CARD_IND on CREDIT_CARD (email, number);
+create unique index ID_CART_IND on CART (id_product, email);
+create index FKCAR_USE_IND on CART (email);
 create unique index ID_DIMENSION_IND on DIMENSION (id_product, tag);
 create index FKDIM_SIZ_IND on DIMENSION (tag);
 create unique index ID_IS_CATEGORY_IND on IS_CATEGORY (tag, id_product);
@@ -170,10 +173,10 @@ create unique index ID_NOTIFY_IND on NOTIFY (id_notify);
 create index FKHAS_IND on NOTIFY (email);
 create unique index ID_ORDERS_IND on ORDERS (id_order);
 create index FKORDERS_IND on ORDERS (email);
-create unique index ID_PRODUCT_IND on PRODUCT (id_product);
-create index FKSELLS_IND on PRODUCT (email);
 create unique index ID_ORDERS_ITEM_IND on ORDERS_ITEM (id_order, id_product);
 create index FKORD_PRO_IND on ORDERS_ITEM (id_product);
+create unique index ID_PRODUCT_IND on PRODUCT (id_product);
+create index FKSELLS_IND on PRODUCT (email);
 create unique index ID_SIZE_IND on SIZE (tag);
 create unique index ID_SUDOKU_IND on SUDOKU (day);
 create unique index ID_USER_IND on USER (email);
@@ -200,14 +203,16 @@ VALUES (
         '$2y$10$cTQEdrPr.1NlNLBEX.l.neXS4HfOQnzkgNZXtaaa520JS9w.HjsHK',
         0
     );
-insert into PRODUCT (name, description, price, image, email, discount)
+insert into PRODUCT (name, description, price, image, email, discount, availability, removed)
 VALUES (
         'tazza love sudoku',
         'Bellissima tazza con scritto I love sudoku',
         1000,
         '/uploads/products/tazza1.jpg',
         'seller1@gmail.com',
-        10
+        10,
+        10,
+        0
     ),
     (
         'rivista settimana sudoku',
@@ -215,6 +220,8 @@ VALUES (
         800,
         '/uploads/products/settimana_sudoku1.png',
         'seller1@gmail.com',
+        0,
+        100,
         0
     ),
     (
@@ -223,7 +230,9 @@ VALUES (
         1000,
         '/uploads/products/tshirt_commit_sudoky.jpg',
         'seller1@gmail.com',
-        20
+        20,
+        100,
+        0
     ),
     (
         'tazza love sudoku',
@@ -231,7 +240,9 @@ VALUES (
         1000,
         '/uploads/products/tazza1.jpg',
         'seller1@gmail.com',
-        10
+        10,
+        1000,
+        0
     ),
     (
         'rivista settimana sudoku',
@@ -239,6 +250,8 @@ VALUES (
         800,
         '/uploads/products/settimana_sudoku1.png',
         'seller1@gmail.com',
+        0,
+        5,
         0
     ),
     (
@@ -247,7 +260,9 @@ VALUES (
         1000,
         '/uploads/products/tshirt_commit_sudoky.jpg',
         'seller1@gmail.com',
-        20
+        20,
+        0,
+        1
     );
 insert into CATEGORY (tag)
 VALUES ('passatempo'),

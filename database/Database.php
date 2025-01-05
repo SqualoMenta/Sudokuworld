@@ -76,10 +76,11 @@ class Database
     //     return $this->query($query, 'i', $id);
     // }
 
-    public function getProduct($id) //TODO: wrong
+    // TODO: le funzioni che ritornano dei prodotto non devono ritornare prodotti con removed = 1,
+    // tranne la funzione getProduct.
+    public function getProduct($id)
     {
-        $query = "SELECT * FROM PRODUCT p
-        WHERE id_product = ?";
+        $query = "SELECT * FROM PRODUCT p WHERE id_product = ?";
         return $this->query($query, 'i', $id);
     }
 
@@ -267,10 +268,10 @@ class Database
     }
 
 
-    public function addOrder($email, $id_products)
+    public function addOrder($email, $id_products, $price)
     {
-        $query1 = "INSERT INTO ORDERS (day, email) VALUES (CURDATE(), ?)";
-        $this->query2($query1, 's', $email);
+        $query1 = "INSERT INTO ORDERS (day, email, price) VALUES (CURDATE(), ?, ?)";
+        $this->query2($query1, 'si', $email, $price);
         $id_order = $this->db->insert_id;
         $query2 = "INSERT INTO ORDERS_ITEM (id_product, id_order) VALUES (?, ?)";
         foreach ($id_products as $id_product) {
