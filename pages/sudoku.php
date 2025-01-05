@@ -60,7 +60,7 @@ include '../includes/header.php';
                 <section class="container mt-4 border border-dark p-4 rounded">
                     <div class="text-center">
                         <p class="alert alert-warning">Accedi per salvare i risultati</p>
-                        <button id="loginButton" class="btn btn-primary" href="login.php">Vai alla pagina di login</button>
+                        <a class="btn btn-primary" href="login.php">Vai alla pagina di login</a>
                     </div>
                 </section>
             <?php else:

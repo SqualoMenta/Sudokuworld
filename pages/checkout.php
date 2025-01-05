@@ -52,7 +52,7 @@ include '../includes/header.php';
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="credit_card" value="<?= $credit_card->getNumber() ?>" id="credit-card-<?= $credit_card->getNumber() ?>" required>
                         <label class="form-check-label" for="credit-card-<?= $credit_card->getNumber() ?>">
-                            <?= substr($credit_card->getNumber(), 0, 4) . ' **** **** **** ' . substr($credit_card->getNumber(), -4) ?>
+                            <?= $credit_card->getNumber() ?>
                         </label>
                     </div>
                 <?php } ?>
