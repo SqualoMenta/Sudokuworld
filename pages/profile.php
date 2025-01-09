@@ -9,33 +9,52 @@ if (!isUserLoggedIn()) {
 include("../includes/header.php");
 ?>
 
-<div>
-    <h1>Benvenuto <?= $_SESSION["name"] ?></h1>
-    <aside>
-        <div>
-            <a href="info-user.php">Informazioni</a>
-        </div>
-        <div>
-            <a href="previous_orders.php">I miei ordini</a>
-        </div>
-        <div>
-            <a href="">Lista desideri</a>
-        </div>
-        <div>
-            <a href="cart.php">Carrello</a>
-        </div>
-        <div>
-            <a href="logout.php">Esci</a>
-        </div>
-    </aside>
+<script>
+    function loadContent(page) {
+        const mainContent = document.getElementById('main-content');
+        mainContent.innerHTML = '<div class="loader">Loading...</div>';
 
-    <?php if ($_SESSION["is_seller"]): ?>
-        <div>
-            <a href="seller_dashboard.php"> Dashboard</a>
-        </div>
-    <?php endif; ?>
+        fetch(page)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.text();
+            })
+            .then(data => {
+                mainContent.innerHTML = data;
+            })
+            .catch(error => {
+                mainContent.innerHTML = '<div class="loader">Error loading page: ' + error.message + '</div>';
+            });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Load default content (e.g., profile.php) on page load
+        loadContent('previous_orders.php');
+
+        // Attach event listeners to sidebar links
+        const links = document.querySelectorAll('.sidebar a');
+        links.forEach(link => {
+            if(link.getAttribute('href') !== 'cart.php' && link.getAttribute('href') !== 'wishlist.php'){   
+                link.addEventListener('click', event => {
+                    event.preventDefault();
+                    loadContent(event.target.getAttribute('href'));
+                });                
+            }
+        });
+    });
+</script>
+    <div class="sidebar">
+        <a href="info-user.php">User Info</a>
+        <a href="previous_orders.php">Previous Orders</a>
+        <a href="logout.php">Logout</a>
+    </div>
+    <div class="main-content" id="main-content">
+        <!-- Content from the selected page will be loaded here -->
+    </div>
 
 
-    <?php
-    include("../includes/footer.php");
-    ?>
+<?php
+include("../includes/footer.php");
+?>

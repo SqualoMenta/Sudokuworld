@@ -181,9 +181,9 @@ class Database
         // }
 
         // Esegui la query con i parametri raccolti
-        echo $query;
-        echo $types;
-        var_dump($params);
+        // echo $query;
+        // echo $types;
+        // var_dump($params);
         return $this->query($query, $types, ...$params);
     }
 
@@ -278,8 +278,11 @@ class Database
             $this->query2($query2, 'is', $id_product['id_product'], $id_order);
         }
     }
-
     public function getOrders($email)
+    {
+        return $this->query("SELECT * FROM ORDERS WHERE email = ?", 's', $email);
+    }
+    public function getOrdersJoin($email)
     {
         return $this->query("SELECT o.id_order, o.day, oi.id_product FROM ORDERS o JOIN ORDERS_ITEM oi ON o.id_order = oi.id_order WHERE o.email = ?", 's', $email);
     }

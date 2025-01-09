@@ -19,7 +19,7 @@ if(isset($_POST["remove_card"])){
 
 }    
 $credit_cards = $db->getCreditCards($_SESSION["email"]);
-include '../includes/header.php';
+// include '../includes/header.php';
 ?>
 
 <div class="row">
@@ -38,12 +38,6 @@ include '../includes/header.php';
                 </div>
             <?php } ?>
             </form>
-            <!-- <div id="remove-card-container" style="display: none;" class="mt-3">
-            <input type="hidden" name="remove-card" value="true">
-                <button type="submitt" id="remove-card-button" class="btn btn-danger">Rimuovi Carta</button>
-            </div> -->
-
-            <!-- Button to add a new credit card -->
 
             <button type="button" id="add-new-card" class="btn btn-link mt-3">Inserisci un'altra carta</button>
             <form method="POST" action="#">
@@ -105,5 +99,5 @@ include '../includes/header.php';
 </script>
 
 <?php
-include("../includes/footer.php");
+// include("../includes/footer.php");
 ?>
