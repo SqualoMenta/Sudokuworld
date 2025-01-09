@@ -13,7 +13,6 @@ $id_products = $db->searchProductByName($_POST['searched-product']);
 if (!isset($_POST['discount'])) {
     $_POST['discount'] = false;
 }
-// var_dump($_POST);
 
 if (isset($_POST['category'])) {
     $id_products = $db->filteredSearchProduct(name:$_POST['searched-product'], category:$_POST['category'], is_discount:$_POST['discount'], color:$_POST['color'], dimension:$_POST['size']);
