@@ -3,7 +3,7 @@
 -- *--------------------------------------------
 -- * DB-MAIN version: 11.0.2              
 -- * Generator date: Sep 20 2021              
--- * Generation date: Fri Jan 10 15:50:23 2025 
+-- * Generation date: Fri Jan 10 16:33:19 2025 
 -- * LUN file: /home/davide/Desktop/unibo/web/Sudokuworld/Sudokuworld.lun 
 -- * Schema: SUDOKUWORLD/1-1 
 -- ********************************************* 
@@ -56,7 +56,7 @@ create table ORDERS (
 create table ORDERS_ITEM (
      id_order int not null,
      id_product int not null,
-     quantity char(1) not null,
+     quantity int not null,
      constraint ID_ORDERS_ITEM_ID primary key (id_order, id_product));
 
 create table PRODUCT (

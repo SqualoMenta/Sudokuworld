@@ -51,7 +51,7 @@ create table ORDERS (
 create table ORDERS_ITEM (
     id_order int not null,
     id_product int not null,
-    quantity char(1) not null,
+    quantity int not null,
     constraint ID_ORDERS_ITEM_ID primary key (id_order, id_product)
 );
 create table PRODUCT (

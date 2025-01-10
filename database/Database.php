@@ -239,17 +239,17 @@ class Database
         return $this->query("SELECT p.id_product FROM WISHES w JOIN PRODUCT p ON w.id_product = p.id_product WHERE w.email = ?", 's', $email);
     }
 
-
-    public function addOrder($email, $id_products, $price)
+    public function addOrder($email, $products, $price)
     {
         $query1 = "INSERT INTO ORDERS (day, email, price) VALUES (CURDATE(), ?, ?)";
         $this->query2($query1, 'si', $email, $price);
         $id_order = $this->db->insert_id;
-        $query2 = "INSERT INTO ORDERS_ITEM (id_product, id_order) VALUES (?, ?)";
-        foreach ($id_products as $id_product) {
-            $this->query2($query2, 'is', $id_product['id_product'], $id_order);
+        $query2 = "INSERT INTO ORDERS_ITEM (id_product, id_order, quantity) VALUES (?, ?, ?)";
+        foreach ($products as $product) {
+            $this->query2($query2, 'iii', $product['id_product'], $id_order, $product['quantity']);
         }
     }
+
     public function getOrders($email)
     {
         return $this->query("SELECT * FROM ORDERS WHERE email = ?", 's', $email);
