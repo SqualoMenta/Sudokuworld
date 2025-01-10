@@ -29,7 +29,7 @@
                 <a class="nav-link" href="/pages/profile.php">Profilo</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Notifiche</a>
+                <a class="nav-link" href="/pages/notifies.php">Notifiche</a>
             </li>
         </ul>
     </div>
