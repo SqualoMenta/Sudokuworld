@@ -203,7 +203,16 @@ VALUES (
         '$2y$10$cTQEdrPr.1NlNLBEX.l.neXS4HfOQnzkgNZXtaaa520JS9w.HjsHK',
         0
     );
-insert into PRODUCT (name, description, price, image, email, discount, availability, removed)
+insert into PRODUCT (
+        name,
+        description,
+        price,
+        image,
+        email,
+        discount,
+        availability,
+        removed
+    )
 VALUES (
         'tazza love sudoku',
         'Bellissima tazza con scritto I love sudoku',
@@ -235,34 +244,34 @@ VALUES (
         0
     ),
     (
-        'tazza love sudoku',
-        'Bellissima tazza con scritto I love sudoku',
-        1000,
-        '/uploads/products/tazza1.jpg',
+        'tazza sudoku is my game',
+        'Tazza Alex is my name sudoku is my game',
+        1250,
+        '/uploads/products/tazza2.jpeg',
         'seller1@gmail.com',
-        10,
-        1000,
-        0
-    ),
-    (
-        'rivista settimana sudoku',
-        'Fantastica rivista per allenare la mente con sudoku',
-        800,
-        '/uploads/products/settimana_sudoku1.png',
-        'seller1@gmail.com',
-        0,
         5,
+        25,
         0
     ),
     (
-        'maglia commit sudoku',
-        'Maglia con scritta commit sudoku',
-        1000,
-        '/uploads/products/tshirt_commit_sudoky.jpg',
+        'tazza con sudoku',
+        'tazza bianca con sudoku',
+        750,
+        '/uploads/products/tazza3.jpeg',
         'seller1@gmail.com',
-        20,
-        0,
-        1
+        5,
+        25,
+        0
+    ),
+    (
+        'tazza samurai sudoku',
+        'tazza con sudoku samurai',
+        750,
+        '/uploads/products/tazza_samurai.jpg',
+        'seller1@gmail.com',
+        2,
+        200,
+        0
     );
 insert into CATEGORY (tag)
 VALUES ('passatempo'),
