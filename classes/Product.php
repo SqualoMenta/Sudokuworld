@@ -8,11 +8,12 @@ class Product
     private $description;
     private $img;
     private $seller_email;
+    private $category_tag;
     private $discount;
     private $availability;
     private $removed;
 
-    public function __construct($id_product, $name, $price, $description, $image, $email, $discount, $availability, $removed = 0)
+    public function __construct($id_product, $name, $price, $description, $image, $email, $category_tag, $discount, $availability, $removed = 0)
     {
         $this->id = $id_product;
         $this->name = $name;
@@ -20,6 +21,7 @@ class Product
         $this->description = $description;
         $this->img = $image;
         $this->seller_email = $email;
+        $this->category_tag = $category_tag;
         $this->discount = $discount;
         $this->availability = $availability;
         $this->removed = $removed;
@@ -55,6 +57,11 @@ class Product
         return $this->seller_email;
     }
 
+    public function getCategoryTag()
+    {
+        return $this->category_tag;
+    }
+    
     public function getDiscount()
     {
         return $this->discount;
@@ -147,7 +154,7 @@ class Product
                 <input type="hidden" name="id_product" value="' . ($this->id) . '" />
                 <input type="submit" value="Modifica" class="btn btn-warning" />
             </form>
-            <form method="post" action="#">
+            <form method="post" action="#" onsubmit="return confirm(\'Sei sicuro di voler rimuovere il prodotto? L\'azione è \')">
                 <input type="hidden" name="id_product" value="' . ($this->id) . '" />
                 <input type="submit" value="Elimina" class="btn btn-danger" name="delete" />
             </form>';

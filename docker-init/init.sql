@@ -14,13 +14,14 @@ create database SUDOKUWORLD;
 use SUDOKUWORLD;
 -- Tables Section
 -- _____________ 
-create table CATEGORY (
-    tag varchar(32) not null,
-    constraint ID_CATEGORY_ID primary key (tag)
+create table CART (
+    id_product int not null,
+    email varchar(64) not null,
+    constraint ID_CART_ID primary key (id_product, email)
 );
-create table COLOR (
-    color varchar(32) not null,
-    constraint ID_COLOR_ID primary key (color)
+create table CATEGORY (
+    category_tag varchar(32) not null,
+    constraint ID_CATEGORY_ID primary key (category_tag)
 );
 create table CREDIT_CARD (
     email varchar(64) not null,
@@ -30,34 +31,14 @@ create table CREDIT_CARD (
     expiration date not null,
     constraint ID_CREDIT_CARD_ID primary key (email, number)
 );
-create table CART (
-    id_product int not null,
-    email varchar(64) not null,
-    constraint ID_CART_ID primary key (id_product, email)
-);
-create table DIMENSION (
-    id_product int not null,
-    tag varchar(8) not null,
-    constraint ID_DIMENSION_ID primary key (id_product, tag)
-);
-create table IS_CATEGORY (
-    tag varchar(32) not null,
-    id_product int not null,
-    constraint ID_IS_CATEGORY_ID primary key (tag, id_product)
-);
-create table IS_COLOR (
-    color varchar(32) not null,
-    id_product int not null,
-    constraint ID_IS_COLOR_ID primary key (color, id_product)
-);
-create table NOTIFY (
-    id_notify int not null,
+create table NOTIFICATION (
+    id_notification int not null auto_increment,
     title varchar(32) not null,
     day date not null,
     seen char not null,
     description varchar(1024) not null,
     email varchar(64) not null,
-    constraint ID_NOTIFY_ID primary key (id_notify)
+    constraint ID_NOTIFICATION_ID primary key (id_notification)
 );
 create table ORDERS (
     id_order int not null auto_increment,
@@ -65,11 +46,6 @@ create table ORDERS (
     price int not null,
     email varchar(64) not null,
     constraint ID_ORDERS_ID primary key (id_order)
-);
-create table ORDERS_ITEM (
-    id_order int not null,
-    id_product int not null,
-    constraint ID_ORDERS_ITEM_ID primary key (id_order, id_product)
 );
 create table PRODUCT (
     id_product int not null auto_increment,
@@ -81,17 +57,20 @@ create table PRODUCT (
     availability int not null,
     removed char not null,
     email varchar(64) not null,
+    category_tag varchar(32) not null,
     constraint ID_PRODUCT_ID primary key (id_product)
-);
-create table SIZE (
-    tag varchar(8) not null,
-    constraint ID_SIZE_ID primary key (tag)
 );
 create table SUDOKU (
     day date not null,
     grid varchar(128) not null,
     solution varchar(128) not null,
     constraint ID_SUDOKU_ID primary key (day)
+);
+create table ORDERS_ITEM (
+    id_order int not null,
+    id_product int not null,
+    quantity char(1) not null,
+    constraint ID_ORDERS_ITEM_ID primary key (id_order, id_product)
 );
 create table USER (
     name varchar(32) not null,
@@ -112,25 +91,13 @@ create table WISHES (
 );
 -- Constraints Section
 -- ___________________ 
-alter table CREDIT_CARD
-add constraint FKOWNS foreign key (email) references USER (email);
 alter table CART
 add constraint FKCAR_USE_FK foreign key (email) references USER (email);
 alter table CART
 add constraint FKCAR_PRO foreign key (id_product) references PRODUCT (id_product);
-alter table DIMENSION
-add constraint FKDIM_SIZ_FK foreign key (tag) references SIZE (tag);
-alter table DIMENSION
-add constraint FKDIM_PRO foreign key (id_product) references PRODUCT (id_product);
-alter table IS_CATEGORY
-add constraint FKIS__PRO_1_FK foreign key (id_product) references PRODUCT (id_product);
-alter table IS_CATEGORY
-add constraint FKIS__CAT foreign key (tag) references CATEGORY (tag);
-alter table IS_COLOR
-add constraint FKIS__PRO_FK foreign key (id_product) references PRODUCT (id_product);
-alter table IS_COLOR
-add constraint FKIS__COL foreign key (color) references COLOR (color);
-alter table NOTIFY
+alter table CREDIT_CARD
+add constraint FKOWNS foreign key (email) references USER (email);
+alter table NOTIFICATION
 add constraint FKHAS_FK foreign key (email) references USER (email);
 -- Not implemented
 -- alter table ORDERS add constraint ID_ORDERS_CHK
@@ -138,16 +105,14 @@ add constraint FKHAS_FK foreign key (email) references USER (email);
 --                  where ORDERS_ITEM.id_order = id_order)); 
 alter table ORDERS
 add constraint FKORDERS_FK foreign key (email) references USER (email);
+alter table PRODUCT
+add constraint FKSELLS_FK foreign key (email) references USER (email);
+alter table PRODUCT
+add constraint FKIS_CATEGORY_FK foreign key (category_tag) references CATEGORY (category_tag);
 alter table ORDERS_ITEM
 add constraint FKORD_PRO_FK foreign key (id_product) references PRODUCT (id_product);
 alter table ORDERS_ITEM
 add constraint FKORD_ORD foreign key (id_order) references ORDERS (id_order);
--- Not implemented
--- alter table PRODUCT add constraint ID_PRODUCT_CHK
---     check(exists(select * from IS_CATEGORY
---                  where IS_CATEGORY.id_product = id_product)); 
-alter table PRODUCT
-add constraint FKSELLS_FK foreign key (email) references USER (email);
 alter table WINS
 add constraint FKWIN_USE_FK foreign key (email) references USER (email);
 alter table WINS
@@ -158,27 +123,20 @@ alter table WISHES
 add constraint FKWIS_PRO foreign key (id_product) references PRODUCT (id_product);
 -- Index Section
 -- _____________ 
-create unique index ID_CATEGORY_IND on CATEGORY (tag);
-create unique index ID_COLOR_IND on COLOR (color);
-create unique index ID_CREDIT_CARD_IND on CREDIT_CARD (email, number);
 create unique index ID_CART_IND on CART (id_product, email);
 create index FKCAR_USE_IND on CART (email);
-create unique index ID_DIMENSION_IND on DIMENSION (id_product, tag);
-create index FKDIM_SIZ_IND on DIMENSION (tag);
-create unique index ID_IS_CATEGORY_IND on IS_CATEGORY (tag, id_product);
-create index FKIS__PRO_1_IND on IS_CATEGORY (id_product);
-create unique index ID_IS_COLOR_IND on IS_COLOR (color, id_product);
-create index FKIS__PRO_IND on IS_COLOR (id_product);
-create unique index ID_NOTIFY_IND on NOTIFY (id_notify);
-create index FKHAS_IND on NOTIFY (email);
+create unique index ID_CATEGORY_IND on CATEGORY (category_tag);
+create unique index ID_CREDIT_CARD_IND on CREDIT_CARD (email, number);
+create unique index ID_NOTIFICATION_IND on NOTIFICATION (id_notification);
+create index FKHAS_IND on NOTIFICATION (email);
 create unique index ID_ORDERS_IND on ORDERS (id_order);
 create index FKORDERS_IND on ORDERS (email);
-create unique index ID_ORDERS_ITEM_IND on ORDERS_ITEM (id_order, id_product);
-create index FKORD_PRO_IND on ORDERS_ITEM (id_product);
 create unique index ID_PRODUCT_IND on PRODUCT (id_product);
 create index FKSELLS_IND on PRODUCT (email);
-create unique index ID_SIZE_IND on SIZE (tag);
+create index FKIS_CATEGORY_IND on PRODUCT (category_tag);
 create unique index ID_SUDOKU_IND on SUDOKU (day);
+create unique index ID_ORDERS_ITEM_IND on ORDERS_ITEM (id_order, id_product);
+create index FKORD_PRO_IND on ORDERS_ITEM (id_product);
 create unique index ID_USER_IND on USER (email);
 create unique index ID_WINS_IND on WINS (day, email);
 create index FKWIN_USE_IND on WINS (email);
@@ -203,12 +161,17 @@ VALUES (
         '$2y$10$cTQEdrPr.1NlNLBEX.l.neXS4HfOQnzkgNZXtaaa520JS9w.HjsHK',
         0
     );
+insert into CATEGORY (category_tag)
+VALUES ('passatempo'),
+    ('abbigliamento'),
+    ('casa');
 insert into PRODUCT (
         name,
         description,
         price,
         image,
         email,
+        category_tag,
         discount,
         availability,
         removed
@@ -219,6 +182,7 @@ VALUES (
         1000,
         '/uploads/products/tazza1.jpg',
         'seller1@gmail.com',
+        'casa',
         10,
         10,
         0
@@ -229,6 +193,7 @@ VALUES (
         800,
         '/uploads/products/settimana_sudoku1.png',
         'seller1@gmail.com',
+        'passatempo',
         0,
         100,
         0
@@ -239,6 +204,7 @@ VALUES (
         1000,
         '/uploads/products/tshirt_commit_sudoky.jpg',
         'seller1@gmail.com',
+        'abbigliamento',
         20,
         100,
         0
@@ -249,6 +215,7 @@ VALUES (
         1250,
         '/uploads/products/tazza2.jpeg',
         'seller1@gmail.com',
+        'casa',
         5,
         25,
         0
@@ -259,6 +226,7 @@ VALUES (
         750,
         '/uploads/products/tazza3.jpeg',
         'seller1@gmail.com',
+        'casa',
         5,
         25,
         0
@@ -269,30 +237,11 @@ VALUES (
         750,
         '/uploads/products/tazza_samurai.jpg',
         'seller1@gmail.com',
+        'casa',
         2,
         200,
         0
     );
-insert into CATEGORY (tag)
-VALUES ('passatempo'),
-    ('abbigliamento'),
-    ('casa');
-insert into SIZE (tag)
-VALUES ('S'),
-    ('M'),
-    ('L'),
-    ('XL');
-insert into COLOR (color)
-VALUES ('bianco'),
-    ('nero'),
-    ('rosso');
-insert into IS_CATEGORY (tag, id_product)
-VALUES ('passatempo', 1),
-    ('passatempo', 2),
-    ('abbigliamento', 3),
-    ('abbigliamento', 4),
-    ('passatempo', 5),
-    ('abbigliamento', 6);
 INSERT INTO SUDOKU (day, grid, solution)
 VALUES (
         CURDATE(),
