@@ -24,6 +24,7 @@ include '../includes/header.php';
     </div>
 <?php endif; ?>
 
+<!-- TODO mostrare la quantità -->
 <?= displayProductPreviews($products, $db, $sudoku_solved) ?>
 
 <?php

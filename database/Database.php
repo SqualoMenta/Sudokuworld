@@ -46,10 +46,10 @@ class Database
         return count($this->query($query, 'si', $email, $id_product)) > 0;
     }
 
-    public function addProductToCart($email, $id_product)
+    public function addProductToCart($email, $id_product, $quantity)
     {
-        $query = "INSERT INTO CART (email, id_product) VALUES (?, ?)";
-        $this->query2($query, 'si', $email, $id_product);
+        $query = "INSERT INTO CART (email, id_product, quantity) VALUES (?, ?, ?)";
+        $this->query2($query, 'sii', $email, $id_product, $quantity);
     }
 
     public function removeProductFromCart($email, $id_product)
@@ -66,7 +66,7 @@ class Database
 
     public function getCart($email)
     {
-        return $this->query("SELECT id_product FROM CART where email = ?", 's', $email);
+        return $this->query("SELECT * FROM CART where email = ?", 's', $email);
     }
 
     // public function getProduct($id)
@@ -104,15 +104,13 @@ class Database
         return $this->query($query, '');
     }
 
-    public function filteredSearchProduct($name = null, $minPrice = null, $maxPrice = null, $category = null, $color = null, $dimension = null, $is_discount = false, $seller = null)
+    public function filteredSearchProduct($name = null, $minPrice = null, $maxPrice = null, $category = null, $is_discount = false, $seller = null)
     {
         // Inizia con la base della query
         $query = "SELECT p.id_product 
         FROM PRODUCT p 
         LEFT JOIN ORDERS_ITEM oi ON p.id_product = oi.id_product
-        LEFT JOIN IS_COLOR ic ON p.id_product = ic.id_product 
-        LEFT JOIN DIMENSION d ON p.id_product = d.id_product
-        LEFT JOIN IS_CATEGORY icat ON p.id_product = icat.id_product 
+        LEFT JOIN IS_CATEGORY icat ON p.id_product = icat.id_product
         WHERE 1=1"; // 1=1 è una base sempre vera per concatenare le condizioni dinamiche
 
         // Array per raccogliere i parametri
@@ -138,24 +136,12 @@ class Database
             $types .= 'i';
         }
 
-        if (!empty($color)) {
-            $query .= " AND ic.color = ?";
-            $params[] = $color;
-            $types .= 's';
-        }
-
-        if (!empty($dimension)) {
-            $query .= " AND d.dimension = ?";
-            $params[] = $dimension;
-            $types .= 's';
-        }
-
         if ($is_discount) {
             $query .= " AND p.discount > 0";
         }
 
         if (!empty($category)) {
-            $query .= " AND icat.tag = ?";
+            $query .= " AND icat.category_tag = ?";
             $params[] = $category;
             $types .= 's';
         }
@@ -326,17 +312,7 @@ class Database
 
     public function getAllCategories()
     {
-        return $this->query("SELECT tag FROM CATEGORY", '');
-    }
-
-    public function getAllColors()
-    {
-        return $this->query("SELECT color FROM COLOR", '');
-    }
-
-    public function getAllDimensions()
-    {
-        return $this->query("SELECT tag FROM SIZE", '');
+        return $this->query("SELECT category_tag FROM CATEGORY", '');
     }
     public function getNotification($email)
     {

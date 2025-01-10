@@ -21,11 +21,12 @@ if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["price
     $db->seller->insertProduct($_POST["name"], $_POST["description"], $_POST["price"], $imageName, $_SESSION["email"], $_POST["discount"], $_POST["availability"]);
     echo "Prodotto inserito con successo!";
 }
-$product = new Product(null, '', 0, '', '', $_SESSION["email"], 0, 10);
+$product = new Product(null, '', 0, '', '', $_SESSION["email"], '', 0, 10);
+$categories = $db->getAllCategories();
 include("../includes/header.php");
 ?>
 
-<?= $product->displayEditForm("Inserisci prodotto") ?>
+<?= $product->displayEditForm("Inserisci prodotto", $categories) ?>
 
 <?php
 include("../includes/footer.php");

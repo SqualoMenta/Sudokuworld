@@ -40,13 +40,13 @@ class Seller
 
     public function addProductCategory($id_product, $category)
     {
-        $query = "INSERT INTO IS_CATEGORY (id_product, tag) VALUES (?, ?)";
+        $query = "INSERT INTO IS_CATEGORY (id_product, category_tag) VALUES (?, ?)";
         $this->db->query2($query, 'is', $id_product, $category);
     }
 
     public function removeProductCategory($id_product, $category)
     {
-        $query = "DELETE FROM IS_CATEGORY WHERE id_product = ? AND tag = ?";
+        $query = "DELETE FROM IS_CATEGORY WHERE id_product = ? AND category_tag = ?";
         $this->db->query2($query, 'is', $id_product, $category);
     }
 
@@ -93,7 +93,7 @@ class Seller
         $this->db->query2($query, 'i', $id_product);
     }
 
-    public function updateProduct($id_product, $name = null, $description = null, $price = null, $img = null, $discount = -1, $availability = null)
+    public function updateProduct($id_product, $name = null, $description = null, $price = null, $img = null, $category = null, $discount = -1, $availability = null)
     {
         $query = "UPDATE PRODUCT SET id_product = id_product";
 
@@ -124,6 +124,12 @@ class Seller
             $types .= 's';
         }
 
+        if ($category != null) {
+            $query .= ", category_tag = ?";
+            $params[] = $category;
+            $types .= 's';
+        }
+        
         if ($discount != -1) {
             $query .= ", discount = ?";
             $params[] = $discount;

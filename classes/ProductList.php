@@ -18,7 +18,7 @@ class ProductList
         $totalPrice = 0;
         foreach ($this->products as $p) {
             $product = new Product(...$db->getProduct($p['id_product'])[0]);
-            $totalPrice += $product->getFinalPrice($sudoku_solved);
+            $totalPrice += $product->getFinalPrice($sudoku_solved) * $p['quantity'];
         }
         return $totalPrice;
     }

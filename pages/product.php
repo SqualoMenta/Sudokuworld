@@ -12,8 +12,9 @@ if (count($productList) == 0) {
 $product = new Product(...$productList[0]);
 $sudoku_solved = false;
 if (isUserLoggedIn()) {
+    // TODO: pensare a come gestire uno che ha già il prodotto nel carrello ma vuole cambiare la quantità
     if (isset($_POST["add_to_cart"]) && !$db->isProductInCart($_SESSION["email"], $product->getId())) {
-        $db->addProductToCart($_SESSION["email"], $product->getId());
+        $db->addProductToCart($_SESSION["email"], $product->getId(), $_POST["quantity"]);
     }
 
     if (isset($_POST["remove_from_cart"]) && $db->isProductInCart($_SESSION["email"], $product->getId())) {
@@ -56,8 +57,10 @@ include '../includes/header.php';
                         <input type="hidden" name="remove_from_cart" value="true">
                         <button type="submit" class="btn btn-danger">Rimuovi dal carrello</button>
                     </form>
-                <?php else: ?>
+                <?php elseif ($product->getAvailability() > 0): ?>
                     <form action="#" method="post">
+                        <label for="quantity">Quantit&agrave;:</label>
+                        <input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" max=<?= $product->getAvailability() ?> />
                         <input type="hidden" name="add_to_cart" value="true">
                         <button type="submit" class="btn btn-primary">Aggiungi al carrello</button>
                     </form>

@@ -17,6 +17,7 @@ use SUDOKUWORLD;
 create table CART (
     id_product int not null,
     email varchar(64) not null,
+    quantity int not null,
     constraint ID_CART_ID primary key (id_product, email)
 );
 create table CATEGORY (
@@ -47,6 +48,12 @@ create table ORDERS (
     email varchar(64) not null,
     constraint ID_ORDERS_ID primary key (id_order)
 );
+create table ORDERS_ITEM (
+    id_order int not null,
+    id_product int not null,
+    quantity char(1) not null,
+    constraint ID_ORDERS_ITEM_ID primary key (id_order, id_product)
+);
 create table PRODUCT (
     id_product int not null auto_increment,
     name varchar(128) not null,
@@ -65,12 +72,6 @@ create table SUDOKU (
     grid varchar(128) not null,
     solution varchar(128) not null,
     constraint ID_SUDOKU_ID primary key (day)
-);
-create table ORDERS_ITEM (
-    id_order int not null,
-    id_product int not null,
-    quantity char(1) not null,
-    constraint ID_ORDERS_ITEM_ID primary key (id_order, id_product)
 );
 create table USER (
     name varchar(32) not null,
@@ -105,14 +106,14 @@ add constraint FKHAS_FK foreign key (email) references USER (email);
 --                  where ORDERS_ITEM.id_order = id_order)); 
 alter table ORDERS
 add constraint FKORDERS_FK foreign key (email) references USER (email);
-alter table PRODUCT
-add constraint FKSELLS_FK foreign key (email) references USER (email);
-alter table PRODUCT
-add constraint FKIS_CATEGORY_FK foreign key (category_tag) references CATEGORY (category_tag);
 alter table ORDERS_ITEM
 add constraint FKORD_PRO_FK foreign key (id_product) references PRODUCT (id_product);
 alter table ORDERS_ITEM
 add constraint FKORD_ORD foreign key (id_order) references ORDERS (id_order);
+alter table PRODUCT
+add constraint FKSELLS_FK foreign key (email) references USER (email);
+alter table PRODUCT
+add constraint FKIS_CATEGORY_FK foreign key (category_tag) references CATEGORY (category_tag);
 alter table WINS
 add constraint FKWIN_USE_FK foreign key (email) references USER (email);
 alter table WINS
@@ -131,12 +132,12 @@ create unique index ID_NOTIFICATION_IND on NOTIFICATION (id_notification);
 create index FKHAS_IND on NOTIFICATION (email);
 create unique index ID_ORDERS_IND on ORDERS (id_order);
 create index FKORDERS_IND on ORDERS (email);
+create unique index ID_ORDERS_ITEM_IND on ORDERS_ITEM (id_order, id_product);
+create index FKORD_PRO_IND on ORDERS_ITEM (id_product);
 create unique index ID_PRODUCT_IND on PRODUCT (id_product);
 create index FKSELLS_IND on PRODUCT (email);
 create index FKIS_CATEGORY_IND on PRODUCT (category_tag);
 create unique index ID_SUDOKU_IND on SUDOKU (day);
-create unique index ID_ORDERS_ITEM_IND on ORDERS_ITEM (id_order, id_product);
-create index FKORD_PRO_IND on ORDERS_ITEM (id_product);
 create unique index ID_USER_IND on USER (email);
 create unique index ID_WINS_IND on WINS (day, email);
 create index FKWIN_USE_IND on WINS (email);
