@@ -300,7 +300,7 @@ class Database
     {
         return $this->query("SELECT category_tag FROM CATEGORY", '');
     }
-    public function getNotification($email)
+    public function getNotifications($email)
     {
         return $this->query("SELECT * FROM NOTIFICATION WHERE email = ?", 's', $email);
     }

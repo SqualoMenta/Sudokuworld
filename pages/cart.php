@@ -3,6 +3,7 @@ include_once("../includes/bootstrap.php");
 include_once("../includes/functions.php");
 require_once("../classes/Product.php");
 require_once("../classes/ProductList.php");
+// TODO: fare redirect a se stessi in tutte le pagine dopo una post in modo che non ho la form resubmissione query multiple
 
 if (!isUserLoggedIn()) {
     header("Location: login.php");
