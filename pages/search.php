@@ -9,6 +9,9 @@ include '../includes/header.php';
 if (!isset($_POST['searched-product'])) {
     $_POST['searched-product'] = "";
 }
+
+// TODO: aggiungere filtro per prezzo, volendo anche sortare per più venduti
+
 $id_products = $db->searchProductByName($_POST['searched-product']);
 if (!isset($_POST['discount'])) {
     $_POST['discount'] = false;
