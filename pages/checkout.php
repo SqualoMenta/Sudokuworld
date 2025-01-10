@@ -57,12 +57,6 @@ include '../includes/header.php';
                         </label>
                     </div>
                 <?php } ?>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="credit_card" value="1234" id="credit_card" required>
-                    <label class="form-check-label" for="credit_card">
-                        1234
-                    </label>
-                </div>
                 <!-- Option to add new credit card -->
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="credit_card" value="new" id="new-card" required>

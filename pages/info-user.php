@@ -10,13 +10,12 @@ if (!isUserLoggedIn()) {
 
 if (isset($_POST['add_card'])) {
     $db->addCreditCard($_SESSION["email"], $_POST['cardNumber'], $_POST['cardName'], $_POST['cardSurname'], $_POST['cardExpiration'] . '-01');
-    header("Location: info-user.php");
+    header("Location: profile.php");
 }
 
 if(isset($_POST["remove_card"])){
     $db->removeCreditCard($_SESSION["email"], $_POST["remove_card"]);
-    header("Location: info-user.php");
-
+    header("Location: profile.php");
 }    
 $credit_cards = $db->getCreditCards($_SESSION["email"]);
 // include '../includes/header.php';

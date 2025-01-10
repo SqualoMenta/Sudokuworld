@@ -14,7 +14,13 @@ $products = $cart->getProducts();
 include '../includes/header.php';
 
 ?>
-<?= displayProductPreviews($products, $db, $sudoku_solved) ?>
+<?php if (empty($products)) : ?>
+    <h1>La lista desideri è vuota</h1>
+<?php else: ?>
+
+<?php displayProductPreviews($products, $db, $sudoku_solved); ?>
+
+<?php endif; ?>
 
 <?php
 include '../includes/footer.php';

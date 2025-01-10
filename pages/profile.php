@@ -34,7 +34,7 @@ include("../includes/header.php");
 
         const links = document.querySelectorAll('.sidebar a');
         links.forEach(link => {
-            if (link.getAttribute('href') !== 'cart.php' && link.getAttribute('href') !== 'wishlist.php' && link.getAttribute('href') !== 'logout.php') {
+            if (link.getAttribute('href') !== 'cart.php' && link.getAttribute('href') !== 'wishlist.php' && link.getAttribute('href') !== 'logout.php' && link.getAttribute('href') !== "seller_dashboard.php") {
                 link.addEventListener('click', event => {
                     event.preventDefault();
                     loadContent(event.target.getAttribute('href'));
@@ -44,8 +44,11 @@ include("../includes/header.php");
     });
 </script>
 <div class="sidebar">
-    <a href="info-user.php">User Info</a>
-    <a href="previous_orders.php">Previous Orders</a>
+    <a href="info-user.php">Informazioni utente</a>
+    <a href="previous_orders.php">Ordini precedenti</a>
+    <?php if ($_SESSION["is_seller"]) : ?>
+        <a href="seller_dashboard.php">Vetrina venditore</a>
+    <?php endif; ?>
     <a href="logout.php">Logout</a>
 </div>
 <div class="main-content" id="main-content">
