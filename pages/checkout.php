@@ -22,6 +22,7 @@ if (isset($_POST['credit_card'])) {
         $db->addCreditCard($_SESSION["email"], $_POST['cardNumber'], $_POST['cardName'], $_POST['cardSurname'], $_POST['cardExpiration'] . '-01');
     }
     $db->addOrder($_SESSION["email"], $cart->getProducts(), $price);
+    $db->addNotification($_SESSION["email"], "Nuovo ordine", "Hai effettuato un nuovo ordine di " . number_format($price, 2) . "€");
     $db->emptyCart($_SESSION["email"]);
     header("Location: home.php");
 }

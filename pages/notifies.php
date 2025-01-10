@@ -8,5 +8,12 @@ if (!isUserLoggedIn()) {
     exit;
 }
 
+$notifies = $db->getNotifies($_SESSION["email"]);
 
 ?>
+
+<div>
+    <h1>Notifiche</h1>
+    <?php foreach ($notifies as $notify) : ?>
+        <label><?= $notify["message"] ?></label>
+    <?php endforeach; ?>

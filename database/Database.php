@@ -338,4 +338,13 @@ class Database
     {
         return $this->query("SELECT tag FROM SIZE", '');
     }
+    public function getNotification($email)
+    {
+        return $this->query("SELECT * FROM NOTIFICATION WHERE email = ?", 's', $email);
+    }
+    public function addNotification($email, $title, $description)
+    {
+        $query = "INSERT INTO NOTIFICATION (title, day, seen, description, email) VALUES (?, CURDATE(), ?, ?, ?)";
+        $this->query2($query, 'siss', $title, 0, $description, $email);
+    }
 }
