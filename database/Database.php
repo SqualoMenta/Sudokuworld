@@ -104,30 +104,27 @@ class Database
         return $this->query($query, '');
     }
 
-    public function filteredSearchProduct($name = null, $minPrice = null, $maxPrice = null, $category = null, $is_discount = false, $seller = null)
+    public function filteredSearchProduct($name = null, $minPrice = null, $maxPrice = null, $category = null, $is_discount = false)
     {
         // Inizia con la base della query
         $query = "SELECT p.id_product 
         FROM PRODUCT p 
         LEFT JOIN ORDERS_ITEM oi ON p.id_product = oi.id_product
-        LEFT JOIN IS_CATEGORY icat ON p.id_product = icat.id_product
         WHERE 1=1"; // 1=1 è una base sempre vera per concatenare le condizioni dinamiche
 
-        // Array per raccogliere i parametri
         $params = [];
         $types = '';
 
-        // Aggiungi le condizioni solo se i parametri non sono nulli o vuoti
         if (!empty($name)) {
             $query .= " AND p.name LIKE ?";
             $params[] = "%$name%";
-            $types .= 's'; // Tipo stringa
+            $types .= 's';
         }
 
         if (!empty($minPrice)) {
             $query .= " AND p.price >= ?";
             $params[] = $minPrice;
-            $types .= 'i'; // Tipo intero
+            $types .= 'i';
         }
 
         if (!empty($maxPrice)) {
@@ -141,14 +138,8 @@ class Database
         }
 
         if (!empty($category)) {
-            $query .= " AND icat.category_tag = ?";
+            $query .= " AND p.category_tag = ?";
             $params[] = $category;
-            $types .= 's';
-        }
-
-        if (!empty($seller)) {
-            $query .= " AND p.email = ?";
-            $params[] = $seller;
             $types .= 's';
         }
 
@@ -165,11 +156,6 @@ class Database
         //     $params[] = "%$name%";
         //     $types .= 'ss';
         // }
-
-        // Esegui la query con i parametri raccolti
-        // echo $query;
-        // echo $types;
-        // var_dump($params);
         return $this->query($query, $types, ...$params);
     }
 

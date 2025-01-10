@@ -15,14 +15,14 @@ if (!isset($_POST['discount'])) {
 }
 
 if (isset($_POST['category'])) {
-    $id_products = $db->filteredSearchProduct(name:$_POST['searched-product'], category:$_POST['category'], is_discount:$_POST['discount']);
+    $id_products = $db->filteredSearchProduct(name: $_POST['searched-product'], category: $_POST['category'], is_discount: $_POST['discount']);
     foreach ($id_products as $id) {
         $prod = new Product(...$db->getProduct($id['id_product'])[0]);
     }
     // echo "Risultati per: " . $_POST['category'];
 }
 $sudoku_solved = false;
-if(isUserLoggedIn()) {
+if (isUserLoggedIn()) {
     $sudoku_solved = $db->sudokuRunner->isTodaySudokuWon($_SESSION["email"]);
 }
 $categories = $db->getAllCategories();
@@ -56,6 +56,7 @@ $categories = $db->getAllCategories();
             <input type="checkbox" id="discount" name="discount" value="true">
             In sconto
         </label>
+        <button type="submit">Applica filtri</button>
     </form>
 </aside>
 
