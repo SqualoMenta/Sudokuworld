@@ -15,15 +15,16 @@ $products = $cart->getProducts();
 include '../includes/header.php';
 
 ?>
-
-<?php if (empty($products)) : ?>
-    <h1>Il carrello è vuoto</h1>
-<?php else: ?>
-    <div>
-        <h1> Prezzo totale: $<?= number_format($cart->getTotalPrice($db, $sudoku_solved), 2) ?> </h1>
-        <a href="/pages/checkout.php" class="btn btn-info">Vai al checkout</a>
-    </div>
-<?php endif; ?>
+<div class="container text-center">
+    <?php if (empty($products)) : ?>
+        <h1>Il carrello è vuoto</h1>
+    <?php else: ?>
+        <div>
+            <h1>Prezzo totale: $<?= number_format($cart->getTotalPrice($db, $sudoku_solved), 2) ?></h1>
+            <a href="/pages/checkout.php" class="btn btn-info">Vai al checkout</a>
+        </div>
+    <?php endif; ?>
+</div>
 
 <!-- TODO mostrare la quantità -->
 <?= displayProductPreviews($products, $db, $sudoku_solved) ?>

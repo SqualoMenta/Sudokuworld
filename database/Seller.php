@@ -16,7 +16,7 @@ class Seller
 
     public function getProductsSoldBy($email)
     {
-        $query = "SELECT id_product FROM PRODUCT WHERE email = ?";
+        $query = "SELECT id_product FROM PRODUCT WHERE email = ? AND removed = 0";
         return $this->db->query($query, 's', $email);
     }
 

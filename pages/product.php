@@ -53,8 +53,9 @@ include '../includes/header.php';
             <?php if ($product->getDiscount() > 0): ?>
                 <p class="text-danger"><strong>Prezzo scontato:</strong> $<?= number_format($product->getFinalPrice($sudoku_solved), 2) ?> (<?= $product->getDiscount($sudoku_solved) ?>% off)</p>
             <?php endif; ?>
-
-            <p><strong>Disponibilit&agrave;:</strong> <?= $product->getAvailability() ?></p>
+            <?php if (!$product->isRemoved()): ?>
+                <p><strong>Quantit&agrave; disponibile:</strong> <?= $product->getAvailability() ?></p>
+            <?php endif; ?>
             <p><strong>Venditore:</strong> <?= htmlspecialchars($product->getSellerEmail()) ?></p>
 
             <?php if (isUserLoggedIn() && !$product->isRemoved()): ?>
@@ -84,6 +85,11 @@ include '../includes/header.php';
                     </form>
                 <?php endif; ?>
             <?php endif; ?>
+
+            <?php if ($product->isRemoved()): ?>
+                <p class="text-danger"><strong>Il prodotto è stato rimosso dal venditore</strong></p>
+            <?php endif; ?>
+
         </div>
     </div>
 </div>

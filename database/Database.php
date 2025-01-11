@@ -76,7 +76,6 @@ class Database
         $query = "SELECT * FROM PRODUCT p WHERE id_product = ?";
         return $this->query($query, 'i', $id);
     }
-    
 
     public function filteredSearchProduct($name = null, $minPrice = null, $maxPrice = null, $category = null, $is_discount = false)
     {
@@ -84,7 +83,7 @@ class Database
         $query = "SELECT p.id_product 
         FROM PRODUCT p 
         LEFT JOIN ORDERS_ITEM oi ON p.id_product = oi.id_product
-        WHERE 1=1"; // 1=1 è una base sempre vera per concatenare le condizioni dinamiche
+        WHERE p.removed = 0"; // 1=1 è una base sempre vera per concatenare le condizioni dinamiche
 
         $params = [];
         $types = '';
@@ -139,6 +138,7 @@ class Database
             SELECT p.id_product
             FROM PRODUCT p
             WHERE p.name LIKE ?
+            AND p.removed = 0
             ORDER BY 
                 CASE 
                     WHEN p.name = ? THEN 1 -- Nomi esatti

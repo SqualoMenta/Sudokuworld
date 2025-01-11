@@ -20,6 +20,7 @@ if (count($productList) == 0) {
     exit();
 }
 $product = new Product(...$productList[0]);
+// TODO: pensare cosa fare se uno arriva a questa pagina con un prodotto rimosso
 
 if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["price"]) && isset($_POST["discount"])) {
     $imageName = $imageName ?? null;

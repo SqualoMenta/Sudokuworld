@@ -142,38 +142,39 @@ class Product
 
     public function displayPreview($sudoku_solved, $sellerActions = false)
     {
+
         echo '
-        <div class="col-md-2 mb-4">  <!-- Added col-md-4 to display 3 items per row -->
-            <div class="card" style="width: 100%;">  <!-- Set width to 100% to fill the column -->
-                <img src="' . htmlspecialchars($this->img) . '" class="card-img-top" alt="' . htmlspecialchars($this->name) . '">
-                <div class="card-body">
-                    <h5 class="card-title">' . htmlspecialchars($this->name) . '</h5>
-                    <p class="card-text"><strong>Prezzo:</strong> $' . number_format($this->price, 2) . '</p>';
+    <div class="col-md-2 mb-4">
+        <div class="card" style="width: 100%; ' . ($this->removed ? 'opacity: 0.5;' : '') . '"> 
+            <img src="' . htmlspecialchars($this->img) . '" class="card-img-top" alt="' . htmlspecialchars($this->name) . '">
+            <div class="card-body">
+                <h5 class="card-title">' . htmlspecialchars($this->name) . '</h5>
+                <p class="card-text"><strong>Prezzo:</strong> $' . number_format($this->price, 2) . '</p>';
 
         if ($this->discount > 0) {
             echo '<p class="card-text text-danger"><strong>Prezzo scontato:</strong> $' . number_format($this->getFinalPrice($sudoku_solved), 2) . ' (' . number_format($this->getFinalDiscount($sudoku_solved), 1) . '% off)</p>';
         }
 
         echo '
-            <a href="product.php?id=' . $this->id . '" class="btn btn-info">Vedi dettagli</a>
-            ';
+        <a href="product.php?id=' . $this->id . '" class="btn btn-info">Vedi dettagli</a>
+        ';
 
         if ($sellerActions) {
             echo '
-            <form method="get" action="/pages/edit_product.php">
-                <input type="hidden" name="id_product" value="' . ($this->id) . '" />
-                <input type="submit" value="Modifica" class="btn btn-warning" />
-            </form>
-            <form method="post" action="#" onsubmit="return confirm(\'Sei sicuro di voler rimuovere il prodotto? L\'azione è \')">
-                <input type="hidden" name="id_product" value="' . ($this->id) . '" />
-                <input type="submit" value="Elimina" class="btn btn-danger" name="delete" />
-            </form>';
+        <form method="get" action="/pages/edit_product.php">
+            <input type="hidden" name="id_product" value="' . ($this->id) . '" />
+            <input type="submit" value="Modifica" class="btn btn-warning" />
+        </form>
+        <form method="post" action="#" onsubmit="return confirm(\'Sei sicuro di voler rimuovere il prodotto? L\'azione è \')">
+            <input type="hidden" name="id_product" value="' . ($this->id) . '" />
+            <input type="submit" value="Elimina" class="btn btn-danger" name="delete" />
+        </form>';
         }
 
         echo '
-                </div>
             </div>
-        </div>';
+        </div>
+    </div>';
     }
 
     public function getFinalPrice($sudoku_solved)
