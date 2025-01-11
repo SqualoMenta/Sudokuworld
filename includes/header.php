@@ -6,10 +6,9 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="/pages/home.php">SudokuWorld</a>
-
         <form class="d-flex align-items-center" action="/pages/search.php" method="post">
-            <input class="form-control me-2" type="text" name="searched-product" placeholder="Search" 
-                   value="<?php if (isset($_POST['searched-product'])) echo $_POST['searched-product']; ?>">
+            <input class="form-control me-2" type="text" name="searched-product" placeholder="Search"
+                value="<?php $selected_searched_product ?>">
             <button class="btn btn-outline-success" type="submit">Cerca</button>
         </form>
 

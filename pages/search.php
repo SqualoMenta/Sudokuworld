@@ -4,69 +4,95 @@ include_once("../includes/functions.php");
 require_once("../classes/Product.php");
 require_once("../classes/ProductList.php");
 
-include '../includes/header.php';
-
-if (!isset($_POST['searched-product'])) {
-    $_POST['searched-product'] = "";
-}
-
 // TODO: aggiungere filtro per prezzo, volendo anche sortare per più venduti
+$selected_searched_product = isset($_POST['searched-product']) ? $_POST['searched-product'] : "";
+$selected_category = isset($_POST['category']) ? $_POST['category'] : "";
+$selected_min_price = isset($_POST['minprice']) ? $_POST['minprice'] : 0;
+$selected_max_price = isset($_POST['maxprice']) ? $_POST['maxprice'] : 100;
+$selected_is_discount = isset($_POST['discount']) ? 1 : 0;
 
-$id_products = $db->searchProductByName($_POST['searched-product']);
-if (!isset($_POST['discount'])) {
-    $_POST['discount'] = false;
-}
 
-if (isset($_POST['category'])) {
-    $id_products = $db->filteredSearchProduct(name: $_POST['searched-product'], category: $_POST['category'], is_discount: $_POST['discount']);
-    foreach ($id_products as $id) {
-        $prod = new Product(...$db->getProduct($id['id_product'])[0]);
-    }
-    // echo "Risultati per: " . $_POST['category'];
+$id_products = $db->filteredSearchProduct(name: $selected_searched_product, minPrice: $selected_min_price * 100, maxPrice: $selected_max_price * 100, category: $selected_category, is_discount: $selected_is_discount);
+foreach ($id_products as $id) {
+    $prod = new Product(...$db->getProduct($id['id_product'])[0]);
 }
 $sudoku_solved = false;
 if (isUserLoggedIn()) {
     $sudoku_solved = $db->sudokuRunner->isTodaySudokuWon($_SESSION["email"]);
 }
+
 $categories = $db->getAllCategories();
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//     $queryString = $_SERVER['QUERY_STRING'];
+//     $url = $_SERVER['PHP_SELF'] . ($queryString ? '?' . $queryString : '');
+//     header("Location: " . $url);
+// }
+include '../includes/header.php';
+
 ?>
-<aside>
-    <form action="/pages/search.php" method="post">
-        <input type="hidden" name="searched-product" value="<?php if (isset($_POST['searched-product'])) echo $_POST['searched-product']; ?>">
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-md-2 col-sm-12">
+            <div class="bg-light border p-3">
+                <form action="/pages/search.php" method="post">
+                    <input type="hidden" name="searched-product" value="<?= $selected_searched_product ?>">
 
-        <!-- Category Dropdown -->
-        <label for="category">Categoria</label>
-        <select id="category" name="category">
-            <option value="">Seleziona una categoria</option>
-            <?php foreach ($categories as $category) : ?>
-                <option <?php if (isset($_POST['category']) && $category["category_tag"] === $_POST['category']) echo 'selected'; ?>><?= $category['category_tag'] ?></option>
-            <?php endforeach; ?>
-        </select>
+                    <div class="form-group">
+                        <label for="category">Categoria</label>
+                        <select id="category" name="category" class="form-control">
+                            <option value="">Tutto</option>
+                            <?php foreach ($categories as $category) : ?>
+                                <option <?php if ($category["category_tag"] === $selected_category) echo 'selected'; ?>>
+                                    <?= $category['category_tag'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
 
-        <!-- Price Range Slider -->
-        <!-- <label>Prezzo Minimo</label>
-        <div class="range-container">
-            <input type="range" id="minprice" name="minprice" min="0" max="100" value="0">
+                    <div class="form-group">
+                        <label for="minprice">Prezzo Minimo</label>
+                        <input type="range" id="minprice" name="minprice" class="form-control-range" min="0" max="100" value="<?= $selected_min_price ?>">
+                        <span id="minprice-value"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="maxprice">Prezzo Massimo</label>
+                        <input type="range" id="maxprice" name="maxprice" class="form-control-range" min="0" max="100" value="<?= $selected_max_price ?>">
+                        <span id="maxprice-value"></span>
+                    </div>
+
+                    <div class="form-group form-check">
+                        <input type="checkbox" id="discount" name="discount" <?php if ($selected_is_discount) echo "checked" ?> class="form-check-input">
+                        <label for="discount" class="form-check-label">In sconto</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Applica filtri</button>
+                </form>
+            </div>
         </div>
-        <label>Prezzo Massimo</label>
-        <div class="range-container">
-            <input type="range" id="maxprice" name="maxprice" min="0" max="100" value="100">
-        </div> -->
+        <div class="col-md-9 col-sm-12">
+            <?=
+            displayProductPreviews($id_products, $db, $sudoku_solved);
+            ?>
+        </div>
+    </div>
+</div>
+<script>
+    const minpriceSlider = document.getElementById('minprice');
+    const maxpriceSlider = document.getElementById('maxprice');
+    const minpriceValue = document.getElementById('minprice-value');
+    const maxpriceValue = document.getElementById('maxprice-value');
+    minpriceValue.textContent = minpriceSlider.value;
+    maxpriceValue.textContent = maxpriceSlider.value;
 
+    minpriceSlider.addEventListener('input', () => {
+        minpriceValue.textContent = minpriceSlider.value;
+    });
 
-        <!-- Discount Checkbox -->
-        <label>
-            <input type="checkbox" id="discount" name="discount" value="true">
-            In sconto
-        </label>
-        <button type="submit">Applica filtri</button>
-    </form>
-</aside>
-
-<?=
-displayProductPreviews($id_products, $db, $sudoku_solved);
-?>
-
+    maxpriceSlider.addEventListener('input', () => {
+        maxpriceValue.textContent = maxpriceSlider.value;
+    });
+</script>
 <?php
 include '../includes/footer.php';
 ?>
