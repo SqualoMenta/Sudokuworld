@@ -3,6 +3,7 @@ include_once("../includes/bootstrap.php");
 include_once("../includes/functions.php");
 
 include '../includes/header.php';
+// TODO: testare che lo sconto del 10% se hai risolto il sudoku funzioni
 ?>
 
 <style>
