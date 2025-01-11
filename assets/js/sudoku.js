@@ -43,25 +43,61 @@ let sudoku = new Sudoku(sudokuGrid, sudokuSolution);
 let solved = false;
 const timerElement = document.getElementById("timer");
 
+const generateSudokuTable = () => {
+    const tableBody = document.createElement('tbody');
+
+    for (let i = 0; i < 9; i++) {
+        const row = document.createElement('tr');
+
+        for (let j = 0; j < 9; j++) {
+            const cell = document.createElement('td');
+            cell.setAttribute('scope', 'col');
+            cell.classList.add('text-center');
+
+            const div = document.createElement('div');
+
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.min = 1;
+            input.max = 9;
+            input.classList.add('w-100', 'h-100', 'text-center');
+            input.id = `cell-${i}-${j}`;
+
+            div.appendChild(input);
+            cell.appendChild(div);
+            row.appendChild(cell);
+
+            let val = sudoku.initSudoku(i, j);
+            if (val >= 1 && val <= 9) {
+                input.value = val.toString();
+                input.disabled = true;
+            }
+        }
+
+        tableBody.appendChild(row);
+    }
+
+    return tableBody;
+};
+
+const table = document.getElementById("sudokuTable");
+const tableBody = generateSudokuTable();
+
+// Clear any existing tbody (if present) and append the new one
+table.innerHTML = '';
+table.appendChild(tableBody);
+
 const inputs = document.querySelectorAll("input[type='number']");
 inputs.forEach(input => {
     input.addEventListener("input", () => {
         handleInput(input);
     });
-    const i = input.getAttribute("data-i");
-    const j = input.getAttribute("data-j");
-    // Chiama il metodo initSudoku per ogni cella
-    let val = sudoku.initSudoku(i, j);
-    if (val >= 1 && val <= 9) {
-        input.value = val.toString();
-        input.disabled = true;
-    }
 });
 
 // Funzione che viene chiamata quando viene inserito un numero
 function handleInput(input) {
-    const i = input.getAttribute("data-i");
-    const j = input.getAttribute("data-j");
+    const i = input.id.split('-')[1];
+    const j = input.id.split('-')[2];
 
     // Chiama il metodo insertNum della classe Sudoku
     solved = sudoku.validateInput(input, i, j);
