@@ -69,13 +69,6 @@ class Database
         return $this->query("SELECT * FROM CART where email = ?", 's', $email);
     }
 
-    // public function getProduct($id)
-    // {
-    //     $query = "SELECT * FROM PRODUCT p
-    //     WHERE id_product = ?";
-    //     return $this->query($query, 'i', $id);
-    // }
-
     // TODO: le funzioni che ritornano dei prodotto non devono ritornare prodotti con removed = 1,
     // tranne la funzione getProduct.
     public function getProduct($id)
@@ -83,26 +76,7 @@ class Database
         $query = "SELECT * FROM PRODUCT p WHERE id_product = ?";
         return $this->query($query, 'i', $id);
     }
-
-    public function getProductDetailed($id) //TODO: wrong
-    {
-        $query = "SELECT * FROM PRODUCT p
-        LEFT JOIN IS_COLOR ic ON ic.id_product = p.id_color 
-        LEFT JOIN DIMENSION dim ON dim.id_product = p.id_color
-        LEFT JOIN IS_CATEGORY icat ON icat.id_product = p.id_color
-        WHERE id_product = ?";
-        return $this->query($query, 'i', $id);
-    }
-
-    public function searchProducts()
-    {
-        $query = "SELECT p.id_product 
-        FROM PRODUCT p 
-        JOIN ORDERS_ITEM oi ON p.id_product = oi.id_product 
-        GROUP BY p.id_product 
-        ORDER BY COUNT(oi.id_product) DESC";
-        return $this->query($query, '');
-    }
+    
 
     public function filteredSearchProduct($name = null, $minPrice = null, $maxPrice = null, $category = null, $is_discount = false)
     {
@@ -158,23 +132,6 @@ class Database
         // }
         return $this->query($query, $types, ...$params);
     }
-
-
-    // public function searchProductsInDiscount()
-    // {
-    //     $query = "SELECT p.id_product 
-    //     FROM PRODUCT p, DISCOUNT d 
-    //     WHERE d.id_discount = p.id_discount";
-    //     return $this->query($query, '');
-    // }
-
-    // public function searchProductByCategory($category)
-    // {
-    //     $query = "SELECT p.id_product 
-    //     FROM PRODUCT p JOIN IS_CATEGORY ic ON p.id_product = ic.id_product 
-    //     WHERE ic.tag = ?";
-    //     return $this->query($query, 's', $category);
-    // }
 
     public function searchProductByName($productName)
     {
@@ -254,10 +211,6 @@ class Database
     {
         return $this->query("SELECT * FROM ORDERS WHERE email = ?", 's', $email);
     }
-    public function getOrdersJoin($email)
-    {
-        return $this->query("SELECT o.id_order, o.day, oi.id_product FROM ORDERS o JOIN ORDERS_ITEM oi ON o.id_order = oi.id_order WHERE o.email = ?", 's', $email);
-    }
 
     public function getOrderProducts($id_order)
     {
@@ -304,9 +257,24 @@ class Database
     {
         return $this->query("SELECT * FROM NOTIFICATION WHERE email = ?", 's', $email);
     }
+
+    public function markNotificationAsRead($id_notification)
+    {
+        $query = "UPDATE NOTIFICATION SET seen = 1 WHERE id_notification = ?";
+        $this->query2($query, 'i', $id_notification);
+    }
+
     public function addNotification($email, $title, $description)
     {
         $query = "INSERT INTO NOTIFICATION (title, day, seen, description, email) VALUES (?, CURDATE(), ?, ?, ?)";
         $this->query2($query, 'siss', $title, 0, $description, $email);
+    }
+
+    public function addNotificationProductUpdated($id_product)
+    {
+        $interested_users = $this->query("SELECT email FROM WISHES WHERE id_product = ?", 'i', $id_product);
+        foreach ($interested_users as $user) {
+            $this->addNotification($user['email'], "Prodotto aggiornato", "Il venditore ha aggiornato un prodotto della tua lista dei desideri");
+        }
     }
 }

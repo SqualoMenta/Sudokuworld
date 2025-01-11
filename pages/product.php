@@ -31,6 +31,12 @@ if (isUserLoggedIn()) {
     $sudoku_solved = $db->sudokuRunner->isTodaySudokuWon($_SESSION["email"]);
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $queryString = $_SERVER['QUERY_STRING'];
+    $url = $_SERVER['PHP_SELF'] . ($queryString ? '?' . $queryString : '');
+    header("Location: " . $url);
+}
+
 include '../includes/header.php';
 ?>
 
@@ -74,7 +80,7 @@ include '../includes/header.php';
                 <?php else: ?>
                     <form action="#" method="post">
                         <input type="hidden" name="add_to_wishlist" value="true">
-                        <button type="submit" class="btn btn-secondary">Aggiungi alla wishlist</button>
+                        <button type="submit" class="btn btn-info">Aggiungi alla wishlist</button>
                     </form>
                 <?php endif; ?>
             <?php endif; ?>

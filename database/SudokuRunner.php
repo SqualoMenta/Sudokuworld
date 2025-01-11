@@ -8,12 +8,6 @@ class SudokuRunner
         $this->db = $db;
     }
 
-    public function addSudoku($grid, $solution, $day = new DateTime())
-    {
-        $query = "INSERT INTO SUDOKU (day, grid, solution) VALUES (?, ?, ?)";
-        $this->db->query2($query, 'sss', $day->format('Y-m-d'), $grid, $solution);
-    }
-
     public function isTodaySudokuWon($email)
     {
         $query = "SELECT * FROM WINS WHERE email = ? AND day = CURDATE()";
