@@ -13,43 +13,52 @@ if (isUserLoggedIn()) {
     $hasUnreadNotifications = $db->hasUnreadNotifications($_SESSION["email"]);
 }
 ?>
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
+        <!-- Brand -->
         <a class="navbar-brand" href="/pages/home.php">SudokuWorld</a>
-        <form class="d-flex align-items-center" action="/pages/search.php" method="post">
-            <input class="form-control me-2" type="text" name="searched-product" placeholder="Search"
-                value="<?php $selected_searched_product ?>">
-            <button class="btn btn-outline-success" type="submit">Cerca</button>
-        </form>
 
-        <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/pages/sudoku.php">
-                    <i class="bi bi-grid-3x3-gap-fill"></i> Sudoku del giorno
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/pages/wishlist.php">
-                    <i class="bi bi-heart-fill"></i> Lista desideri
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/pages/cart.php">
-                    <i class="bi bi-cart-fill"></i> Carrello
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/pages/profile.php">
-                    <i class="bi bi-person-fill"></i> Profilo
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/pages/notifications.php">
-                    <i class="bi bi-bell-fill" <?php if ($hasUnreadNotifications) echo 'style="color: red;"' ?>></i>
-                    Notifiche
-                </a>
-            </li>
-        </ul>
+        <!-- Toggler for Mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible Content -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <!-- Search Form -->
+            <form class="d-flex align-items-center my-2 my-lg-0 ms-auto" action="/pages/search.php" method="post">
+                <input class="form-control me-2" type="text" name="searched-product" placeholder="Search" value="<?php $selected_searched_product ?>">
+                <button class="btn btn-outline-success" type="submit">Cerca</button>
+            </form>
+
+            <!-- Navigation Links -->
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/pages/sudoku.php">
+                        <i class="bi bi-grid-3x3-gap-fill"></i> Sudoku del giorno
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/pages/wishlist.php">
+                        <i class="bi bi-heart-fill"></i> Lista desideri
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/pages/cart.php">
+                        <i class="bi bi-cart-fill"></i> Carrello
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/pages/profile.php">
+                        <i class="bi bi-person-fill"></i> Profilo
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/pages/notifications.php">
+                        <i class="bi bi-bell-fill" <?php if ($hasUnreadNotifications) echo 'style="color: red;"' ?>></i> Notifiche
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
