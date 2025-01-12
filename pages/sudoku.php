@@ -46,7 +46,7 @@ include '../includes/header.php';
     }
 </style>
 
-<body>
+<main>
     <div class="row m-4">
         <div class="col-lg-8 mb-4">
             <section class="container border border-primary p-4 rounded">
@@ -68,7 +68,7 @@ include '../includes/header.php';
                 $sudokuSolved = $db->sudokuRunner->getTodaySolution()[0]["solution"];
                 ?>
                 <form class="container" style="aspect-ratio: 1; max-width: 800px;">
-                    <table id="sudokuTable" class="table table-bordered border border-dark" >
+                    <table id="sudokuTable" class="table table-bordered border border-dark">
                         <!-- <tbody>
                             <?php
                             for ($i = 0; $i < 9; $i++) : ?>
@@ -117,7 +117,7 @@ include '../includes/header.php';
         </script>
 
     </div>
-</body>
+</main>
 <?php
 include '../includes/footer.php';
 ?>

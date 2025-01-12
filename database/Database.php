@@ -290,4 +290,10 @@ class Database
             $this->addNotification($user['email'], "Prodotto aggiornato", "Il venditore ha aggiornato un prodotto della tua lista dei desideri");
         }
     }
+
+    public function getMostSoldProducts()
+    {
+        $query = "SELECT id_product FROM ORDERS_ITEM GROUP BY id_product ORDER BY COUNT(id_product) DESC LIMIT 3";
+        return $this->query($query, '');
+    }
 }
