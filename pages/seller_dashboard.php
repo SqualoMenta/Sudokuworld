@@ -14,6 +14,20 @@ if (!$_SESSION["is_seller"]) {
 
 if (isset($_POST["delete"])) {
     $db->seller->deleteProduct($_POST["id_product"]);
+    $users_with_deleted_product_in_cart = $db->getUsersWithProductInCart($_POST["id_product"]);
+    $users_with_deleted_product_in_wishlist = $db->getUsersWithProductInWishlist($_POST["id_product"]);
+    $deleted_product  = $db->getProduct($_POST["id_product"]);
+    var_dump($deleted_product);
+    foreach ($users_with_deleted_product_in_cart as $user) {
+        $db->removeProductFromCart($user['email'], $_POST["id_product"]);
+        
+        $db->addNotification($user["email"], "Prodotto cancellato", "Il seguente prodotto che avevi messo nel carrello e' stato cancellato dal venditore: ". $deleted_product[0]["name"]);
+    }
+    foreach ($users_with_deleted_product_in_wishlist as $user) {
+        $db->removeProductFromWishlist($user['email'], $_POST["id_product"]);
+        $db->addNotification($user["email"], "Prodotto cancellato", "Il seguente prodotto che avevi messo nella lista desideri e' stato cancellato dal venditore: ". $deleted_product[0]["name"]);
+
+    }
     echo "Prodotto cancellato con successo!";
 }
 

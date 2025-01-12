@@ -13,20 +13,6 @@ if (isset($_POST['searched-product'])) {
 include '../includes/header.php';
 
 ?>
-<!-- <body>
-<div class="container mt-4">
-    <h1>Benvenuti</h1>
-    <article>Vai al Sudoku del giorno</article>
-    <article>Offerte speciali</article>
-
-    <article>Passatempo</article>
-    <article>Abbigliamento</article>
-    <article>Cucina</article>
-    <article>Per Lei</article>
-    <article>Feste</article>
-</div>
-</body> -->
-
 <main>
     <div class="container">
         <div id="specialProductsCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -95,24 +81,6 @@ include '../includes/header.php';
                         </a>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="row m-4 equal-container">
-            <div class="col mb-4">
-                <div class="container border border-dark p-4 rounded h-100" style="aspect-ratio: 1;">Passatempo</div>
-            </div>
-            <div class="col mb-4">
-                <div class="container border border-dark p-4 rounded h-100" style="aspect-ratio: 1;">Abbigliamento</div>
-            </div>
-            <div class=" col mb-4">
-                <div class="container border border-dark p-4 rounded h-100" style="aspect-ratio: 1;">Cucina</div>
-            </div>
-            <div class=" col mb-4">
-                <div class="container border border-dark p-4 rounded h-100" style="aspect-ratio: 1;">Per Lei</div>
-            </div>
-            <div class=" col mb-4">
-                <div class="container border border-dark p-4 rounded h-100" style="aspect-ratio: 1;">Feste</div>
             </div>
         </div>
 

@@ -52,6 +52,18 @@ class Database
         $this->query2($query, 'sii', $email, $id_product, $quantity);
     }
 
+    public function getUsersWithProductInCart($id_product)
+    {
+        $query = "SELECT email FROM CART WHERE id_product = ?";
+        return $this->query($query, 'i', $id_product);
+    }
+
+    public function getUsersWithProductInWishlist($id_product)
+    {
+        $query = "SELECT email FROM WISHES WHERE id_product = ?";
+        return $this->query($query, 'i', $id_product);
+    }   
+
     public function removeProductFromCart($email, $id_product)
     {
         $query = "DELETE FROM CART WHERE email = ? AND id_product = ?";
