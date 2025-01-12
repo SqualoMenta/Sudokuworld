@@ -58,6 +58,12 @@ class Database
         return $this->query($query, 'i', $id_product);
     }
 
+    public function getUsersWithProductInCartMoreThan($id_product, $quantity)
+    {
+        $query = "SELECT email FROM CART WHERE id_product = ? AND quantity > ?";
+        return $this->query($query, 'ii', $id_product, $quantity);
+    }
+
     public function getUsersWithProductInWishlist($id_product)
     {
         $query = "SELECT email FROM WISHES WHERE id_product = ?";
@@ -104,11 +110,9 @@ class Database
 
     public function filteredSearchProduct($name = null, $minPrice = null, $maxPrice = null, $category = null, $is_discount = false)
     {
-        // Inizia con la base della query
         $query = "SELECT p.id_product 
         FROM PRODUCT p 
-        LEFT JOIN ORDERS_ITEM oi ON p.id_product = oi.id_product
-        WHERE p.removed = 0"; // 1=1 è una base sempre vera per concatenare le condizioni dinamiche
+        WHERE p.removed = 0";
 
         $params = [];
         $types = '';
@@ -141,19 +145,6 @@ class Database
             $types .= 's';
         }
 
-        // if (empty($name)) {
-        //     $query .= "ORDER BY COUNT(oi.id_product) DESC";
-        // } else {
-        //     $query .= "ORDER BY 
-        //         CASE 
-        //             WHEN p.name = ? THEN 1 -- Nomi esatti
-        //             WHEN p.name LIKE ? THEN 2 -- Nomi simili
-        //         END,
-        //         p.id_product";
-        //     $params[] = $name;
-        //     $params[] = "%$name%";
-        //     $types .= 'ss';
-        // }
         return $this->query($query, $types, ...$params);
     }
 

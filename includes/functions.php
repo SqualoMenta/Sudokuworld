@@ -1,4 +1,5 @@
 <?php
+
 function isActive($pagename)
 {
     if (basename($_SERVER['PHP_SELF']) == $pagename) {
@@ -98,6 +99,18 @@ function uploadImage($path, $image)
         }
     }
     return array($result, $msg);
+}
+
+function handleProductAvailabilityUpd($db, $id_product)
+{
+    $product = $db->getProduct($id_product)[0];
+    $availability = $product['availability'];
+    $usersTooMany = $db->getUsersWithProductInCartMoreThan($id_product, $availability);
+    foreach ($usersTooMany as $user) {
+        $db->removeProductFromCart($user['email'], $id_product);
+        $db->addNotification($user['email'], "Disponibilità prodotto cambiata", "La disponibilità del prodotto '"
+            . $product['name'] . "' è cambiata, e non è più necessaria a soddisfare il tuo carrello. Il prodotto è stato rimosso dal carrello");
+    }
 }
 
 function displayProductPreviews($id_products, $db, $sudoku_solved, $sellerActions = false)

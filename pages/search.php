@@ -13,9 +13,6 @@ $selected_is_discount = isset($_POST['discount']) ? 1 : 0;
 
 
 $id_products = $db->filteredSearchProduct(name: $selected_searched_product, minPrice: $selected_min_price * 100, maxPrice: $selected_max_price * 100, category: $selected_category, is_discount: $selected_is_discount);
-foreach ($id_products as $id) {
-    $prod = new Product(...$db->getProduct($id['id_product'])[0]);
-}
 $sudoku_solved = false;
 if (isUserLoggedIn()) {
     $sudoku_solved = $db->sudokuRunner->isTodaySudokuWon($_SESSION["email"]);

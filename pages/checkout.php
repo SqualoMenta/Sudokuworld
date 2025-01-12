@@ -21,9 +21,16 @@ if (isset($_POST['credit_card'])) {
     if ($selected_card === 'new') {
         $db->addCreditCard($_SESSION["email"], $_POST['cardNumber'], $_POST['cardName'], $_POST['cardSurname'], $_POST['cardExpiration'] . '-01');
     }
-    $db->addOrder($_SESSION["email"], $cart->getProducts(), $price);
+    $cart_products = $cart->getProducts();
+    $db->addOrder($_SESSION["email"], $cart_products, $price);
     $db->addNotification($_SESSION["email"], "Nuovo ordine", "Hai effettuato un nuovo ordine di " . number_format($price, 2) . "€");
     $db->emptyCart($_SESSION["email"]);
+    foreach ($cart_products as $product) {
+        $productData = $db->getProduct($product['id_product'])[0];
+        $prod = new Product(...$productData);
+        $db->seller->updateProduct($prod->getId(), availability: $prod->getAvailability() - $product["quantity"]);
+        handleProductAvailabilityUpd($db, $prod->getId());
+    }
     header("Location: home.php");
 }
 
