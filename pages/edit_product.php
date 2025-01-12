@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 include("../includes/header.php");
 ?>
 
-<?= $product->displayEditForm("Modifica prodotto", $categories) ?>
+<?= displayEditForm($product,"Modifica prodotto", $categories) ?>
 
 <?php
 include("../includes/footer.php");

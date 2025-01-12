@@ -230,7 +230,7 @@ class Database
 
     public function getOrderProducts($id_order)
     {
-        return $this->query("SELECT p.id_product FROM ORDERS_ITEM oi JOIN PRODUCT p ON oi.id_product = p.id_product WHERE oi.id_order = ?", 'i', $id_order);
+        return $this->query("SELECT * FROM ORDERS_ITEM oi WHERE oi.id_order = ?", 'i', $id_order);
     }
 
     public function deleteOrderIfPossible($email, $id_order)

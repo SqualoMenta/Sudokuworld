@@ -9,6 +9,26 @@ if (!isUserLoggedIn()) {
     header("Location: login.php");
 }
 
+if(isset($_POST['remove_cart'])){
+    $db->removeProductFromCart($_SESSION["email"], $_POST['id_product']);
+}
+
+if (isset($_POST["action"])) {
+    $product = new Product(...$db->getProduct($_POST["id_product"])[0]);
+    if ($_POST["action"] === "increase_cart") {
+        $cartProduct = $db->getCartProduct($_SESSION['email'], $product->getId())[0];
+        if ($cartProduct['quantity'] < $product->getAvailability()) {
+            $db->updateQuantityInCart($_SESSION["email"], $product->getId(), $cartProduct['quantity'] + 1);
+        }
+    } elseif ($_POST["action"] === "decrease_cart") {
+        $cartProduct = $db->getCartProduct($_SESSION['email'], $product->getId())[0];
+        if ($cartProduct['quantity'] > 1) {
+            $db->updateQuantityInCart($_SESSION["email"], $product->getId(), $cartProduct['quantity'] - 1);
+        }
+    }
+}
+
+
 $sudoku_solved = $db->sudokuRunner->isTodaySudokuWon($_SESSION["email"]);
 $cart = new ProductList($db->getCart($_SESSION["email"]));
 $products = $cart->getProducts();
@@ -26,84 +46,8 @@ include '../includes/header.php';
     <?php endif; ?>
 </div>
 
-<!-- TODO mostrare la quantità -->
-<?php foreach ($products as $product): ?>
-    <div class="counter">
-        <button class="decrease">-</button>
-        <span class="count" id=<?= $product["id_product"] ?>><?= $product["quantity"] ?></span>
-        <button class="increase">+</button>
-    </div>
-<?php endforeach; ?>
-<?= displayProductPreviews($products, $db, $sudoku_solved) ?>
 
-<script>
-    document.querySelectorAll('.counter').forEach(counter => {
-        const decreaseButton = counter.querySelector('.decrease');
-        const increaseButton = counter.querySelector('.increase');
-        const countSpan = counter.querySelector('.count');
-        let count = parseInt(countSpan.textContent);
-
-        decreaseButton.addEventListener('click', () => {
-            if (count > 1) {
-                count--;
-                countSpan.textContent = count;
-                const data = {
-                    count: count,
-                    id_product: counter.querySelector('.count').id,
-                };
-                console.log(data);
-                fetch('/api/api-update-cart.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: new URLSearchParams(data) // Convert the data object to URL-encoded string
-                    })
-                    .then(response => response.text())
-                    .then(result => {
-                        const match = result.match(/-?\d+\.\d+$/);
-
-                        if (match) {
-                            const lastFloat = parseFloat(match[0]);
-                            // console.log("Last float number:", lastFloat); // Output: 144.00
-                            document.getElementById('price').textContent = `Prezzo totale: $${lastFloat.toFixed(2)}`;
-                        }
-                    });
-
-            }
-        });
-
-        increaseButton.addEventListener('click', () => {
-            count++;
-            countSpan.textContent = count;
-            const data = {
-                count: count,
-                id_product: counter.querySelector('.count').id,
-            };
-            console.log(data);
-            fetch('/api/api-update-cart.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: new URLSearchParams(data) // Convert the data object to URL-encoded string
-                })
-                .then(response => response.text())
-                .then(result => {
-                    const match = result.match(/-?\d+\.\d+$/);
-
-                    if (match) {
-                        const lastFloat = parseFloat(match[0]);
-                        // console.log("Last float number:", lastFloat); // Output: 144.00
-                        document.getElementById('price').textContent = `Prezzo totale: $${lastFloat.toFixed(2)}`;
-                    }
-                });
-
-
-        });
-    });
-</script>
-
+<?= displayProductPreviews($products, $db, $sudoku_solved, is_cart: true) ?>
 
 <?php
 include '../includes/footer.php';

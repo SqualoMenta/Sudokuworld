@@ -126,7 +126,7 @@ include '../includes/header.php';
                                             <p class="card-text">Data: <?= $order["day"] ?></p>
                                             <p class="card-text">Prezzo Ordine: <?= $order["price"] ?>$</p>
                                             <div>
-                                                <?php displayProductPreviews($products, $db, false); ?>
+                                                <?php displayProductPreviews($products, $db, false, is_prev_order: true); ?>
                                             </div>
                                         </div>
                                     </div>

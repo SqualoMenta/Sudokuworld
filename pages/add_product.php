@@ -26,7 +26,7 @@ $categories = $db->getAllCategories();
 include("../includes/header.php");
 ?>
 
-<?= $product->displayEditForm("Inserisci prodotto", $categories) ?>
+<?= displayEditForm($product, "Inserisci prodotto", $categories) ?>
 
 <?php
 include("../includes/footer.php");
