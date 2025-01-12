@@ -12,7 +12,6 @@ if (!isUserLoggedIn()) {
 $sudoku_solved = $db->sudokuRunner->isTodaySudokuWon($_SESSION["email"]);
 $cart = new ProductList($db->getCart($_SESSION["email"]));
 $products = $cart->getProducts();
-// var_dump($products);
 include '../includes/header.php';
 
 ?>

@@ -28,6 +28,20 @@ if (isUserLoggedIn()) {
     if (isset($_POST["remove_from_wishlist"]) && $db->isProductInWishlist($_SESSION["email"], $product->getId())) {
         $db->removeProductFromWishlist($_SESSION["email"], $product->getId());
     }
+
+    if (isset($_POST["action"])) {
+        if ($_POST["action"] === "increase_cart") {
+            $cartProduct = $db->getCartProduct($_SESSION['email'], $product->getId())[0];
+            if ($cartProduct['quantity'] < $product->getAvailability()) {
+                $db->updateQuantityInCart($_SESSION["email"], $product->getId(), $cartProduct['quantity'] + 1);
+            }
+        } elseif ($_POST["action"] === "decrease_cart") {
+            $cartProduct = $db->getCartProduct($_SESSION['email'], $product->getId())[0];
+            if ($cartProduct['quantity'] > 1) {
+                $db->updateQuantityInCart($_SESSION["email"], $product->getId(), $cartProduct['quantity'] - 1);
+            }
+        }
+    }
     $sudoku_solved = $db->sudokuRunner->isTodaySudokuWon($_SESSION["email"]);
 }
 
@@ -60,6 +74,15 @@ include '../includes/header.php';
 
             <?php if (isUserLoggedIn() && !$product->isRemoved()): ?>
                 <?php if ($db->isProductInCart($_SESSION['email'], $product->getId())): ?>
+                    <p class="text-success"><strong>Il prodotto è nel carrello</strong></p>
+                    <?php $cartProduct = $db->getCartProduct($_SESSION['email'], $product->getId())[0]; ?>
+                    <form method="POST" class="d-inline-block">
+                        <div class="d-flex align-items-center">
+                            <button type="submit" name="action" value="decrease_cart" class="btn btn-danger me-3" <?php echo $cartProduct['quantity'] <= 1 ? 'disabled' : ''; ?>>-</button>
+                            <h2 class="display-6 mb-0"><?php echo $cartProduct['quantity']; ?></h2>
+                            <button type="submit" name="action" value="increase_cart" class="btn btn-success ms-3" <?php echo $product->getAvailability() <= 0 ? 'disabled' : ''; ?>>+</button>
+                        </div>
+                    </form>
                     <form action="#" method="post">
                         <input type="hidden" name="remove_from_cart" value="true">
                         <button type="submit" class="btn btn-danger">Rimuovi dal carrello</button>

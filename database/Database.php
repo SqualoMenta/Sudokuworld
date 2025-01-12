@@ -69,6 +69,19 @@ class Database
         return $this->query("SELECT * FROM CART where email = ?", 's', $email);
     }
 
+    public function getCartProduct($email, $id_product)
+    {
+        $query = "SELECT * FROM CART WHERE email = ? AND id_product = ?";
+        return $this->query($query, 'si', $email, $id_product);
+    }
+
+
+    public function updateQuantityInCart($email, $id_product, $quantity)
+    {
+        $query = "UPDATE CART SET quantity = ? WHERE id_product = ? AND email = ?";
+        $this->query2($query, 'iis', $quantity, $id_product, $email);
+    }
+
     // TODO: le funzioni che ritornano dei prodotto non devono ritornare prodotti con removed = 1,
     // tranne la funzione getProduct.
     public function getProduct($id)
@@ -276,11 +289,5 @@ class Database
         foreach ($interested_users as $user) {
             $this->addNotification($user['email'], "Prodotto aggiornato", "Il venditore ha aggiornato un prodotto della tua lista dei desideri");
         }
-    }
-
-    public function updateQuantityInCart($email, $id_product, $quantity)
-    {
-        $query = "UPDATE CART SET quantity = ? WHERE id_product = ? AND email = ?";
-        $this->query2($query, 'iis', $quantity, $id_product, $email);
     }
 }
