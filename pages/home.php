@@ -9,7 +9,6 @@ if (isset($_POST['searched-product'])) {
 }
 
 ?>
-<!DOCTYPE html>
 <?php
 include '../includes/header.php';
 

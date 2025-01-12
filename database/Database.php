@@ -271,6 +271,12 @@ class Database
         return $this->query("SELECT * FROM NOTIFICATION WHERE email = ?", 's', $email);
     }
 
+    public function hasUnreadNotifications($email)
+    {
+        $query = "SELECT * FROM NOTIFICATION WHERE email = ? AND seen = 0";
+        return count($this->query($query, 's', $email)) > 0;
+    }
+
     public function markNotificationAsRead($id_notification)
     {
         $query = "UPDATE NOTIFICATION SET seen = 1 WHERE id_notification = ?";
