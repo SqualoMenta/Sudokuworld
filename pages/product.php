@@ -112,7 +112,6 @@ include '../includes/header.php';
             <?php if ($product->isRemoved()): ?>
                 <p class="text-danger"><strong>Il prodotto è stato rimosso dal venditore</strong></p>
             <?php endif; ?>
-
         </div>
     </div>
 </div>

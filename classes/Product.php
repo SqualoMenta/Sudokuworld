@@ -158,14 +158,14 @@ class Product
         echo '
         <a href="product.php?id=' . $this->id . '" class="btn btn-info">Vedi dettagli</a>
         ';
-        
+
         if ($sellerActions) {
             echo '
         <form method="get" action="/pages/edit_product.php">
             <input type="hidden" name="id_product" value="' . ($this->id) . '" />
             <input type="submit" value="Modifica" class="btn btn-warning" />
         </form>
-        <form method="post" action="#" onsubmit="return confirm(\'Sei sicuro di voler rimuovere il prodotto? L\'azione è \')">
+        <form method="post" action="#" onsubmit="return confirm(\'Sei sicuro di voler rimuovere il prodotto? Questa azione è irreversibile\')">
             <input type="hidden" name="id_product" value="' . ($this->id) . '" />
             <input type="submit" value="Elimina" class="btn btn-danger" name="delete" />
         </form>';
