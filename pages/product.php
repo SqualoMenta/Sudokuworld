@@ -64,8 +64,8 @@ include '../includes/header.php';
             <p><strong>Descrizione:</strong> <?= htmlspecialchars($product->getDescription()) ?></p>
             <p><strong>Prezzo:</strong> $<?= number_format($product->getPrice(), 2) ?></p>
 
-            <?php if ($product->getDiscount() > 0): ?>
-                <p class="text-danger"><strong>Prezzo scontato:</strong> $<?= number_format($product->getFinalPrice($sudoku_solved), 2) ?> (<?= $product->getDiscount($sudoku_solved) ?>% off)</p>
+            <?php if ($product->getFinalDiscount($sudoku_solved) > 0): ?>
+                <p class="text-danger"><strong>Prezzo scontato:</strong> $<?= number_format($product->getFinalPrice($sudoku_solved), 2) ?> (<?= $product->getFinalDiscount($sudoku_solved) ?>% off)</p>
             <?php endif; ?>
             <?php if (!$product->isRemoved()): ?>
                 <p><strong>Quantit&agrave; disponibile:</strong> <?= $product->getAvailability() ?></p>

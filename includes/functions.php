@@ -141,7 +141,7 @@ function displayPreview($product, $sudoku_solved, $sellerActions = false, $is_wi
                 if(!$is_prev_order){
                     echo '
                     <p class="card-text"><strong>Prezzo:</strong> $' . number_format($product->getPrice(), 2) . '</p>';
-                    if ($product->getDiscount() > 0) {
+                    if ($product->getFinalDiscount($sudoku_solved) > 0) {
                         echo '<p class="card-text text-danger"><strong>Prezzo scontato:</strong> $' . number_format($product->getFinalPrice($sudoku_solved), 2) . ' (' . number_format($product->getFinalDiscount($sudoku_solved), 1) . '% off)</p>';
                     }
                 }else{
