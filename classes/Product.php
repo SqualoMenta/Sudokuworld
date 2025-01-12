@@ -158,7 +158,7 @@ class Product
         echo '
         <a href="product.php?id=' . $this->id . '" class="btn btn-info">Vedi dettagli</a>
         ';
-
+        
         if ($sellerActions) {
             echo '
         <form method="get" action="/pages/edit_product.php">

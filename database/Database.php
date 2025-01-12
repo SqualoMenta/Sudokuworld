@@ -277,4 +277,10 @@ class Database
             $this->addNotification($user['email'], "Prodotto aggiornato", "Il venditore ha aggiornato un prodotto della tua lista dei desideri");
         }
     }
+
+    public function updateQuantityInCart($email, $id_product, $quantity)
+    {
+        $query = "UPDATE CART SET quantity = ? WHERE id_product = ? AND email = ?";
+        $this->query2($query, 'iis', $quantity, $id_product, $email);
+    }
 }

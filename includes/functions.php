@@ -110,3 +110,16 @@ function displayProductPreviews($id_products, $db, $sudoku_solved, $sellerAction
     }
     echo '</div></div>';
 }
+
+
+// function displayProductPreviewsWithQuantity($id_product, $db, $sudoku_solved, $sellerActions = false)
+// {
+//     echo '<div class="container-fluid mt-4"><div class="row">';
+//     // foreach ($id_products as $id_product) {
+//         $productData = $db->getProduct($id_product['id_product'])[0];
+//         $prod = new Product(...$productData);
+//         $prod->displayPreview($sudoku_solved, $sellerActions);
+//         // echo '<p>Quantità: ' . $quantity . '</p>';
+//     // }
+//     echo '</div></div>';
+// }
