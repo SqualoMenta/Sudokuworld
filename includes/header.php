@@ -15,23 +15,18 @@ if (isUserLoggedIn()) {
 ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <!-- Brand -->
         <a class="navbar-brand" href="/pages/home.php">SudokuWorld</a>
 
-        <!-- Toggler for Mobile -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <!-- Collapsible Content -->
         <div class="collapse navbar-collapse" id="navbarContent">
-            <!-- Search Form -->
             <form class="d-flex align-items-center my-2 my-lg-0 ms-auto" action="/pages/search.php" method="post">
                 <input class="form-control me-2" type="text" name="searched-product" placeholder="Search" value="<?php $selected_searched_product ?>">
                 <button class="btn btn-outline-success" type="submit">Cerca</button>
             </form>
 
-            <!-- Navigation Links -->
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="/pages/sudoku.php">

@@ -144,7 +144,7 @@ class Product
     {
 
         echo '
-    <div class="col-md-2 mb-4">
+    <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
         <div class="card" style="width: 100%; ' . ($this->removed ? 'opacity: 0.5;' : '') . '"> 
             <img src="' . htmlspecialchars($this->img) . '" class="card-img-top" alt="' . htmlspecialchars($this->name) . '">
             <div class="card-body">
