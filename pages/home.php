@@ -8,6 +8,22 @@ if (isset($_POST['searched-product'])) {
     header("Location: search.php");
 }
 
+$bestSellers = [];
+$bestSellersId = $db->getMostSoldProducts();
+foreach ($bestSellersId as $key => $value) {
+    $productData = $db->getProduct($value['id_product'])[0];
+    $prod = new Product(...$productData);
+    array_push($bestSellers, $prod);
+}
+
+$specialProducts = [];
+$specialProductsId = [4, 5];
+foreach ($specialProductsId as $key => $value) {
+    $productData = $db->getProduct($value)[0];
+    $prod = new Product(...$productData);
+    array_push($specialProducts, $prod);
+}
+
 ?>
 <?php
 include '../includes/header.php';
@@ -17,26 +33,24 @@ include '../includes/header.php';
     <div class="container">
         <div id="specialProductsCarousel" class="carousel slide" data-bs-ride="carousel">
             <ol class="carousel-indicators">
-                <li data-bs-target="#specialProductsCarousel" data-bs-slide-to="0" class="active"></li>
-                <li data-bs-target="#specialProductsCarousel" data-bs-slide-to="1"></li>
+                <?php
+                foreach ($specialProducts as $key => $product):
+                ?>
+                    <li data-bs-target="#specialProductsCarousel" data-bs-slide-to="<?= $key ?>" <?php if ($key == 0) echo ('class="active"') ?>></li>
+                <?php endforeach; ?>
             </ol>
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="/uploads/products/5090.jpg" class="d-block w-100" alt="First slide"
-                        style="aspect-ratio: 21 / 9; object-fit: cover; object-position: center center; overflow: hidden;">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Nome del prodotto speciale</h5>
-                        <p>...</p>
+                <?php
+                foreach ($specialProducts as $key => $product):
+                ?>
+                    <div class="carousel-item <?php if ($key == 0) echo ('active') ?>">
+                        <a href="product.php?id=<?= $product->getId() ?>"><img src="<?= htmlspecialchars($product->getImg()) ?>" class="d-block w-100" alt="First slide"
+                                style="aspect-ratio: 21 / 9; object-fit: cover; object-position: center center; overflow: hidden;"></a>
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5 style="color: white; background-color: rgba(0, 0, 0, 0.5); padding: 10px; border-radius: 5px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);"><?= htmlspecialchars($product->getName()) ?></h5>
+                        </div>
                     </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="/uploads/products/copricerchi.jpg" class="d-block w-100" alt="Second slide"
-                        style="aspect-ratio: 21 / 9; object-fit: cover; object-position: center center; overflow: hidden;">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Nome del prodotto speciale</h5>
-                        <p>...</p>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
             <a class="carousel-control-prev" href="#specialProductsCarousel" role="button" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -84,24 +98,28 @@ include '../includes/header.php';
             </div>
         </div>
 
-        <div id=" bestSellersCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
-            <h2>Carosello dei più venduti</h2>
+        <div id="bestSellersCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <span>Contenuto Slide 1 Più Venduti</span>
-                </div>
-                <div class="carousel-item">
-                    <span>Contenuto Slide 2 Più Venduti</span>
-                </div>
+                <?php
+                foreach ($bestSellers as $key => $product):
+                ?>
+                    <div class="carousel-item <?php if ($key == 0) echo ('active') ?>">
+                        <a href="product.php?id=<?= $product->getId() ?>"><img src="<?= htmlspecialchars($product->getImg()) ?>" class="d-block w-100" alt="First slide"
+                                style="aspect-ratio: 21 / 9; object-fit: cover; object-position: center center; overflow: hidden;"></a>
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5 style="color: white; background-color: rgba(0, 0, 0, 0.5); padding: 10px; border-radius: 5px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);"><?= htmlspecialchars($product->getName()) ?></h5>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#bestSellersCarousel" data-bs-slide="prev">
+            <a class="carousel-control-prev" href="#bestSellersCarousel" role="button" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Precedente</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#bestSellersCarousel" data-bs-slide="next">
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#bestSellersCarousel" role="button" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Successivo</span>
-            </button>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
     </div>
 
