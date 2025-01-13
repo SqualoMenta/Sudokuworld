@@ -211,6 +211,39 @@ VALUES (
         0
     ),
     (
+        'scheda video 5090',
+        'Grande scheda video 5090 con un pizzico di sudoku',
+        9900,
+        '/uploads/products/5090.jpg',
+        'seller1@gmail.com',
+        'passatempo',
+        0,
+        100,
+        0
+    ),
+    (
+        'copricerchi',
+        'Ottimi copricerchi per la vostra auto, per far vedere a tutti chi ama veramente i sudoku',
+        5000,
+        '/uploads/products/copricerchi.jpg',
+        'seller1@gmail.com',
+        'passatempo',
+        10,
+        50,
+        0
+    ),
+    (
+        'cover telefono',
+        'Miglior cover sul mercato, per ostentare la vostra passione per i sudoku',
+        900,
+        '/uploads/products/coverTelefono.jpg',
+        'seller1@gmail.com',
+        'passatempo',
+        0,
+        100,
+        0
+    ),
+    (
         'tazza sudoku is my game',
         'Tazza Alex is my name sudoku is my game',
         1250,
@@ -264,9 +297,61 @@ VALUES (
         '2024-12-31'
     ),
     (
+        'user2@gmail.com',
+        '1234567890123456',
+        'Andrea',
+        'Monc',
+        '2024-12-31'
+    ),
+    (
         'user1@gmail.com',
         '1234567890123457',
         'Mario1',
         'Rossi1',
         '2027-1-1'
+    );
+
+INSERT INTO ORDERS (day, price ,email)
+VALUES (
+        CURDATE(),
+        1000,
+        "user2@gmail.com");
+INSERT INTO ORDERS_ITEM (id_order, id_product, quantity)
+VALUES (
+        1,
+        1,
+        1
+    );
+INSERT INTO ORDERS (day, price ,email)
+VALUES (
+        CURDATE(),
+        100,
+        "user2@gmail.com");
+INSERT INTO ORDERS_ITEM (id_order, id_product, quantity)
+VALUES (
+        2,
+        2,
+        2
+    );
+INSERT INTO ORDERS (day, price ,email)
+VALUES (
+        CURDATE(),
+        10,
+        "user2@gmail.com");
+INSERT INTO ORDERS_ITEM (id_order, id_product, quantity)
+VALUES (
+        3,
+        3,
+        3
+    );
+INSERT INTO ORDERS (day, price ,email)
+VALUES (
+        CURDATE(),
+        1,
+        "user2@gmail.com");
+INSERT INTO ORDERS_ITEM (id_order, id_product, quantity)
+VALUES (
+        4,
+        4,
+        4
     );
