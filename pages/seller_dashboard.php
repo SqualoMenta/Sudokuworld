@@ -20,7 +20,6 @@ if (isset($_POST["delete"])) {
     var_dump($deleted_product);
     foreach ($users_with_deleted_product_in_cart as $user) {
         $db->removeProductFromCart($user['email'], $_POST["id_product"]);
-        
         $db->addNotification($user["email"], "Prodotto cancellato", "Il seguente prodotto che avevi messo nel carrello e' stato cancellato dal venditore: ". $deleted_product[0]["name"]);
     }
     foreach ($users_with_deleted_product_in_wishlist as $user) {

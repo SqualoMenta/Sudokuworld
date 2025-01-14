@@ -4,12 +4,15 @@ include_once("../includes/functions.php");
 require_once("../classes/Product.php");
 require_once("../classes/ProductList.php");
 
+$max_price = $db->getMaxPrice()[0]["max_price"]/100;
+// var_dump($max_price);   
 // TODO: aggiungere filtro per prezzo, volendo anche sortare per più venduti
 $selected_searched_product = isset($_POST['searched-product']) ? $_POST['searched-product'] : "";
 $selected_category = isset($_POST['category']) ? $_POST['category'] : "";
 $selected_min_price = isset($_POST['minprice']) ? $_POST['minprice'] : 0;
-$selected_max_price = isset($_POST['maxprice']) ? $_POST['maxprice'] : 100;
+$selected_max_price = isset($_POST['maxprice']) ? $_POST['maxprice'] : $max_price;
 $selected_is_discount = isset($_POST['discount']) ? 1 : 0;
+
 
 
 $id_products = $db->filteredSearchProduct(name: $selected_searched_product, minPrice: $selected_min_price * 100, maxPrice: $selected_max_price * 100, category: $selected_category, is_discount: $selected_is_discount);
@@ -48,13 +51,13 @@ include '../includes/header.php';
 
                     <div class="form-group">
                         <label for="minprice">Prezzo Minimo</label>
-                        <input type="range" id="minprice" name="minprice" class="form-control-range" min="0" max="100" value="<?= $selected_min_price ?>">
+                        <input type="range" id="minprice" name="minprice" class="form-control-range" min="0" max="<?= $max_price?>" value="<?= $selected_min_price ?>">
                         <span id="minprice-value"></span>
                     </div>
 
                     <div class="form-group">
                         <label for="maxprice">Prezzo Massimo</label>
-                        <input type="range" id="maxprice" name="maxprice" class="form-control-range" min="0" max="100" value="<?= $selected_max_price ?>">
+                        <input type="range" id="maxprice" name="maxprice" class="form-control-range" min="0" max="<?= $max_price?>"   value="<?= $selected_max_price ?>">
                         <span id="maxprice-value"></span>
                     </div>
 

@@ -29,6 +29,8 @@ foreach ($specialProductsId as $key => $value) {
 include '../includes/header.php';
 
 ?>
+
+
 <main>
     <div class="container">
         <div id="specialProductsCarousel" class="carousel slide" data-bs-ride="carousel">

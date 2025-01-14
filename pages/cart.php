@@ -35,6 +35,7 @@ $products = $cart->getProducts();
 include '../includes/header.php';
 
 ?>
+<main>
 <div class="container text-center">
     <?php if (empty($products)) : ?>
         <h1>Il carrello è vuoto</h1>
@@ -45,9 +46,10 @@ include '../includes/header.php';
         </div>
     <?php endif; ?>
 </div>
-
-
 <?= displayProductPreviews($products, $db, $sudoku_solved, is_cart: true) ?>
+    </main>
+
+
 
 <?php
 include '../includes/footer.php';

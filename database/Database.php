@@ -92,7 +92,11 @@ class Database
         $query = "SELECT * FROM CART WHERE email = ? AND id_product = ?";
         return $this->query($query, 'si', $email, $id_product);
     }
-
+    
+    public function getMaxPrice(){
+        $query = "SELECT MAX(price) as max_price FROM PRODUCT";
+        return $this->query($query, '');
+    }
 
     public function updateQuantityInCart($email, $id_product, $quantity)
     {

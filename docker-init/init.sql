@@ -355,3 +355,8 @@ VALUES (
         4,
         4
     );
+
+INSERT INTO WINS(day, email)
+VALUES (
+        CURDATE(),
+        "user2@gmail.com");

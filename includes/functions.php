@@ -236,7 +236,7 @@ function displayEditForm($product, $title, $categories)
                 <input type="file" name="image" id="image" accept="image/*" class="form-control-file" onchange="previewImage(event)" />
             </div>
             <div class="mb-2 d-flex gap-1">
-                <input type="submit" name="submit" value="Salva" class="btn btn-primary" />
+                <input type="submit" name="submit" value="Salva" class="btn btn-primary" formaction="/pages/seller_dashboard.php"/>
                 <input type="submit" value="Annulla" class="btn btn-danger" formmethod="GET" formaction="/pages/seller_dashboard.php"/>
             </div>
         </form>

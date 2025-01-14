@@ -22,7 +22,6 @@ class Seller
 
     public function deleteProduct($id_product)
     {
-        // TODO: rimuovere dal carrello e whishlist?
         $query = "UPDATE PRODUCT SET removed = 1 WHERE id_product = ?";
         $this->db->query2($query, 'i', $id_product);
     }

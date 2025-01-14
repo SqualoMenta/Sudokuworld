@@ -20,19 +20,42 @@ $credit_cards = $db->getCreditCards($_SESSION["email"]);
 $orders = $db->getOrders($_SESSION["email"]);
 include '../includes/header.php';
 ?>
+<style>
+    .list-group{
+        text-align: center;
+    }
+    @media (max-width: 768px) {
+        .tab-pane .row .col {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    }
+</style>
 
+<main>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-2">
-            <div class="list-group" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab">Informazioni </a>
-                <a class="list-group-item list-group-item-action" id="list-orders-list" data-bs-toggle="list" href="#list-orders" role="tab">Ordini</a>
-                <?php if ($_SESSION["is_seller"]) : ?>
-                    <a href="seller_dashboard.php" class="btn btn-primary">Vetrina venditore</a>
-                <?php endif; ?>
-                <a href="logout.php" class="btn btn-danger">Logout</a>
-            </div>
+<div class="row">
+    <div class="col-12 col-md-5 col-lg-2">
+        <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab">
+                Pagamento
+            </a>
+            <a class="list-group-item list-group-item-action" id="list-orders-list" data-bs-toggle="list" href="#list-orders" role="tab">
+                Ordini
+            </a>
+            <?php if ($_SESSION["is_seller"]) : ?>
+                <a href="seller_dashboard.php" class="list-group-item list-group-item-action list-group-item-primary">
+                    Vetrina venditore
+                </a>
+            <?php endif; ?>
+            <a href="logout.php" class="list-group-item list-group-item-action list-group-item-danger">
+                Logout
+            </a>
         </div>
+    </div>
+</div>
         <div class="col-9">
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
@@ -139,7 +162,7 @@ include '../includes/header.php';
         </div>
     </div>
 </div>
-
+                            </main>
 
 
 <?php

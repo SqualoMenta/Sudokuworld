@@ -15,7 +15,6 @@ $cart = new ProductList($db->getCart($_SESSION["email"]));
 $price = $cart->getTotalPrice($db, $sudoku_solved);
 $credit_cards = $db->getCreditCards($_SESSION["email"]);
 
-// TODO: validare carta di credito?
 if (isset($_POST['credit_card'])) {
     $selected_card = $_POST['credit_card'];
     if ($selected_card === 'new') {
