@@ -51,16 +51,12 @@ const generateSudokuTable = () => {
 
         for (let j = 0; j < 9; j++) {
             const cell = document.createElement('td');
-            cell.setAttribute('scope', 'col');
-            cell.classList.add('text-center');
-
             const div = document.createElement('div');
 
             const input = document.createElement('input');
             input.type = 'number';
             input.min = 1;
             input.max = 9;
-            input.classList.add('w-100', 'h-100', 'text-center');
             input.id = `cell-${i}-${j}`;
 
             div.appendChild(input);

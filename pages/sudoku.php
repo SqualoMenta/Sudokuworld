@@ -48,7 +48,7 @@ include '../includes/header.php';
 <main>
     <div class="row m-4">
         <div class="col-lg-8 mb-4">
-            <section class="container border border-primary p-4 rounded">
+            <section class="container border border-primary p-4 rounded" style="min-width: 540px">
                 <h2 class=" text-center">!! Sudoku !!</h2>
                 <?php
                 // Verifica se l'utente ha già risolto il Sudoku di oggi
@@ -66,23 +66,9 @@ include '../includes/header.php';
                 $sudoku = $db->sudokuRunner->getTodaySudoku()[0]["grid"];
                 $sudokuSolved = $db->sudokuRunner->getTodaySolution()[0]["solution"];
                 ?>
-                <form class="container" style="aspect-ratio: 1; max-width: 800px;">
-                    <table id="sudokuTable" class="table table-bordered border border-dark">
-                        <!-- <tbody>
-                            <?php
-                            for ($i = 0; $i < 9; $i++) : ?>
-                                <tr>
-                                    <?php for ($j = 0; $j < 9; $j++) : ?>
-                                        <td scope="col" class="text-center">
-                                            <div>
-                                                <input type="number" min="1" max="9" class="w-100 h-100 text-center" value="" data-i="<?= $i ?>"
-                                                    data-j="<?= $j ?>">
-                                            </div>
-                                        </td>
-                                    <?php endfor ?>
-                                </tr>
-                            <?php endfor ?>
-                        </tbody> -->
+                <form>
+                    <table id="sudokuTable" class="table table-bordered border border-dark " style="aspect-ratio: 1; max-width: 800px; min-width: 490px;">
+                        
                     </table>
                 </form>
                 <div id="success-message"></div>
