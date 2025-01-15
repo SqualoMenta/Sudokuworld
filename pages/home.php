@@ -106,7 +106,7 @@ include '../includes/header.php';
                 </div>
             </div>
         </div>
-
+        <h2> I più venduti </h2>
         <div id="bestSellersCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <?php
