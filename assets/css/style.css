@@ -4,13 +4,13 @@
 
 
 main {
-    min-height: 90vh;
+    min-height: 85vh;
     display: flex;
     flex-direction: column;
 }
 
 nav{
-    height: 5vh;
+    max-height: 10vh;
 }
 
 footer {

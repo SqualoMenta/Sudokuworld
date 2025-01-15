@@ -133,7 +133,7 @@ function displayPreview($product, $sudoku_solved, $sellerActions = false, $is_wi
 {
 
     echo '
-    <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+    <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-4">
         <div class="card' . ($product->isRemoved() ? '-removed' : '') . '"> 
             <img src="' . htmlspecialchars($product->getImg()) . '" class="card-img-top" alt="' . htmlspecialchars($product->getName()) . '">
             <div class="card-body">
