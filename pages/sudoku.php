@@ -22,11 +22,11 @@ include '../includes/header.php';
                 $sudokuSolved = $db->sudokuRunner->getTodaySolution()[0]["solution"];
                 ?>
                 <form>
-                    <table id="sudokuTable" class="sudokuTable table table-bordered border border-dark">
+                    <table class="sudokuTable table table-bordered border border-dark">
 
                     </table>
                 </form>
-                <div class="alert alert-success mt-4 d-none" id="success-message" >
+                <div class="alert alert-success mt-4 d-none" id="sudoku-of-day-success-message" >
                     <p>Complimenti! Hai risolto il Sudoku!</p>
                 </div>
 
