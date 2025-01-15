@@ -5,7 +5,6 @@ require_once("../classes/Product.php");
 require_once("../classes/ProductList.php");
 
 // TODO: il testo viene perso nella barra di ricerca in alto
-// TODO: guardare se i form ha senso che siano delle get o delle post
 $max_price = $db->getMaxPrice()[0]["max_price"]/100;
 $selected_searched_product = isset($_GET['searched-product']) ? $_GET['searched-product'] : "";
 $selected_category = isset($_GET['category']) ? $_GET['category'] : "";
