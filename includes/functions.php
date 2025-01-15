@@ -134,7 +134,7 @@ function displayPreview($product, $sudoku_solved, $sellerActions = false, $is_wi
 
         echo '
     <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
-        <div class="card" style="width: 100%; ' . ($product->isRemoved() ? 'opacity: 0.5;' : '') . '"> 
+        <div class="card" style="' . ($product->isRemoved() ? 'opacity: 0.5;' : '') . '"> 
             <img src="' . htmlspecialchars($product->getImg()) . '" class="card-img-top" alt="' . htmlspecialchars($product->getName()) . '">
             <div class="card-body">
                 <h5 class="card-title">' . htmlspecialchars($product->getName()) . '</h5>';

@@ -10,3 +10,11 @@ footer {
     height: 5rem;
     margin-top: auto;
 }
+
+.card {
+    width: 100%;
+}
+
+.redNotify{
+    color: red;
+}
