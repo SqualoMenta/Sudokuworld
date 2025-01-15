@@ -41,7 +41,7 @@ class Sudoku {
 
 let sudoku = new Sudoku(sudokuGrid, sudokuSolution);
 let solved = false;
-const timerElement = document.getElementById("timer");
+const timerElement = document.querySelector(".timer");
 
 const generateSudokuTable = () => {
     const tableBody = document.createElement('tbody');

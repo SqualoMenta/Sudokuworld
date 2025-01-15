@@ -26,7 +26,7 @@ include '../includes/header.php';
 
                     </table>
                 </form>
-                <div class="alert alert-success mt-4 d-none" id="sudoku-of-day-success-message" >
+                <div class="alert alert-success mt-4 d-none">
                     <p>Complimenti! Hai risolto il Sudoku!</p>
                 </div>
 
@@ -36,7 +36,7 @@ include '../includes/header.php';
         <div class="col-lg-4">
             <section class="container border border-dark p-4 rounded">
                 <h2 class="text-center">Tempo trascorso</h2>
-                <div id="timer" class="text-center display-4 text-success">00:00</div>
+                <div class="timer text-center display-4 text-success">00:00</div>
             </section>
 
             <?php if (!isUserLoggedIn()): ?>
