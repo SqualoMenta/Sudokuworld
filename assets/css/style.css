@@ -23,3 +23,7 @@ footer {
 .redNotify{
     color: red;
 }
+
+.img-preview {
+    max-width: 130px;
+}

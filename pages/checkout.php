@@ -71,7 +71,7 @@ include '../includes/header.php';
                 </div>
 
                 <!-- Form for adding a new credit card -->
-                <div id="new-card-form" class="mt-4" style="display: none;">
+                <div id="new-card-form" class="mt-4 d-none">
                     <div class="card p-3">
                         <div class="mb-3">
                             <label for="cardNumber" class="form-label">Numero Carta</label>
@@ -109,12 +109,12 @@ include '../includes/header.php';
                 newCardForm.querySelectorAll('input').forEach((input) => {
                     input.required = true;
                 });
-                newCardForm.style.display = 'block';
+                newCardForm.classList.remove("d-none");
             } else {
                 newCardForm.querySelectorAll('input').forEach((input) => {
                     input.required = false;
                 });
-                newCardForm.style.display = 'none';
+                newCardForm.classList.add("d-none");
             }
         });
     });

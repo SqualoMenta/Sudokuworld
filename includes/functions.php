@@ -232,7 +232,7 @@ function displayEditForm($product, $title, $categories)
     echo '
             <div class="mb-2">
                 <label for="image">Immagine:</label><br>
-                <img id="imagePreview" src="' . htmlspecialchars($product->getImg()) . '" alt="Product Image" style="max-width: 130px;" class="mb-2" /><br>
+                <img class="img-review mb-2" id="imagePreview" src="' . htmlspecialchars($product->getImg()) . '" alt="Product Image"/><br>//TODO to be tested
                 <input type="file" name="image" id="image" accept="image/*" class="form-control-file" onchange="previewImage(event)" />
             </div>
             <div class="mb-2 d-flex gap-1">
