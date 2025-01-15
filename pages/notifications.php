@@ -27,7 +27,7 @@ include_once("../includes/header.php");
         <h1 class="mb-4">Notifiche</h1>
         <div class="list-group">
             <?php foreach ($notifications as $notify) : ?>
-                <div class="list-group-item d-flex align-items-center <?= $notify['seen'] ? 'list-group-item-secondary' : '' ?>">
+                <div class="list-group-item d-flex justify-content-between align-items-center <?= $notify['seen'] ? 'list-group-item-secondary' : '' ?>">
                     <div>
                         <p class="h5 mb-1 text-start "><?= htmlspecialchars($notify["title"]) ?></p>
                         <p class="mb-1 text-start"><?= htmlspecialchars($notify["description"]) ?></p>
