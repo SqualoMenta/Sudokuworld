@@ -272,6 +272,12 @@ class Database
         $this->query2($query, 'i', $id_notification);
     }
 
+    public function deleteNotification($id_notification)
+    {
+        $query = "DELETE FROM NOTIFICATION WHERE id_notification = ?";
+        $this->query2($query, 'i', $id_notification);
+    }
+
     public function addNotification($email, $title, $description)
     {
         $query = "INSERT INTO NOTIFICATION (title, day, seen, description, email) VALUES (?, CURDATE(), ?, ?, ?)";

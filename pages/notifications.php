@@ -12,6 +12,10 @@ if (isset($_POST["mark_as_read"])) {
     $db->markNotificationAsRead($_POST["id_notification"]);
 }
 
+if (isset($_POST["delete_notification"])) {
+    $db->deleteNotification($_POST["id_notification"]);
+}
+
 $notifications = $db->getNotifications($_SESSION["email"]);
 
 
@@ -32,13 +36,20 @@ include_once("../includes/header.php");
                         <p class="h5 mb-1 text-start "><?= htmlspecialchars($notify["title"]) ?></p>
                         <p class="mb-1 text-start"><?= htmlspecialchars($notify["description"]) ?></p>
                     </div>
-                    <form method="POST" action="#">
-                        <input type="hidden" name="mark_as_read" value="1">
-                        <input type="hidden" name="id_notification" value="<?= htmlspecialchars($notify['id_notification']) ?>">
-                        <?php if (!$notify['seen']) : ?>
-                            <button type="submit" class="btn btn-primary btn-sm">Segna come letta</button>
-                        <?php endif; ?>
-                    </form>
+                    <div class="d-flex gap-2">
+                        <form method="POST" action="#">
+                            <input type="hidden" name="mark_as_read" value="1">
+                            <input type="hidden" name="id_notification" value="<?= htmlspecialchars($notify['id_notification']) ?>">
+                            <?php if (!$notify['seen']) : ?>
+                                <button type="submit" class="btn btn-primary btn-sm">Segna come letta</button>
+                            <?php endif; ?>
+                        </form>
+                        <form method="POST" action="#">
+                            <input type="hidden" name="delete_notification" value="1">
+                            <input type="hidden" name="id_notification" value="<?= htmlspecialchars($notify['id_notification']) ?>">
+                            <button type="submit" class="btn btn-danger btn-sm">Cancella notifica</button>
+                        </form>
+                    </div>
                 </div>
             <?php endforeach; ?>
         </div>
