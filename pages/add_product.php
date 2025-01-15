@@ -26,10 +26,6 @@ if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["price
 $product = new Product(null, '', 100, '', '', $_SESSION["email"], '', 0, 10);
 $categories = $db->getAllCategories();
 
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//     header("Location: seller_dashboard.php");
-// }
-
 
 ?>
 

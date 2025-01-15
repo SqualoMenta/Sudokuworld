@@ -193,7 +193,6 @@ function displayPreview($product, $sudoku_solved, $sellerActions = false, $is_wi
 }
 
 
-// TODO: quando un seller edita un prodotto l'immagine è gigante
 function displayEditForm($product, $title, $categories)
 {
     echo '
