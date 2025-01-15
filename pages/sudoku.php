@@ -11,26 +11,17 @@ include '../includes/header.php';
         width: 100%;
         height: 100%;
         table-layout: fixed;
-        /* Adjust this to make the table smaller, e.g., 50% of viewport height */
         margin: 0 auto;
-        /* Centers the table */
     }
 
-    /* Make each cell square */
     td {
-        padding: 0;
-        width: 11.1%;
         position: relative;
-        padding-bottom: 11.1%;
         text-align: center;
         vertical-align: middle;
     }
 
-    /* Input field inside the table cell */
     td div {
         align-items: center;
-        justify-content: center;
-        height: 100%;
     }
 
     input[type="number"] {
@@ -40,15 +31,27 @@ include '../includes/header.php';
         border: none;
         outline: none;
         box-sizing: border-box;
-        font-size: 2rem;
         padding: 0;
+        color: blue;
+    }
+
+    input[type="number"]:disabled {
+        font-weight: bold;
+        background: none;
+        color:black;
+    }
+
+    @media (min-width: 580px) {
+        input[type="number"] {
+            font-size: 2rem;
+        }
     }
 </style>
 
 <main>
     <div class="row m-4">
         <div class="col-lg-8 mb-4">
-            <section class="container border border-primary p-4 rounded" style="min-width: 540px">
+            <section class="container border border-primary p-4 rounded" style="">
                 <h2 class=" text-center">!! Sudoku !!</h2>
                 <?php
                 // Verifica se l'utente ha già risolto il Sudoku di oggi
@@ -67,8 +70,8 @@ include '../includes/header.php';
                 $sudokuSolved = $db->sudokuRunner->getTodaySolution()[0]["solution"];
                 ?>
                 <form>
-                    <table id="sudokuTable" class="table table-bordered border border-dark " style="aspect-ratio: 1; max-width: 800px; min-width: 490px;">
-                        
+                    <table id="sudokuTable" class="table table-bordered border border-dark " style="aspect-ratio: 1; max-width: 800px;">
+
                     </table>
                 </form>
                 <div id="success-message"></div>
