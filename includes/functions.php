@@ -246,7 +246,6 @@ function displayEditForm($product, $title, $categories)
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = function(e) {
-                        // Update the image preview
                         document.querySelector(".img-preview").src = e.target.result;
                     };
                     reader.readAsDataURL(file);
