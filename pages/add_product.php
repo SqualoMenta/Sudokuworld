@@ -15,19 +15,23 @@ if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
 }
 
 if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["price"]) && isset($_POST["discount"])) {
-    // TODO: mi sa che sta roba si può rompere
-    $imageName = $imageName ?? null;
     $_POST["price"] = 100 * $_POST["price"];
-    $db->seller->insertProduct($_POST["name"], $_POST["description"], $_POST["price"], $imageName, $_SESSION["email"], $_POST["discount"], $_POST["availability"]);
+    $db->seller->insertProduct($_POST["name"], $_POST["description"], $_POST["price"], $_POST["category"], $imageName, $_SESSION["email"], $_POST["discount"], $_POST["availability"]);
     echo "Prodotto inserito con successo!";
 }
-$product = new Product(null, '', 0, '', '', $_SESSION["email"], '', 0, 10);
+$product = new Product(null, '', 100, '', '', $_SESSION["email"], '', 0, 10);
 $categories = $db->getAllCategories();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    header("Location: seller_dashboard.php");
+}
+
 include("../includes/header.php");
 ?>
 
-<?= displayEditForm($product, "Inserisci prodotto", $categories) ?>
-
+<main>
+    <?= displayEditForm($product, "Inserisci prodotto", $categories) ?>
+</main>
 <?php
 include("../includes/footer.php");
 ?>
