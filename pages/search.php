@@ -4,15 +4,13 @@ include_once("../includes/functions.php");
 require_once("../classes/Product.php");
 require_once("../classes/ProductList.php");
 
+// TODO: il testo viene perso nella barra di ricerca in alto
 $max_price = $db->getMaxPrice()[0]["max_price"]/100;
-// var_dump($max_price);   
-// TODO: aggiungere filtro per prezzo, volendo anche sortare per più venduti
-$selected_searched_product = isset($_POST['searched-product']) ? $_POST['searched-product'] : "";
-$selected_category = isset($_POST['category']) ? $_POST['category'] : "";
-$selected_min_price = isset($_POST['minprice']) ? $_POST['minprice'] : 0;
-$selected_max_price = isset($_POST['maxprice']) ? $_POST['maxprice'] : $max_price;
-$selected_is_discount = isset($_POST['discount']) ? 1 : 0;
-
+$selected_searched_product = isset($_GET['searched-product']) ? $_GET['searched-product'] : "";
+$selected_category = isset($_GET['category']) ? $_GET['category'] : "";
+$selected_min_price = isset($_GET['minprice']) ? $_GET['minprice'] : 0;
+$selected_max_price = isset($_GET['maxprice']) ? $_GET['maxprice'] : $max_price;
+$selected_is_discount = isset($_GET['discount']) ? 1 : 0;
 
 
 $id_products = $db->filteredSearchProduct(name: $selected_searched_product, minPrice: $selected_min_price * 100, maxPrice: $selected_max_price * 100, category: $selected_category, is_discount: $selected_is_discount);
@@ -22,11 +20,6 @@ if (isUserLoggedIn()) {
 }
 
 $categories = $db->getAllCategories();
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//     $queryString = $_SERVER['QUERY_STRING'];
-//     $url = $_SERVER['PHP_SELF'] . ($queryString ? '?' . $queryString : '');
-//     header("Location: " . $url);
-// }
 include '../includes/header.php';
 
 ?>
@@ -35,7 +28,7 @@ include '../includes/header.php';
     <div class="row">
         <div class="col-md-2 col-sm-12">
             <div class="bg-light border p-3">
-                <form action="/pages/search.php" method="post">
+                <form action="/pages/search.php" method="GET">
                     <input type="hidden" name="searched-product" value="<?= $selected_searched_product ?>">
                     <div class="form-group">
                         <label for="category">Categoria</label>

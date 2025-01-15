@@ -79,7 +79,6 @@ const generateSudokuTable = () => {
 const table = document.getElementById("sudokuTable");
 const tableBody = generateSudokuTable();
 
-// Clear any existing tbody (if present) and append the new one
 table.innerHTML = '';
 table.appendChild(tableBody);
 
@@ -103,15 +102,15 @@ function handleInput(input) {
         };
 
         fetch('/api/api-sudoku.php', {
-            method: 'POST', // Specify that we are using the POST method
+            method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded' // Tell the server that we are sending URL-encoded data
+                'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: new URLSearchParams(data) // Convert the data object to URL-encoded string
+            body: new URLSearchParams(data)
         })
-            .then(response => response.text()) // Handle the response (as text in this case)
+            .then(response => response.text())
             .then(result => {
-                console.log(result); // Log the result from the server
+                console.log(result);
             })
 
         document.getElementById("success-message").classList.remove("d-none");
@@ -128,9 +127,7 @@ const timerInterval = setInterval(() => {
         const minutes = Math.floor(secondsElapsed / 60);
         const seconds = secondsElapsed % 60;
 
-        // Mostra il timer
         timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
         // Stoppa il timer a 99:00 minuti
         if (secondsElapsed >= 99 * 60) {
             clearInterval(timerInterval);

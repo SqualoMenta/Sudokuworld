@@ -103,9 +103,6 @@ class Database
         $query = "UPDATE CART SET quantity = ? WHERE id_product = ? AND email = ?";
         $this->query2($query, 'iis', $quantity, $id_product, $email);
     }
-
-    // TODO: le funzioni che ritornano dei prodotto non devono ritornare prodotti con removed = 1,
-    // tranne la funzione getProduct.
     public function getProduct($id)
     {
         $query = "SELECT * FROM PRODUCT p WHERE id_product = ?";

@@ -26,8 +26,6 @@ include '../includes/header.php';
 ?>
 
 <main>
-    <link rel="stylesheet" href="/assets/css/profile.css">
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3">
@@ -66,7 +64,6 @@ include '../includes/header.php';
                     <div class="tab-pane fade " id="list-home" role="tabpanel" aria-labelledby="list-home-list">
                         <div class="col">
                         <h1 class="display-4">Metodo di pagamento</h1>
-                            <p>Seleziona la carta di credito</p>
                             <form method="POST" action="#" onsubmit="return confirm('Sei sicuro di voler rimuovere la carta di credito?')">
                                 <?php foreach ($credit_cards as $cc) {
                                     $credit_card = new CreditCard($cc["number"], $cc["name"], $cc["surname"], $cc["expiration"]);
@@ -80,7 +77,7 @@ include '../includes/header.php';
                                 <?php } ?>
                             </form>
 
-                            <button type="button" id="add-new-card" class="btn btn-link mt-3">Inserisci un'altra carta</button>
+                            <button type="button" id="add-new-card" class="btn btn-link mt-3">Inserisci un'altra carta di credito</button>
                             <form method="POST" action="#">
                                 <input type="hidden" name="add_card" value="new">
                                 <div id="new-card-form" class="mt-4 d-none">
