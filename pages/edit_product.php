@@ -1,5 +1,4 @@
 <?php
-
 include_once("../includes/bootstrap.php");
 include_once("../includes/functions.php");
 require_once("../classes/Product.php");
@@ -17,21 +16,27 @@ if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
 $productList = $db->getProduct($_GET["id_product"]);
 if (count($productList) == 0) {
     echo "Prodotto non trovato!";
-    exit();
+    die();
 }
 $product = new Product(...$productList[0]);
-// TODO: pensare cosa fare se uno arriva a questa pagina con un prodotto rimosso
+if ($product->getSellerEmail() != $_SESSION["email"]) {
+    echo "Non sei il venditore di questo prodotto!";
+    die();
+}
+if ($product->isRemoved()) {
+    echo "Il prodotto è stato rimosso!";
+    die();
+}
 
 if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["price"]) && isset($_POST["discount"])) {
     $imageName = $imageName ?? null;
     $_POST["price"] = 100 * $_POST["price"];
     $db->seller->updateProduct($_GET["id_product"], $_POST["name"], $_POST["description"], $_POST["price"], $imageName, $_POST["category"], $_POST["discount"], $_POST["availability"]);
-    $db->addNotificationProductUpdated($product->getId());
-    handleProductAvailabilityUpd($db, $product->getId());
+    $db->addNotificationProductUpdated($_GET["id_product"]);
+    handleProductAvailabilityUpd($db, $_GET["id_product"]);
     // TODO: potrebbe non averlo davvero aggiornato, non so se vogliamo la notifica se cambia la descrizione o roba del genere
 }
-// TODO: pensare a cosa fare quando un venditore cancella o cambia la disponibilità di un prodotto che era nel carrello/wishlist
-// dobbiamo mandare una notifica? Fare altre robe?
+
 $categories = $db->getAllCategories();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -43,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 include("../includes/header.php");
 ?>
 
-<?= displayEditForm($product,"Modifica prodotto", $categories) ?>
+<?= displayEditForm($product, "Modifica prodotto", $categories) ?>
 
 <?php
 include("../includes/footer.php");

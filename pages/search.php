@@ -5,7 +5,6 @@ require_once("../classes/Product.php");
 require_once("../classes/ProductList.php");
 
 $max_price = $db->getMaxPrice()[0]["max_price"]/100;
-// TODO: aggiungere filtro per prezzo, volendo anche sortare per più venduti
 $selected_searched_product = isset($_POST['searched-product']) ? $_POST['searched-product'] : "";
 $selected_category = isset($_POST['category']) ? $_POST['category'] : "";
 $selected_min_price = isset($_POST['minprice']) ? $_POST['minprice'] : 0;

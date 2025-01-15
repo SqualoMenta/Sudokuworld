@@ -12,7 +12,6 @@ if (count($productList) == 0) {
 $product = new Product(...$productList[0]);
 $sudoku_solved = false;
 if (isUserLoggedIn()) {
-    // TODO: pensare a come gestire uno che ha già il prodotto nel carrello ma vuole cambiare la quantità
     if (isset($_POST["add_to_cart"]) && !$db->isProductInCart($_SESSION["email"], $product->getId())) {
         $db->addProductToCart($_SESSION["email"], $product->getId(), $_POST["quantity"]);
     }
