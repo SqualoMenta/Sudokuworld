@@ -1,6 +1,6 @@
 <?php
 $streak = $db->sudokuRunner->seeLastMonthSudokuSolved($_SESSION["email"]);
-var_dump($streak);
+// var_dump($streak);
 $streakDates = [];
 if (!empty($streak)) {
     foreach ($streak as $entry) {

@@ -30,6 +30,7 @@ include '../includes/header.php';
 
 ?>
 
+<link rel="stylesheet" href="/assets/css/home.css">
 
 <main>
     <div class="container">
@@ -46,10 +47,9 @@ include '../includes/header.php';
                 foreach ($specialProducts as $key => $product):
                 ?>
                     <div class="carousel-item <?php if ($key == 0) echo ('active') ?>">
-                        <a href="product.php?id=<?= $product->getId() ?>"><img src="<?= htmlspecialchars($product->getImg()) ?>" class="d-block w-100" alt="First slide"
-                                style="aspect-ratio: 21 / 9; object-fit: cover; object-position: center center; overflow: hidden;"></a>
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5 style="color: white; background-color: rgba(0, 0, 0, 0.5); padding: 10px; border-radius: 5px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);"><?= htmlspecialchars($product->getName()) ?></h5>
+                        <a href="product.php?id=<?= $product->getId() ?>"><img src="<?= htmlspecialchars($product->getImg()) ?>" class="carousel-img" alt="First slide"></a>
+                        <div class="carousel-caption">
+                            <h5 class="caption-text"><?= htmlspecialchars($product->getName()) ?></h5>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -64,36 +64,35 @@ include '../includes/header.php';
             </a>
         </div>
 
-
         <div class="row m-4 equal-container">
             <div class="col-lg-4 mb-4">
-                <div class="container border border-primary p-4 rounded h-100" style="aspect-ratio: 1;">
+                <div class="container border-box">
                     <figure>
                         <figcaption>
                             <h3> Sudoku del giorno</h3>
                         </figcaption>
                         <a href="/pages/sudoku.php">
-                            <img src="/uploads/SudokuExample.png" class="img-fluid mx-auto p-4 w-100" alt="">
+                            <img src="/uploads/SudokuExample.png" class="img-fluid img-box" alt="">
                         </a>
                     </figure>
                 </div>
             </div>
             <div class="col-lg-4 mb-4">
-                <div class="container border border-primary p-4 rounded h-100" style="aspect-ratio: 1;">
+                <div class="container border-box">
                     <h3>Vai al Profilo</h3>
                     <div class="container">
                         <a href="/pages/profile.php">
-                            <img src="/uploads/Profile.jpg" class="img-fluid w-100 p-4" alt="" style="max-height: 100%;">
+                            <img src="/uploads/Profile.jpg" class="img-fluid img-box" alt="">
                         </a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 mb-4">
-                <div class="container border border-primary p-4 rounded h-100" style="aspect-ratio: 1;">
+                <div class="container border-box">
                     <h3>Esplora</h3>
                     <div class="container">
                         <a href="/pages/search.php">
-                            <img src="/uploads/Esplora.png" class="img-fluid w-100 p-4 bg-white" alt="" style="max-height: 100%;">
+                            <img src="/uploads/Esplora.png" class="img-fluid img-box" alt="">
                         </a>
                     </div>
                 </div>
@@ -106,10 +105,9 @@ include '../includes/header.php';
                 foreach ($bestSellers as $key => $product):
                 ?>
                     <div class="carousel-item <?php if ($key == 0) echo ('active') ?>">
-                        <a href="product.php?id=<?= $product->getId() ?>"><img src="<?= htmlspecialchars($product->getImg()) ?>" class="d-block w-100" alt="First slide"
-                                style="aspect-ratio: 21 / 9; object-fit: cover; object-position: center center; overflow: hidden;"></a>
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5 style="color: white; background-color: rgba(0, 0, 0, 0.5); padding: 10px; border-radius: 5px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);"><?= htmlspecialchars($product->getName()) ?></h5>
+                        <a href="product.php?id=<?= $product->getId() ?>"><img src="<?= htmlspecialchars($product->getImg()) ?>" class="carousel-img" alt="First slide"></a>
+                        <div class="carousel-caption">
+                            <h5 class="caption-text"><?= htmlspecialchars($product->getName()) ?></h5>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -126,7 +124,6 @@ include '../includes/header.php';
     </div>
 
 </main>
-
 
 <?php
 include '../includes/footer.php';
