@@ -232,7 +232,7 @@ function displayEditForm($product, $title, $categories)
     echo '
             <div class="mb-2">
                 <label for="image">Immagine:</label><br>
-                <img class="img-review mb-2" height="300px" id="imagePreview" src="' . htmlspecialchars($product->getImg()) . '" alt="Product Image"/><br>
+                <img class="img-preview mb-2" src="' . htmlspecialchars($product->getImg()) . '" alt="Product Image"/><br>
                 <input type="file" name="image" id="image" accept="image/*" class="form-control-file" onchange="previewImage(event)" '. ($product->getImg() === "" ? "required" : "") . '/>
             </div>
             <div class="mb-2 d-flex gap-1">
@@ -248,7 +248,7 @@ function displayEditForm($product, $title, $categories)
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         // Update the image preview
-                        document.getElementById("imagePreview").src = e.target.result;
+                        document.querySelector(".img-preview").src = e.target.result;
                     };
                     reader.readAsDataURL(file);
                 }
