@@ -205,7 +205,7 @@ function displayEditForm($product, $title, $categories)
             </div>
             <div class="col-md-6 mb-2">
                 <label for="price">Prezzo:</label>
-                <input min="0.01" type="number" id="price" name="price" class="form-control" value="' . number_format($product->getPrice(), 2) . '"  required/>
+                <input min="0.01" type="number" step="0.01" id="price" name="price" class="form-control" value="' . number_format($product->getPrice(), 2) . '"  required/>
             </div>
         <div class="mb-2">
             <label for="description">Descrizione:</label>
@@ -255,17 +255,3 @@ function displayEditForm($product, $title, $categories)
             }
         </script>';
 }
-
-
-
-// function displayProductPreviewsWithQuantity($id_product, $db, $sudoku_solved, $sellerActions = false)
-// {
-//     echo '<div class="container-fluid mt-4"><div class="row">';
-//     // foreach ($id_products as $id_product) {
-//         $productData = $db->getProduct($id_product['id_product'])[0];
-//         $prod = new Product(...$productData);
-//         $prod->displayPreview($sudoku_solved, $sellerActions);
-//         // echo '<p>Quantità: ' . $quantity . '</p>';
-//     // }
-//     echo '</div></div>';
-// }

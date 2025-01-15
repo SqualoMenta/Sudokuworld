@@ -12,6 +12,8 @@ if (!$_SESSION["is_seller"]) {
     die();
 }
 
+include("../includes/header.php");
+
 if (isset($_POST["delete"])) {
     $db->seller->deleteProduct($_POST["id_product"]);
     $users_with_deleted_product_in_cart = $db->getUsersWithProductInCart($_POST["id_product"]);
@@ -27,11 +29,12 @@ if (isset($_POST["delete"])) {
         $db->addNotification($user["email"], "Prodotto cancellato", "Il seguente prodotto che avevi messo nella lista desideri e' stato cancellato dal venditore: ". $deleted_product[0]["name"]);
 
     }
-    echo "Prodotto cancellato con successo!";
+    echo '<div class="alert alert-success mt-4">
+                    <p>Prodotto cancellato con successo!</p>
+                </div>';
 }
 
 $id_products = $db->seller->getProductsSoldBy($_SESSION["email"]);
-include("../includes/header.php");
 ?>
 
 <div>

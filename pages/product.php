@@ -6,7 +6,7 @@ $productList = $db->getProduct($_GET["id"]);
 
 if (count($productList) == 0) {
     echo "Prodotto non trovato!";
-    exit();
+    die();
 }
 
 $product = new Product(...$productList[0]);
