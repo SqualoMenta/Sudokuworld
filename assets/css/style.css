@@ -4,13 +4,17 @@
 
 
 main {
-    min-height: 100vh;
+    min-height: 90vh;
     display: flex;
     flex-direction: column;
 }
 
+nav{
+    height: 5vh;
+}
+
 footer {
-    height: 5rem;
+    height: 5vh;
     margin-top: auto;
 }
 
