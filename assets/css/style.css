@@ -10,7 +10,7 @@ main {
 }
 
 nav{
-    max-height: 10vh;
+    min-height: 10vh;
 }
 
 footer {
