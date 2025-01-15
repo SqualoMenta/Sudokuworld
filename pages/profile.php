@@ -20,24 +20,13 @@ $credit_cards = $db->getCreditCards($_SESSION["email"]);
 $orders = $db->getOrders($_SESSION["email"]);
 include '../includes/header.php';
 ?>
-<style>
-    .list-group{
-        text-align: center;
-    }
-    @media (max-width: 768px) {
-        .tab-pane .row .col {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-    }
-</style>
 
 <main>
+<link rel="stylesheet" href="/assets/css/profile.css">
+
 <div class="container-fluid">
 <div class="row">
-    <div class="col-12 col-md-5 col-lg-2">
+    <div class="col-md-3">
         <div class="list-group" id="list-tab" role="tablist">
             <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab">
                 Pagamento
@@ -55,11 +44,11 @@ include '../includes/header.php';
             </a>
         </div>
     </div>
-</div>
-        <div class="col-9">
+
+        <div class="col-md-9">
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
-                    <div class="row">
+
                         <div class="col">
                             <h2>Metodo di pagamento</h2>
                             <p>Seleziona la carta di credito</p>
@@ -104,7 +93,7 @@ include '../includes/header.php';
                                 </div>
                             </form>
                         </div>
-                    </div>
+
                     <script>
                         document.querySelector('#add-new-card').addEventListener('click', function() {
                             const newCardForm = document.getElementById('new-card-form');
@@ -137,7 +126,6 @@ include '../includes/header.php';
                 <div class="tab-pane fade" id="list-orders" role="tabpanel" aria-labelledby="list-orders-list">
                     <div class="container">
                         <h1 class="display-4">I miei ordini</h1>
-                        <div class="row">
                             <?php foreach ($orders as $order) : ?>
                                 <?php
                                 $products = $db->getOrderProducts($order["id_order"]);
@@ -152,7 +140,7 @@ include '../includes/header.php';
                                                 <?php displayProductPreviews($products, $db, false, is_prev_order: true); ?>
                                             </div>
                                         </div>
-                                    </div>
+
                                 </div>
                             <?php endforeach; ?>
                         </div>
