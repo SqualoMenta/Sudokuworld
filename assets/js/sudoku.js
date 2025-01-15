@@ -127,9 +127,7 @@ const timerInterval = setInterval(() => {
         const minutes = Math.floor(secondsElapsed / 60);
         const seconds = secondsElapsed % 60;
 
-        // Mostra il timer
         timerElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
         // Stoppa il timer a 99:00 minuti
         if (secondsElapsed >= 99 * 60) {
             clearInterval(timerInterval);
