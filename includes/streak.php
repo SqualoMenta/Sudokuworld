@@ -11,7 +11,7 @@ if (!empty($streak)) {
 }
 ?>
 <section class="container mt-4 border border-dark p-4 rounded ">
-    <h4 class="text-center">La tua streak degli ultimi 30 giorni</h4>
+    <h3 class="text-center">La tua streak degli ultimi 30 giorni</h3>
     <div id="streakContainer" class="row mt-4"></div>
 </section>
 

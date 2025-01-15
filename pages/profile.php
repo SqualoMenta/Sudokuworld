@@ -32,7 +32,10 @@ include '../includes/header.php';
         <div class="row">
             <div class="col-md-3">
                 <div class="list-group" id="list-tab" role="tablist">
-                    <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab">
+                    <a class="list-group-item list-group-item-action active" id="list-info-list" data-bs-toggle="list" href="#list-info" role="tab">
+                        Informazioni personali
+                    </a>
+                    <a class="list-group-item list-group-item-action " id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab">
                         Pagamento
                     </a>
                     <a class="list-group-item list-group-item-action" id="list-orders-list" data-bs-toggle="list" href="#list-orders" role="tab">
@@ -51,10 +54,18 @@ include '../includes/header.php';
 
             <div class="col-md-9">
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
-
+                    <div class="tab-pane fade show active" id="list-info" role="tabpanel" aria-labelledby="list-info-list">
+                        <div class="container">
+                            <h1 class="display-4">Le mie informazioni</h1>
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" id="email" value="<?= $_SESSION["email"] ?>" readonly>
+                            <label for="name">Nome</label> 
+                            <input type="text" class="form-control" id="name" value="<?= $_SESSION["name"] ?>" readonly>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade " id="list-home" role="tabpanel" aria-labelledby="list-home-list">
                         <div class="col">
-                            <h2>Metodo di pagamento</h2>
+                        <h1 class="display-4">Metodo di pagamento</h1>
                             <p>Seleziona la carta di credito</p>
                             <form method="POST" action="#" onsubmit="return confirm('Sei sicuro di voler rimuovere la carta di credito?')">
                                 <?php foreach ($credit_cards as $cc) {

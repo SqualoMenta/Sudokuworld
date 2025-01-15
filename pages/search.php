@@ -30,13 +30,13 @@ $categories = $db->getAllCategories();
 include '../includes/header.php';
 
 ?>
+<main>
 <div class="container-fluid mt-4">
     <div class="row">
         <div class="col-md-2 col-sm-12">
             <div class="bg-light border p-3">
                 <form action="/pages/search.php" method="post">
                     <input type="hidden" name="searched-product" value="<?= $selected_searched_product ?>">
-
                     <div class="form-group">
                         <label for="category">Categoria</label>
                         <select id="category" name="category" class="form-control">
@@ -77,6 +77,7 @@ include '../includes/header.php';
         </div>
     </div>
 </div>
+                            </main>
 <script>
     const minpriceSlider = document.getElementById('minprice');
     const maxpriceSlider = document.getElementById('maxprice');

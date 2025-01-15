@@ -134,10 +134,10 @@ function displayPreview($product, $sudoku_solved, $sellerActions = false, $is_wi
 
     echo '
     <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
-        <div class="card' . ($product->isRemoved() ? '-removed' : '') . '"> //TODO to be tested
+        <div class="card' . ($product->isRemoved() ? '-removed' : '') . '"> 
             <img src="' . htmlspecialchars($product->getImg()) . '" class="card-img-top" alt="' . htmlspecialchars($product->getName()) . '">
             <div class="card-body">
-                <h5 class="card-title">' . htmlspecialchars($product->getName()) . '</h5>';
+                <h2 class="card-title">' . htmlspecialchars($product->getName()) . '</h2>';
     if (!$is_prev_order) {
         echo '
                     <p class="card-text"><strong>Prezzo:</strong> $' . number_format($product->getPrice(), 2) . '</p>';
@@ -168,7 +168,7 @@ function displayPreview($product, $sudoku_solved, $sellerActions = false, $is_wi
             <input type="hidden" name="id_product" value="' . ($product->getId()) . '" />
                         <div class="d-flex align-items-center">
                             <button type="submit" name="action" value="decrease_cart" class="btn btn-danger me-3"' . ($quantity <= 1 ? "disabled" : "") . ' >-</button>
-                            <h2 class="display-6 mb-0">' . $quantity . '</h2>
+                            <label class="display-6 mb-0">' . $quantity . '</label>
                             <button type="submit" name="action" value="increase_cart" class="btn btn-success ms-3"' . ($product->getAvailability() <= $quantity ? "disabled" : "") . '>+</button>
                         </div>
                     </form>';
@@ -232,7 +232,7 @@ function displayEditForm($product, $title, $categories)
     echo '
             <div class="mb-2">
                 <label for="image">Immagine:</label><br>
-                <img class="img-review mb-2" id="imagePreview" src="' . htmlspecialchars($product->getImg()) . '" alt="Product Image"/><br>//TODO to be tested
+                <img class="img-review mb-2" id="imagePreview" src="' . htmlspecialchars($product->getImg()) . '" alt="Product Image"/><br>
                 <input type="file" name="image" id="image" accept="image/*" class="form-control-file" onchange="previewImage(event)" />
             </div>
             <div class="mb-2 d-flex gap-1">

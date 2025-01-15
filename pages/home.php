@@ -47,9 +47,9 @@ include '../includes/header.php';
                 foreach ($specialProducts as $key => $product):
                 ?>
                     <div class="carousel-item <?php if ($key == 0) echo ('active') ?>">
-                        <a href="product.php?id=<?= $product->getId() ?>"><img src="<?= htmlspecialchars($product->getImg()) ?>" class="carousel-img" alt="First slide"></a>
+                        <a href="product.php?id=<?= $product->getId() ?>"><img src="<?= htmlspecialchars($product->getImg()) ?>" class="carousel-img" alt=""></a>
                         <div class="carousel-caption">
-                            <h5 class="caption-text"><?= htmlspecialchars($product->getName()) ?></h5>
+                            <h3 class="caption-text" ><?= htmlspecialchars($product->getName()) ?></h3>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -69,7 +69,7 @@ include '../includes/header.php';
                 <div class="container border-box">
                     <figure>
                         <figcaption>
-                            <h3> Sudoku del giorno</h3>
+                            <h2>Sudoku del giorno</h2>
                         </figcaption>
                         <a href="/pages/sudoku.php">
                             <img src="/uploads/SudokuExample.png" class="img-fluid img-box" alt="">
@@ -79,22 +79,30 @@ include '../includes/header.php';
             </div>
             <div class="col-lg-4 mb-4">
                 <div class="container border-box">
-                    <h3>Vai al Profilo</h3>
-                    <div class="container">
-                        <a href="/pages/profile.php">
-                            <img src="/uploads/Profile.jpg" class="img-fluid img-box" alt="">
-                        </a>
-                    </div>
+                    <figure>
+                        <figcaption>
+                            <h2>Vai al Profilo</h2>
+                        </figcaption>
+                        <div class="container">
+                            <a href="/pages/profile.php">
+                                <img src="/uploads/Profile.jpg" class="img-fluid img-box" alt="">
+                            </a>
+                        </div>
+                    </figure>
                 </div>
             </div>
             <div class="col-lg-4 mb-4">
                 <div class="container border-box">
-                    <h3>Esplora</h3>
-                    <div class="container">
-                        <a href="/pages/search.php">
-                            <img src="/uploads/Esplora.png" class="img-fluid img-box" alt="">
-                        </a>
-                    </div>
+                    <figure>
+                        <figcaption>
+                            <h2>Esplora</h2>
+                        </figcaption>
+                        <div class="container">
+                            <a href="/pages/search.php">
+                                <img src="/uploads/Esplora.png" class="img-fluid img-box" alt="">
+                            </a>
+                        </div>
+                    </figure>
                 </div>
             </div>
         </div>
@@ -105,9 +113,9 @@ include '../includes/header.php';
                 foreach ($bestSellers as $key => $product):
                 ?>
                     <div class="carousel-item <?php if ($key == 0) echo ('active') ?>">
-                        <a href="product.php?id=<?= $product->getId() ?>"><img src="<?= htmlspecialchars($product->getImg()) ?>" class="carousel-img" alt="First slide"></a>
+                        <a href="product.php?id=<?= $product->getId() ?>"><img src="<?= htmlspecialchars($product->getImg()) ?>" class="carousel-img" alt=""></a>
                         <div class="carousel-caption">
-                            <h5 class="caption-text"><?= htmlspecialchars($product->getName()) ?></h5>
+                            <h3 class="caption-text"><?= htmlspecialchars($product->getName()) ?></h3>
                         </div>
                     </div>
                 <?php endforeach; ?>

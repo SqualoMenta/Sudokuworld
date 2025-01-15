@@ -23,6 +23,11 @@ if (isset($_POST['credit_card'])) {
     $cart_products = $cart->getProducts();
     $db->addOrder($_SESSION["email"], $cart_products, $price);
     $db->addNotification($_SESSION["email"], "Nuovo ordine", "Hai effettuato un nuovo ordine di " . number_format($price, 2) . "€");
+    foreach($cart_products as $product) {
+        $productData = $db->getProduct($product['id_product'])[0];
+        // var_dump($productData);
+        $db->addNotification($productData["email"], "Nuovo ordine", "Hai ricevuto un nuovo ordine di " . $product["quantity"] . " " . $productData["name"] . ". E' stato ordinato da " . $_SESSION["email"]);
+    }
     $db->emptyCart($_SESSION["email"]);
     foreach ($cart_products as $product) {
         $productData = $db->getProduct($product['id_product'])[0];
@@ -30,7 +35,7 @@ if (isset($_POST['credit_card'])) {
         $db->seller->updateProduct($prod->getId(), availability: $prod->getAvailability() - $product["quantity"]);
         handleProductAvailabilityUpd($db, $prod->getId());
     }
-    header("Location: home.php");
+    header("Location: home.php");    
 }
 
 include '../includes/header.php';
