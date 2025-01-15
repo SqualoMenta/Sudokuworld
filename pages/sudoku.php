@@ -9,7 +9,7 @@ include '../includes/header.php';
     <div class="row m-4">
         <div class="col-lg-8 mb-4">
             <section class="container border border-primary p-4 rounded">
-                <h2 class=" text-center">!! Sudoku !!</h2>
+                <h2 class="container border border-black p-2 mb-4 rounded text-center">!! Sudoku !!</h2>
                 <?php
                 // Verifica se l'utente ha già risolto il Sudoku di oggi
                 if (isUserLoggedIn() && $db->sudokuRunner->isTodaySudokuWon($_SESSION["email"])) {
