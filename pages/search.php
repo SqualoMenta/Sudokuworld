@@ -23,53 +23,54 @@ include '../includes/header.php';
 
 ?>
 <main>
-<div class="container-fluid mt-4">
-    <div class="row">
-        <div class="col-md-2 col-sm-12">
-            <div class="bg-light border p-3">
-                <form action="/pages/search.php" method="GET">
-                    <input type="hidden" name="searched-product" value="<?= $selected_searched_product ?>">
-                    <div class="form-group">
-                        <label for="category">Categoria</label>
-                        <select id="category" name="category" class="form-control">
-                            <option value="">Tutto</option>
-                            <?php foreach ($categories as $category) : ?>
-                                <option <?php if ($category["category_tag"] === $selected_category) echo 'selected'; ?>>
-                                    <?= $category['category_tag'] ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col-md-2 col-sm-12">
+                <div class="bg-light border p-3">
+                    <form action="/pages/search.php" method="GET">
+                        <input type="hidden" name="searched-product" value="<?= $selected_searched_product ?>">
+                        <div class="form-group">
+                            <label for="category">Categoria</label>
+                            <select id="category" name="category" class="form-control">
+                                <option value="">Tutto</option>
+                                <?php foreach ($categories as $category) : ?>
+                                    <option <?php if ($category["category_tag"] === $selected_category) echo 'selected'; ?>>
+                                        <?= $category['category_tag'] ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="minprice">Prezzo Minimo</label>
-                        <input type="range" id="minprice" name="minprice" class="form-control-range" min="0" max="<?= $max_price?>" value="<?= $selected_min_price ?>">
-                        <span id="minprice-value"></span>
-                    </div>
+                        <div class="form-group">
+                            <label for="minprice">Prezzo Minimo</label>
+                            <input type="range" id="minprice" name="minprice" class="form-control-range" min="0" max="<?= $max_price?>" value="<?= $selected_min_price ?>">
+                            <span id="minprice-value"></span>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="maxprice">Prezzo Massimo</label>
-                        <input type="range" id="maxprice" name="maxprice" class="form-control-range" min="0" max="<?= $max_price?>"   value="<?= $selected_max_price ?>">
-                        <span id="maxprice-value"></span>
-                    </div>
+                        <div class="form-group">
+                            <label for="maxprice">Prezzo Massimo</label>
+                            <input type="range" id="maxprice" name="maxprice" class="form-control-range" min="0" max="<?= $max_price?>"   value="<?= $selected_max_price ?>">
+                            <span id="maxprice-value"></span>
+                        </div>
 
-                    <div class="form-group form-check">
-                        <input type="checkbox" id="discount" name="discount" <?php if ($selected_is_discount) echo "checked" ?> class="form-check-input">
-                        <label for="discount" class="form-check-label">In sconto</label>
-                    </div>
+                        <div class="form-group form-check">
+                            <input type="checkbox" id="discount" name="discount" <?php if ($selected_is_discount) echo "checked" ?> class="form-check-input">
+                            <label for="discount" class="form-check-label">In sconto</label>
+                        </div>
 
-                    <button type="submit" class="btn btn-primary w-100">Applica filtri</button>
-                </form>
+                        <button type="submit" class="btn btn-primary w-100">Applica filtri</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-9 col-sm-12">
+                <?=
+                displayProductPreviews($id_products, $db, $sudoku_solved);
+                ?>
             </div>
         </div>
-        <div class="col-md-9 col-sm-12">
-            <?=
-            displayProductPreviews($id_products, $db, $sudoku_solved);
-            ?>
-        </div>
     </div>
-</div>
-                            </main>
+</main>
+
 <script>
     const minpriceSlider = document.getElementById('minprice');
     const maxpriceSlider = document.getElementById('maxprice');

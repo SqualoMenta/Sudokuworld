@@ -43,71 +43,73 @@ if (isset($_POST['credit_card'])) {
 
 include '../includes/header.php';
 ?>
-<div class="container mt-4">
-    <div class="row mb-4">
-        <div class="col">
-            <h1 class="text-primary">Prezzo totale: <?= number_format($price, 2) ?> €</h1>
+<main>
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col">
+                <h1 class="text-primary">Prezzo totale: <?= number_format($price, 2) ?> €</h1>
+            </div>
         </div>
-    </div>
 
-    <div class="row mb-4">
-        <div class="col">
-            <h2>Indirizzo di spedizione</h2>
-            <p>via dell'università 50, Cesena, Italia</p>
+        <div class="row mb-4">
+            <div class="col">
+                <h2>Indirizzo di spedizione</h2>
+                <p>via dell'università 50, Cesena, Italia</p>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <h2>Metodo di pagamento</h2>
-            <p>Seleziona la carta di credito:</p>
-            <form method="POST" action="#">
-                <?php foreach ($credit_cards as $cc) {
-                    $credit_card = new CreditCard($cc["number"], $cc["name"], $cc["surname"], $cc["expiration"]);
-                ?>
+        <div class="row">
+            <div class="col">
+                <h2>Metodo di pagamento</h2>
+                <p>Seleziona la carta di credito:</p>
+                <form method="POST" action="#">
+                    <?php foreach ($credit_cards as $cc) {
+                        $credit_card = new CreditCard($cc["number"], $cc["name"], $cc["surname"], $cc["expiration"]);
+                    ?>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="credit_card" value="<?= $credit_card->getNumber() ?>" id="credit-card-<?= $credit_card->getNumber() ?>" required>
+                            <label class="form-check-label" for="credit-card-<?= $credit_card->getNumber() ?>">
+                                <?= $credit_card->getNumber() ?>
+                            </label>
+                        </div>
+                    <?php } ?>
+                    <!-- Option to add new credit card -->
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="credit_card" value="<?= $credit_card->getNumber() ?>" id="credit-card-<?= $credit_card->getNumber() ?>" required>
-                        <label class="form-check-label" for="credit-card-<?= $credit_card->getNumber() ?>">
-                            <?= $credit_card->getNumber() ?>
-                        </label>
+                        <input class="form-check-input" type="radio" name="credit_card" value="new" id="new-card" required>
+                        <label class="form-check-label" for="new-card">Inserisci un'altra carta</label>
                     </div>
-                <?php } ?>
-                <!-- Option to add new credit card -->
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="credit_card" value="new" id="new-card" required>
-                    <label class="form-check-label" for="new-card">Inserisci un'altra carta</label>
-                </div>
 
-                <!-- Form for adding a new credit card -->
-                <div id="new-card-form" class="mt-4 d-none">
-                    <div class="card p-3">
-                        <div class="mb-3">
-                            <label for="cardNumber" class="form-label">Numero Carta</label>
-                            <input type="text" class="form-control border border-2" id="cardNumber" name="cardNumber">
-                        </div>
-                        <div class="mb-3">
-                            <label for="cardName" class="form-label">Nome</label>
-                            <input type="text" class="form-control border border-2" id="cardName" name="cardName">
-                        </div>
-                        <div class="mb-3">
-                            <label for="cardSurname" class="form-label">Cognome</label>
-                            <input type="text" class="form-control border border-2" id="cardSurname" name="cardSurname">
-                        </div>
-                        <div class="mb-3">
-                            <label for="cardExpiration" class="form-label">Data di Scadenza</label>
-                            <input type="month" class="form-control border border-2" id="cardExpiration" name="cardExpiration">
+                    <!-- Form for adding a new credit card -->
+                    <div id="new-card-form" class="mt-4 d-none">
+                        <div class="card p-3">
+                            <div class="mb-3">
+                                <label for="cardNumber" class="form-label">Numero Carta</label>
+                                <input type="text" class="form-control border border-2" id="cardNumber" name="cardNumber">
+                            </div>
+                            <div class="mb-3">
+                                <label for="cardName" class="form-label">Nome</label>
+                                <input type="text" class="form-control border border-2" id="cardName" name="cardName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="cardSurname" class="form-label">Cognome</label>
+                                <input type="text" class="form-control border border-2" id="cardSurname" name="cardSurname">
+                            </div>
+                            <div class="mb-3">
+                                <label for="cardExpiration" class="form-label">Data di Scadenza</label>
+                                <input type="month" class="form-control border border-2" id="cardExpiration" name="cardExpiration">
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Submit Button -->
-                <div class="mt-4">
-                    <button type="submit" class="btn btn-primary">Conferma Carta</button>
-                </div>
-            </form>
+                    <!-- Submit Button -->
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">Conferma Carta</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+</main>
 
 <script>
     document.querySelectorAll('input[name="credit_card"]').forEach((radio) => {

@@ -47,7 +47,7 @@ include '../includes/header.php';
     <?php endif; ?>
 </div>
 <?= displayProductPreviews($products, $db, $sudoku_solved, is_cart: true) ?>
-    </main>
+</main>
 
 
 

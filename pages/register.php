@@ -15,32 +15,34 @@ if (isset($_POST["name"]) && isset($_POST["email"]) && isset($_POST["password"])
 
 include("../includes/header.php");
 ?>
-<?php if (isUserLoggedIn()): ?>
-    <div>
-        <h1>Benvenuto <?= $_SESSION["name"] ?></h1>
-        <a href="logout.php">Logout</a>
-    </div>
-<?php else: ?>
-<form action="#" method="POST">
-    <h2>Registrazione</h2>
-    <?php if (isset($register_error)): ?>
-        <p><?php echo $register_error ?></p>
-    <?php endif; ?>
-    <ul>
-        <li>
-            <label for="name">Nome:</label><input type="text" id="name" name="name" />
-        </li>
-        <li>
-            <label for="email">Email:</label><input type="email" id="email" name="email" />
-        </li>
-        <li>
-            <label for="password">Password:</label><input type="password" id="password" name="password" />
-        </li>
-        <li>
-            <input type="submit" name="submit" value="Invia" />
-        </li>
-    </ul>
-</form>
+<main>
+    <?php if (isUserLoggedIn()): ?>
+        <div>
+            <h1>Benvenuto <?= $_SESSION["name"] ?></h1>
+            <a href="logout.php">Logout</a>
+        </div>
+    <?php else: ?>
+    <form action="#" method="POST">
+        <h2>Registrazione</h2>
+        <?php if (isset($register_error)): ?>
+            <p><?php echo $register_error ?></p>
+        <?php endif; ?>
+        <ul>
+            <li>
+                <label for="name">Nome:</label><input type="text" id="name" name="name" />
+            </li>
+            <li>
+                <label for="email">Email:</label><input type="email" id="email" name="email" />
+            </li>
+            <li>
+                <label for="password">Password:</label><input type="password" id="password" name="password" />
+            </li>
+            <li>
+                <input type="submit" name="submit" value="Invia" />
+            </li>
+        </ul>
+    </form>
+</main>
 <?php endif; ?>
 
 <?php

@@ -36,18 +36,18 @@ if (isset($_POST["delete"])) {
 
 $id_products = $db->seller->getProductsSoldBy($_SESSION["email"]);
 ?>
+<main>
+    <div>
+        <h1>Benvenuto <?= $_SESSION["name"] ?></h1>
+    </div>
 
-<div>
-    <h1>Benvenuto <?= $_SESSION["name"] ?></h1>
-</div>
-
-<form action="/pages/add_product.php" method="GET">
-    <input type="submit" value="Aggiungi Prodotto" class="btn btn-info" />
-</form>
-<?=
-displayProductPreviews($id_products, $db, false, true);
-?>
-
+    <form action="/pages/add_product.php" method="GET">
+        <input type="submit" value="Aggiungi Prodotto" class="btn btn-info" />
+    </form>
+    <?=
+    displayProductPreviews($id_products, $db, false, true);
+    ?>
+</main>
 <?php
 include("../includes/footer.php");
 ?>
