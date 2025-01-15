@@ -34,7 +34,6 @@ if (isset($_POST["name"]) && isset($_POST["description"]) && isset($_POST["price
     $db->seller->updateProduct($_GET["id_product"], $_POST["name"], $_POST["description"], $_POST["price"], $imageName, $_POST["category"], $_POST["discount"], $_POST["availability"]);
     $db->addNotificationProductUpdated($_GET["id_product"]);
     handleProductAvailabilityUpd($db, $_GET["id_product"]);
-    // TODO: potrebbe non averlo davvero aggiornato, non so se vogliamo la notifica se cambia la descrizione o roba del genere
 }
 
 $categories = $db->getAllCategories();
