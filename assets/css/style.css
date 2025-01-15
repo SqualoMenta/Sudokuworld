@@ -1,4 +1,7 @@
 @import url("sudokuTable.css");
+@import url("profile.css");
+@import url("home.css");
+
 
 main {
     min-height: 100vh;

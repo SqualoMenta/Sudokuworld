@@ -27,10 +27,7 @@ foreach ($specialProductsId as $key => $value) {
 ?>
 <?php
 include '../includes/header.php';
-
 ?>
-
-<link rel="stylesheet" href="/assets/css/home.css">
 
 <main>
     <div class="container">

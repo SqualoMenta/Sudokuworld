@@ -26,8 +26,6 @@ include '../includes/header.php';
 ?>
 
 <main>
-    <link rel="stylesheet" href="/assets/css/profile.css">
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3">
