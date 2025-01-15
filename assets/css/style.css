@@ -15,6 +15,11 @@ footer {
     width: 100%;
 }
 
+.card-removed{
+    width: 100%;
+    opacity: 0.5;
+}
+
 .redNotify{
     color: red;
 }

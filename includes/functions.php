@@ -113,15 +113,15 @@ function handleProductAvailabilityUpd($db, $id_product)
     }
 }
 
-function displayProductPreviews($id_products, $db, $sudoku_solved, $sellerActions = false, $is_wishlist = false, $is_prev_order=false, $is_cart=false)
+function displayProductPreviews($id_products, $db, $sudoku_solved, $sellerActions = false, $is_wishlist = false, $is_prev_order = false, $is_cart = false)
 {
     echo '<div class="container-fluid mt-4"><div class="row">';
     foreach ($id_products as $id_product) {
         $productData = $db->getProduct($id_product['id_product'])[0];
         $prod = new Product(...$productData);
-        if(!array_key_exists('quantity', $id_product)){
+        if (!array_key_exists('quantity', $id_product)) {
             displayPreview($prod, $sudoku_solved, $sellerActions, $is_wishlist, $is_prev_order, 0, $is_cart);
-        }else{
+        } else {
 
             displayPreview($prod, $sudoku_solved, $sellerActions, $is_wishlist, $is_prev_order, $id_product['quantity'], $is_cart);
         }
@@ -129,53 +129,53 @@ function displayProductPreviews($id_products, $db, $sudoku_solved, $sellerAction
     echo '</div></div>';
 }
 
-function displayPreview($product, $sudoku_solved, $sellerActions = false, $is_wishlist = false, $is_prev_order=false, $quantity=NULL, $is_cart=false)
-    {
+function displayPreview($product, $sudoku_solved, $sellerActions = false, $is_wishlist = false, $is_prev_order = false, $quantity = NULL, $is_cart = false)
+{
 
-        echo '
+    echo '
     <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
-        <div class="card" style="' . ($product->isRemoved() ? 'opacity: 0.5;' : '') . '"> 
+        <div class="card' . ($product->isRemoved() ? '-removed' : '') . '"> //TODO to be tested
             <img src="' . htmlspecialchars($product->getImg()) . '" class="card-img-top" alt="' . htmlspecialchars($product->getName()) . '">
             <div class="card-body">
                 <h5 class="card-title">' . htmlspecialchars($product->getName()) . '</h5>';
-                if(!$is_prev_order){
-                    echo '
-                    <p class="card-text"><strong>Prezzo:</strong> $' . number_format($product->getPrice(), 2) . '</p>';
-                    if ($product->getFinalDiscount($sudoku_solved) > 0) {
-                        echo '<p class="card-text text-danger"><strong>Prezzo scontato:</strong> $' . number_format($product->getFinalPrice($sudoku_solved), 2) . ' (' . number_format($product->getFinalDiscount($sudoku_solved), 1) . '% off)</p>';
-                    }
-                }else{
-                    echo '
-                    <p class="card-text"><strong>Quantità:</strong> ' . $quantity . '</p>';
-                }
-
-
+    if (!$is_prev_order) {
         echo '
+                    <p class="card-text"><strong>Prezzo:</strong> $' . number_format($product->getPrice(), 2) . '</p>';
+        if ($product->getFinalDiscount($sudoku_solved) > 0) {
+            echo '<p class="card-text text-danger"><strong>Prezzo scontato:</strong> $' . number_format($product->getFinalPrice($sudoku_solved), 2) . ' (' . number_format($product->getFinalDiscount($sudoku_solved), 1) . '% off)</p>';
+        }
+    } else {
+        echo '
+                    <p class="card-text"><strong>Quantità:</strong> ' . $quantity . '</p>';
+    }
+
+
+    echo '
         <a href="product.php?id=' . $product->getId() . '" class="btn btn-info">Vedi dettagli</a>
         ';
-        if($is_wishlist){
-            echo '<form method="post" action="#" onsubmit="return confirm(\'Sei sicuro di voler rimuovere il prodotto dalla lista desideri?\')">
+    if ($is_wishlist) {
+        echo '<form method="post" action="#" onsubmit="return confirm(\'Sei sicuro di voler rimuovere il prodotto dalla lista desideri?\')">
             <input type="hidden" name="id_product" value="' . ($product->getId()) . '" />
             <input type="submit" value="Rimuovi dalla lista desideri" class="btn btn-danger" name="remove_wishlist" />';
-        }
-        if($is_cart){
-            echo '<form method="post" action="#" onsubmit="return confirm(\'Sei sicuro di voler rimuovere il prodotto dal carrello?\')">
+    }
+    if ($is_cart) {
+        echo '<form method="post" action="#" onsubmit="return confirm(\'Sei sicuro di voler rimuovere il prodotto dal carrello?\')">
             <input type="hidden" name="id_product" value="' . ($product->getId()) . '" />
             <input type="submit" value="Rimuovi dal carrello" class="btn btn-danger" name="remove_cart" />
             </form>';
 
-            echo '<form method="POST" class="d-inline-block">
+        echo '<form method="POST" class="d-inline-block">
             <input type="hidden" name="id_product" value="' . ($product->getId()) . '" />
                         <div class="d-flex align-items-center">
                             <button type="submit" name="action" value="decrease_cart" class="btn btn-danger me-3"' . ($quantity <= 1 ? "disabled" : "") . ' >-</button>
                             <h2 class="display-6 mb-0">' . $quantity . '</h2>
-                            <button type="submit" name="action" value="increase_cart" class="btn btn-success ms-3"'.( $product->getAvailability() <= $quantity ? "disabled" : "") .'>+</button>
+                            <button type="submit" name="action" value="increase_cart" class="btn btn-success ms-3"' . ($product->getAvailability() <= $quantity ? "disabled" : "") . '>+</button>
                         </div>
                     </form>';
-        }
+    }
 
-        if ($sellerActions) {
-            echo '
+    if ($sellerActions) {
+        echo '
         <form method="get" action="/pages/edit_product.php">
             <input type="hidden" name="id_product" value="' . ($product->getId()) . '" />
             <input type="submit" value="Modifica" class="btn btn-warning" />
@@ -184,19 +184,19 @@ function displayPreview($product, $sudoku_solved, $sellerActions = false, $is_wi
             <input type="hidden" name="id_product" value="' . ($product->getId()) . '" />
             <input type="submit" value="Elimina" class="btn btn-danger" name="delete" />
         </form>';
-        }
+    }
 
-        echo '
+    echo '
             </div>
         </div>
     </div>';
-    }
+}
 
 
 
 function displayEditForm($product, $title, $categories)
-    {
-        echo '
+{
+    echo '
     <form action="#" method="POST" enctype="multipart/form-data" class="container mt-2">
         <h2 class="mb-2">' . htmlspecialchars($title) . '</h2>
             <div class="col-md-6 mb-2">
@@ -222,14 +222,14 @@ function displayEditForm($product, $title, $categories)
         <div class="mb-2">
             <label for="category">Categoria:</label>
             <select id="category" name="category" class="form-control">';
-        foreach ($categories as $category) {
-            $tag = $category['category_tag'];
-            $selected = ($product->getCategoryTag() === $tag) ? 'selected' : '';
-            echo '<option value="' . htmlspecialchars($tag) . '" ' . $selected . '>' . htmlspecialchars($tag) . '</option>';
-        }
-        echo '</select>
+    foreach ($categories as $category) {
+        $tag = $category['category_tag'];
+        $selected = ($product->getCategoryTag() === $tag) ? 'selected' : '';
+        echo '<option value="' . htmlspecialchars($tag) . '" ' . $selected . '>' . htmlspecialchars($tag) . '</option>';
+    }
+    echo '</select>
          </div>';
-        echo '
+    echo '
             <div class="mb-2">
                 <label for="image">Immagine:</label><br>
                 <img id="imagePreview" src="' . htmlspecialchars($product->getImg()) . '" alt="Product Image" style="max-width: 130px;" class="mb-2" /><br>
@@ -254,7 +254,7 @@ function displayEditForm($product, $title, $categories)
                 }
             }
         </script>';
-    }
+}
 
 
 
