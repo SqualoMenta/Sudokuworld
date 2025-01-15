@@ -122,7 +122,6 @@ function displayProductPreviews($id_products, $db, $sudoku_solved, $sellerAction
         if (!array_key_exists('quantity', $id_product)) {
             displayPreview($prod, $sudoku_solved, $sellerActions, $is_wishlist, $is_prev_order, 0, $is_cart);
         } else {
-
             displayPreview($prod, $sudoku_solved, $sellerActions, $is_wishlist, $is_prev_order, $id_product['quantity'], $is_cart);
         }
     }
@@ -156,7 +155,8 @@ function displayPreview($product, $sudoku_solved, $sellerActions = false, $is_wi
     if ($is_wishlist) {
         echo '<form method="post" action="#" onsubmit="return confirm(\'Sei sicuro di voler rimuovere il prodotto dalla lista desideri?\')">
             <input type="hidden" name="id_product" value="' . ($product->getId()) . '" />
-            <input type="submit" value="Rimuovi dalla lista desideri" class="btn btn-danger" name="remove_wishlist" />';
+            <input type="submit" value="Rimuovi dalla lista desideri" class="btn btn-danger" name="remove_wishlist" />
+            </form>';
     }
     if ($is_cart) {
         echo '<form method="post" action="#" onsubmit="return confirm(\'Sei sicuro di voler rimuovere il prodotto dal carrello?\')">

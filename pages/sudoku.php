@@ -4,7 +4,6 @@ include_once("../includes/functions.php");
 
 include '../includes/header.php';
 ?>
-
 <main>
     <div class="row m-4">
         <div class="col-lg-8 mb-4">
@@ -53,15 +52,14 @@ include '../includes/header.php';
         </div>
 
         <script>
-            // Pass PHP variables into JavaScript
             var sudokuGrid = <?= json_encode($sudoku) ?>;
             var sudokuSolution = <?= json_encode($sudokuSolved) ?>;
         </script>
 
     </div>
 </main>
+<script type="module" src="/assets/js/sudoku.js"></script>
+
 <?php
 include '../includes/footer.php';
 ?>
-
-<script type="module" src="/assets/js/sudoku.js"></script>

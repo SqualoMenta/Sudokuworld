@@ -44,7 +44,7 @@ include '../includes/header.php';
                 foreach ($specialProducts as $key => $product):
                 ?>
                     <div class="carousel-item <?php if ($key == 0) echo ('active') ?>">
-                        <a href="product.php?id=<?= $product->getId() ?>"><img src="<?= htmlspecialchars($product->getImg()) ?>" class="carousel-img" alt=""></a>
+                        <a href="product.php?id=<?= $product->getId() ?>"><img src="<?= htmlspecialchars($product->getImg()) ?>" class="carousel-img" alt="<?= $product->getName()?>"></a>
                         <div class="carousel-caption">
                             <h3 class="caption-text" ><?= htmlspecialchars($product->getName()) ?></h3>
                         </div>
@@ -69,7 +69,7 @@ include '../includes/header.php';
                             <h2>Sudoku del giorno</h2>
                         </figcaption>
                         <a href="/pages/sudoku.php">
-                            <img src="/uploads/SudokuExample.png" class="img-fluid img-box" alt="">
+                            <img src="/uploads/SudokuExample.png" class="img-fluid img-box" alt="Sudoku del giorno">
                         </a>
                     </figure>
                 </div>
@@ -82,7 +82,7 @@ include '../includes/header.php';
                         </figcaption>
                         <div class="container">
                             <a href="/pages/profile.php">
-                                <img src="/uploads/Profile.jpg" class="img-fluid img-box" alt="">
+                                <img src="/uploads/Profile.jpg" class="img-fluid img-box" alt="Profilo">
                             </a>
                         </div>
                     </figure>
@@ -96,7 +96,7 @@ include '../includes/header.php';
                         </figcaption>
                         <div class="container">
                             <a href="/pages/search.php">
-                                <img src="/uploads/Esplora.png" class="img-fluid img-box" alt="">
+                                <img src="/uploads/Esplora.png" class="img-fluid img-box" alt="Esplora">
                             </a>
                         </div>
                     </figure>
@@ -110,7 +110,7 @@ include '../includes/header.php';
                 foreach ($bestSellers as $key => $product):
                 ?>
                     <div class="carousel-item <?php if ($key == 0) echo ('active') ?>">
-                        <a href="product.php?id=<?= $product->getId() ?>"><img src="<?= htmlspecialchars($product->getImg()) ?>" class="carousel-img" alt=""></a>
+                        <a href="product.php?id=<?= $product->getId() ?>"><img src="<?= htmlspecialchars($product->getImg()) ?>" class="carousel-img" alt="<?= $product->getName() ?>"></a>
                         <div class="carousel-caption">
                             <h3 class="caption-text"><?= htmlspecialchars($product->getName()) ?></h3>
                         </div>

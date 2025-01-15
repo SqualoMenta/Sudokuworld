@@ -136,7 +136,7 @@ include '../includes/header.php';
                                 <div class="col-md-12">
                                     <div class="card mb-4">
                                         <div class="card-body">
-                                            <h5 class="card-title">Ordine numero: <?= $order["id_order"] ?></h5>
+                                            <h2 class="card-title">Codice ordine: <?= $order["id_order"] ?></h2>
                                             <p class="card-text">Data: <?= $order["day"] ?></p>
                                             <p class="card-text">Prezzo Ordine: <?= $order["price"] ?>$</p>
                                             <div>
