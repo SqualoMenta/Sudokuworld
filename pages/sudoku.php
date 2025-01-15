@@ -16,7 +16,6 @@ include '../includes/header.php';
                     echo "<p class='alert alert-success'>Hai già risolto il Sudoku di oggi!</p>";
                 }
                 ?>
-
                 <?php
                 // Recupera il Sudoku del giorno
                 $sudoku = $db->sudokuRunner->getTodaySudoku()[0]["grid"];

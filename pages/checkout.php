@@ -7,11 +7,15 @@ require_once("../classes/CreditCard.php");
 
 if (!isUserLoggedIn()) {
     header("Location: login.php");
-    exit;
+    die();
 }
 
 $sudoku_solved = $db->sudokuRunner->isTodaySudokuWon($_SESSION["email"]);
 $cart = new ProductList($db->getCart($_SESSION["email"]));
+if(count($cart->getProducts())==0) {
+    echo "Il carrello è vuoto";
+    die();
+}
 $price = $cart->getTotalPrice($db, $sudoku_solved);
 $credit_cards = $db->getCreditCards($_SESSION["email"]);
 
