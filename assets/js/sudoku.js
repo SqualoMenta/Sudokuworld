@@ -76,7 +76,7 @@ const generateSudokuTable = () => {
     return tableBody;
 };
 
-const table = document.getElementById("sudokuTable");
+const table = document.querySelector(".sudokuTable");
 const tableBody = generateSudokuTable();
 
 table.innerHTML = '';
@@ -113,7 +113,7 @@ function handleInput(input) {
                 console.log(result);
             })
 
-        document.getElementById("success-message").classList.remove("d-none");
+        const elemento = document.querySelector('.alert.alert-success.mt-4.d-none').classList.remove("d-none");
     }
 
 }
