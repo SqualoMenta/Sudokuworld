@@ -232,14 +232,14 @@ function displayEditForm($product, $title, $categories)
     echo '
             <div class="mb-2">
                 <label for="image">Immagine:</label><br>
-                <img class="img-review mb-2" id="imagePreview" src="' . htmlspecialchars($product->getImg()) . '" alt="Product Image"/><br>
-                <input type="file" name="image" id="image" accept="image/*" class="form-control-file" onchange="previewImage(event)" required/>
+                <img class="img-review mb-2" height="300px" id="imagePreview" src="' . htmlspecialchars($product->getImg()) . '" alt="Product Image"/><br>
+                <input type="file" name="image" id="image" accept="image/*" class="form-control-file" onchange="previewImage(event)" '. ($product->getImg() === "" ? "required" : "") . '/>
             </div>
             <div class="mb-2 d-flex gap-1">
                 <input type="submit" name="submit" value="Salva" class="btn btn-primary" formaction="#"/>
-                <input type="submit" value="Annulla" class="btn btn-danger" formmethod="GET" formaction="/pages/seller_dashboard.php"/>
-            </div>
-        </form>
+                <a class="btn btn-danger" href="/pages/seller_dashboard.php">Annulla</a>
+                </div>
+                </form>
 
         <script>
             function previewImage(event) {
