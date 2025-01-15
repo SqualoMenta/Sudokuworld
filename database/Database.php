@@ -234,21 +234,6 @@ class Database
         return $this->query("SELECT * FROM ORDERS_ITEM oi WHERE oi.id_order = ?", 'i', $id_order);
     }
 
-    public function deleteOrderIfPossible($email, $id_order)
-    {
-        $query = "SELECT * FROM ORDERS WHERE email = ? AND id_order = ?";
-        $orders = $this->query($query, 'si', $email, $id_order);
-        $order = $orders[0];
-        $orderDate = new DateTime($order['day']);
-        $currentDate = new DateTime();
-        $interval = $currentDate->diff($orderDate);
-        if ($interval->days > 3) {
-            return;
-        }
-        $query = "DELETE FROM ORDERS WHERE email = ? AND id_order = ?";
-        $this->query2($query, 'si', $email, $id_order);
-    }
-
     public function addCreditCard($email, $number, $name, $surname, $expiration)
     {
         $query = "INSERT INTO CREDIT_CARD (email, number, name, surname, expiration) VALUES (?, ?, ?, ?, ?)";
