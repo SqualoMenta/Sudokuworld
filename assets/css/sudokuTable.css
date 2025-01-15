@@ -1,0 +1,39 @@
+.sudokuTable {
+    width: 100%;
+    height: 100%;
+    table-layout: fixed;
+    margin: 0 auto;
+    aspect-ratio: 1;
+    max-width: 800px;
+}
+
+.sudokuTable td {
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.sudokuTable td div {
+    align-items: center;
+}
+
+.sudokuTable input[type="number"] {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    border: none;
+    outline: none;
+    color: blue;
+}
+
+.sudokuTable input[type="number"]:disabled {
+    font-weight: bold;
+    background: none;
+    color: black;
+}
+
+@media (min-width: 580px) {
+    .sudokuTable input[type="number"] {
+        font-size: 2rem;
+    }
+}
