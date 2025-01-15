@@ -82,12 +82,12 @@ include '../includes/header.php';
                             <button type="submit" name="action" value="increase_cart" class="btn btn-success ms-3" <?php echo $product->getAvailability() <= 0 ? 'disabled' : ''; ?>>+</button>
                         </div>
                     </form>
-                    <form action="#" method="post">
+                    <form action="#" method="POST">
                         <input type="hidden" name="remove_from_cart" value="true">
                         <button type="submit" class="btn btn-danger">Rimuovi dal carrello</button>
                     </form>
                 <?php elseif ($product->getAvailability() > 0): ?>
-                    <form action="#" method="post">
+                    <form action="#" method="POST">
                         <label for="quantity">Quantit&agrave;:</label>
                         <input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" max=<?= $product->getAvailability() ?> />
                         <input type="hidden" name="add_to_cart" value="true">
@@ -96,12 +96,12 @@ include '../includes/header.php';
                 <?php endif; ?>
 
                 <?php if ($db->isProductInWishlist($_SESSION['email'], $product->getId())): ?>
-                    <form action="#" method="post">
+                    <form action="#" method="POST">
                         <input type="hidden" name="remove_from_wishlist" value="true">
                         <button type="submit" class="btn btn-warning">Rimuovi dalla wishlist</button>
                     </form>
                 <?php else: ?>
-                    <form action="#" method="post">
+                    <form action="#" method="POST">
                         <input type="hidden" name="add_to_wishlist" value="true">
                         <button type="submit" class="btn btn-info">Aggiungi alla wishlist</button>
                     </form>

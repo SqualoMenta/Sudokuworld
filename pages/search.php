@@ -14,7 +14,6 @@ $selected_max_price = isset($_GET['maxprice']) ? $_GET['maxprice'] : $max_price;
 $selected_is_discount = isset($_GET['discount']) ? 1 : 0;
 
 
-
 $id_products = $db->filteredSearchProduct(name: $selected_searched_product, minPrice: $selected_min_price * 100, maxPrice: $selected_max_price * 100, category: $selected_category, is_discount: $selected_is_discount);
 $sudoku_solved = false;
 if (isUserLoggedIn()) {

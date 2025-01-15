@@ -33,7 +33,7 @@ if (isUserLoggedIn()) {
             </button>
 
             <div class="collapse navbar-collapse" id="navbarContent">
-                <form class="d-flex align-items-center my-2 my-lg-0 ms-auto" action="/pages/search.php" method="post">
+                <form class="d-flex align-items-center my-2 my-lg-0 ms-auto" action="/pages/search.php" method="GET">
                     <label for="searched-product" class="visually-hidden">Cerca</label>
                     <input class="form-control me-2" type="search" name="searched-product" id="searched-product" placeholder="Cerca"/>
                     <button class="btn btn-outline-success" type="submit">Cerca</button>
