@@ -23,10 +23,10 @@ include '../includes/header.php';
 
 ?>
 <main>
-    <div class="container-fluid mt-4">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-2 col-sm-12">
-                <div class="bg-light border p-3">
+                <div class="bg-light border p-3 mt-4">
                     <form action="/pages/search.php" method="GET">
                         <input type="hidden" name="searched-product" value="<?= $selected_searched_product ?>">
                         <div class="form-group">
