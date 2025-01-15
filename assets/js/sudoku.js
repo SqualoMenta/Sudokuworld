@@ -114,7 +114,7 @@ function handleInput(input) {
                 console.log(result); // Log the result from the server
             })
 
-        document.getElementById("success-message").innerHTML = "<p class='alert alert-success'>Congratulazioni! Hai completato il Sudoku di oggi!</p>";
+        document.getElementById("success-message").classList.remove("d-none");
     }
 
 }

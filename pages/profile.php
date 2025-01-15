@@ -11,10 +11,14 @@ if (!isUserLoggedIn()) {
 
 if (isset($_POST['add_card'])) {
     $db->addCreditCard($_SESSION["email"], $_POST['cardNumber'], $_POST['cardName'], $_POST['cardSurname'], $_POST['cardExpiration'] . '-01');
+    unset($_POST['add_card']);
+    header("Location: profile.php");
 }
 
 if (isset($_POST["remove_card"])) {
     $db->removeCreditCard($_SESSION["email"], $_POST["remove_card"]);
+    unset($_POST["remove_card"]);
+    header("Location: profile.php");
 }
 $credit_cards = $db->getCreditCards($_SESSION["email"]);
 $orders = $db->getOrders($_SESSION["email"]);
@@ -22,32 +26,32 @@ include '../includes/header.php';
 ?>
 
 <main>
-<link rel="stylesheet" href="/assets/css/profile.css">
+    <link rel="stylesheet" href="/assets/css/profile.css">
 
-<div class="container-fluid">
-<div class="row">
-    <div class="col-md-3">
-        <div class="list-group" id="list-tab" role="tablist">
-            <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab">
-                Pagamento
-            </a>
-            <a class="list-group-item list-group-item-action" id="list-orders-list" data-bs-toggle="list" href="#list-orders" role="tab">
-                Ordini
-            </a>
-            <?php if ($_SESSION["is_seller"]) : ?>
-                <a href="seller_dashboard.php" class="list-group-item list-group-item-action list-group-item-primary">
-                    Vetrina venditore
-                </a>
-            <?php endif; ?>
-            <a href="logout.php" class="list-group-item list-group-item-action list-group-item-danger">
-                Logout
-            </a>
-        </div>
-    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="list-group" id="list-tab" role="tablist">
+                    <a class="list-group-item list-group-item-action active" id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab">
+                        Pagamento
+                    </a>
+                    <a class="list-group-item list-group-item-action" id="list-orders-list" data-bs-toggle="list" href="#list-orders" role="tab">
+                        Ordini
+                    </a>
+                    <?php if ($_SESSION["is_seller"]) : ?>
+                        <a href="seller_dashboard.php" class="list-group-item list-group-item-action list-group-item-primary">
+                            Vetrina venditore
+                        </a>
+                    <?php endif; ?>
+                    <a href="logout.php" class="list-group-item list-group-item-action list-group-item-danger">
+                        Logout
+                    </a>
+                </div>
+            </div>
 
-        <div class="col-md-9">
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+            <div class="col-md-9">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
 
                         <div class="col">
                             <h2>Metodo di pagamento</h2>
@@ -68,7 +72,7 @@ include '../includes/header.php';
                             <button type="button" id="add-new-card" class="btn btn-link mt-3">Inserisci un'altra carta</button>
                             <form method="POST" action="#">
                                 <input type="hidden" name="add_card" value="new">
-                                <div id="new-card-form" class="mt-4" style="display: none;">
+                                <div id="new-card-form" class="mt-4 d-none">
                                     <div class="card p-3">
                                         <div class="mb-3">
                                             <label for="cardNumber" class="form-label">Numero Carta</label>
@@ -94,38 +98,29 @@ include '../includes/header.php';
                             </form>
                         </div>
 
-                    <script>
-                        document.querySelector('#add-new-card').addEventListener('click', function() {
-                            const newCardForm = document.getElementById('new-card-form');
-                            if (newCardForm.style.display === 'block') {
-                                newCardForm.style.display = 'none';
-                                return;
-                            } else {
-                                newCardForm.style.display = 'block';
+                        <script>
+                            document.querySelector('#add-new-card').addEventListener('click', function() {
+                                const newCardForm = document.getElementById('new-card-form');
+                                console.log(newCardForm);
+                                if (newCardForm.classList.contains("d-none")) {
+                                    newCardForm.classList.remove("d-none");
 
-                                newCardForm.querySelectorAll('input').forEach((input) => {
-                                    input.required = true;
-                                });
+                                    newCardForm.querySelectorAll('input').forEach((input) => {
+                                        input.required = true;
+                                    });
+                                } else {
+                                    newCardForm.classList.add("d-none");
+                                    return;
+                                }
 
-                                document.querySelectorAll('input[name="credit_card"]').forEach((radio) => {
-                                    radio.checked = false;
-                                });
-                                document.getElementById('remove-card-container').style.display = 'none';
-                            }
-                        });
 
-                        document.querySelectorAll('input[name="credit_card"]').forEach((radio) => {
-                            radio.addEventListener('change', function() {
-                                const removeCardContainer = document.getElementById('remove-card-container');
-                                removeCardContainer.style.display = 'block';
                             });
-                        });
-                    </script>
+                        </script>
 
-                </div>
-                <div class="tab-pane fade" id="list-orders" role="tabpanel" aria-labelledby="list-orders-list">
-                    <div class="container">
-                        <h1 class="display-4">I miei ordini</h1>
+                    </div>
+                    <div class="tab-pane fade" id="list-orders" role="tabpanel" aria-labelledby="list-orders-list">
+                        <div class="container">
+                            <h1 class="display-4">I miei ordini</h1>
                             <?php foreach ($orders as $order) : ?>
                                 <?php
                                 $products = $db->getOrderProducts($order["id_order"]);
@@ -140,17 +135,16 @@ include '../includes/header.php';
                                                 <?php displayProductPreviews($products, $db, false, is_prev_order: true); ?>
                                             </div>
                                         </div>
-
+                                    </div>
+                                <?php endforeach; ?>
                                 </div>
-                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-                            </main>
+</main>
 
 
 <?php

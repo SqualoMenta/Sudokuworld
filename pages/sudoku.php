@@ -17,10 +17,6 @@ include '../includes/header.php';
                 }
                 ?>
 
-                <div id="winMessage" style="display: none;" class="alert alert-success text-center">
-                    <strong>Complimenti!</strong> Hai risolto il Sudoku di oggi!
-                </div>
-
                 <?php
                 // Recupera il Sudoku del giorno
                 $sudoku = $db->sudokuRunner->getTodaySudoku()[0]["grid"];
@@ -31,7 +27,9 @@ include '../includes/header.php';
 
                     </table>
                 </form>
-                <div id="success-message"></div>
+                <div class="alert alert-success mt-4 d-none" id="success-message" >
+                    <p>Complimenti! Hai risolto il Sudoku!</p>
+                </div>
 
             </section>
         </div>
