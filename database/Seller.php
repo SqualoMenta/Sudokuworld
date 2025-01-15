@@ -8,10 +8,10 @@ class Seller
         $this->db = $db;
     }
 
-    public function insertProduct($name, $description, $price, $image, $email, $discount, $availability)
+    public function insertProduct($name, $description, $price, $category_tag, $image, $email, $discount, $availability)
     {
-        $query = "INSERT INTO PRODUCT (name, price, description, image, email, discount, availability, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        $this->db->query2($query, 'sisssii', $name, $price, $description, $image, $email, $discount, $availability, 0);
+        $query = "INSERT INTO PRODUCT (name, price, description, category_tag, image, email, discount, availability, removed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $this->db->query2($query, 'sissssiii', $name, $price, $description, $category_tag, $image, $email, $discount, $availability, 0);
     }
 
     public function getProductsSoldBy($email)
@@ -62,7 +62,7 @@ class Seller
             $params[] = $category;
             $types .= 's';
         }
-        
+
         if ($discount != -1) {
             $query .= ", discount = ?";
             $params[] = $discount;

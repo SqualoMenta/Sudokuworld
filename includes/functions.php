@@ -193,7 +193,7 @@ function displayPreview($product, $sudoku_solved, $sellerActions = false, $is_wi
 }
 
 
-
+// TODO: quando un seller edita un prodotto l'immagine è gigante
 function displayEditForm($product, $title, $categories)
 {
     echo '
@@ -201,23 +201,23 @@ function displayEditForm($product, $title, $categories)
         <h2 class="mb-2">' . htmlspecialchars($title) . '</h2>
             <div class="col-md-6 mb-2">
                 <label for="name">Nome:</label>
-                <input type="text" id="name" name="name" class="form-control" value="' . htmlspecialchars($product->getName()) . '" />
+                <input type="text" id="name" name="name" class="form-control" value="' . htmlspecialchars($product->getName()) . '" required/>
             </div>
             <div class="col-md-6 mb-2">
                 <label for="price">Prezzo:</label>
-                <input type="number" id="price" name="price" class="form-control" value="' . number_format($product->getPrice(), 2) . '" />
+                <input min="0.01" type="number" id="price" name="price" class="form-control" value="' . number_format($product->getPrice(), 2) . '"  required/>
             </div>
         <div class="mb-2">
             <label for="description">Descrizione:</label>
-            <input type="text" id="description" name="description" class="form-control" value="' . htmlspecialchars($product->getDescription()) . '" />
+            <input type="text" id="description" name="description" class="form-control" value="' . htmlspecialchars($product->getDescription()) . '"  required/>
         </div>
         <div class="mb-2">
             <label for="discount">Sconto:</label>
-            <input type="number" id="discount" name="discount" class="form-control" value="' . htmlspecialchars($product->getDiscount()) . '" />
+            <input type="number" id="discount" name="discount" class="form-control" value="' . htmlspecialchars($product->getDiscount()) . '"  required/>
         </div>
         <div class="mb-2">
             <label for="availability">Disponibilit&agrave;:</label>
-            <input type="number" id="availability" name="availability" class="form-control" value="' . htmlspecialchars($product->getAvailability()) . '" />
+            <input type="number" id="availability" name="availability" class="form-control" value="' . htmlspecialchars($product->getAvailability()) . '"  required/>
         </div>
         <div class="mb-2">
             <label for="category">Categoria:</label>
@@ -233,7 +233,7 @@ function displayEditForm($product, $title, $categories)
             <div class="mb-2">
                 <label for="image">Immagine:</label><br>
                 <img class="img-review mb-2" id="imagePreview" src="' . htmlspecialchars($product->getImg()) . '" alt="Product Image"/><br>
-                <input type="file" name="image" id="image" accept="image/*" class="form-control-file" onchange="previewImage(event)" />
+                <input type="file" name="image" id="image" accept="image/*" class="form-control-file" onchange="previewImage(event)" required/>
             </div>
             <div class="mb-2 d-flex gap-1">
                 <input type="submit" name="submit" value="Salva" class="btn btn-primary" formaction="#"/>
