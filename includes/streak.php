@@ -12,7 +12,7 @@ if (!empty($streak)) {
 ?>
 <section class="container mt-4 border border-dark p-4 rounded ">
     <h3 class="text-center">La tua streak degli ultimi 30 giorni</h3>
-    <div id="streakContainer" class="row mt-4"></div>
+    <div class="streakContainer row mt-4"></div>
 </section>
 
 <script>
@@ -24,7 +24,7 @@ if (!empty($streak)) {
     }
 
     function renderStreak(streak) {
-        const container = document.getElementById('streakContainer');
+        const container = document.querySelector('.streakContainer');
 
         if (streak.length === 0) {
             container.innerHTML = `
